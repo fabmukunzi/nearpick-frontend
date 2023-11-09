@@ -9,17 +9,18 @@ import { Menu } from 'antd';
 import Link from 'next/link';
 
 const items: MenuProps['items'] = [
-    {
-      label: <Link href="/auth/login">Login</Link>,
-      key: 'mail',
-      icon: <MailOutlined />,
-    },
-  //   {
-  //     label: 'Navigation Two',
-  //     key: 'app',
-  //     icon: <AppstoreOutlined />,
-  //     disabled: true,
-  //   },
+  {
+    label: <Link href="/products">Products</Link>,
+    key: 'products',
+  },
+  {
+    label: <Link href="/shops">Shops</Link>,
+    key: 'shops',
+  },
+  {
+    label: <Link href="/auth/login">Login</Link>,
+    key: 'login',
+  },
 ];
 
 const Header: React.FC = () => {
@@ -32,6 +33,7 @@ const Header: React.FC = () => {
 
   return (
     <Menu
+      className="fixed w-screen z-[999] left-0 top-0 right-0 flex justify-end px-10"
       onClick={onClick}
       selectedKeys={[current]}
       mode="horizontal"

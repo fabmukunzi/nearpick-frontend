@@ -13,14 +13,16 @@ const headerStyle: React.CSSProperties = {
   backgroundColor: '#7dbcea',
 };
 
-const contentStyle: React.CSSProperties = {
-  textAlign: 'center',
-};
-
 const footerStyle: React.CSSProperties = {
   textAlign: 'center',
   color: '#fff',
   backgroundColor: '#7dbcea',
+  zIndex: 1000,
+  position: 'relative',
+  marginTop:'100px',
+  bottom: 0,
+  left: 0,
+  right: 0,
 };
 type LayoutProps = {
   children: React.ReactNode;
@@ -31,7 +33,7 @@ const AppLayout: React.FC<LayoutProps> = ({ children }) => (
       <Header style={headerStyle}>
         <HeaderComponent />
       </Header>
-      <Content style={contentStyle}>{children}</Content>
+      <Content>{children}</Content>
       <Footer style={footerStyle}>Footer</Footer>
     </Layout>
   </Space>

@@ -10,6 +10,7 @@ const antdTheme: ThemeConfig = {
   components: {
     Button: {
       defaultBg:'#001d66',
+      colorPrimaryBg:'#001d66',
       controlHeight:40,
       fontWeight: 'bold',
       colorText:'white',

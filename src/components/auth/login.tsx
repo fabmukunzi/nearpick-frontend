@@ -1,18 +1,30 @@
-import { Card, Form, Input, Button, Typography } from 'antd';
+import { useLoginMutation } from '@/store/actions/auth';
+import { Card, Form, Input, Button, Typography, notification } from 'antd';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 type FieldType = {
-  username?: string;
+  email?: string;
   password?: string;
 };
 const Login = () => {
   const { Title } = Typography;
-  const onFinish = (values: any) => {
-    console.log('Success:', values);
-  };
-
-  const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
+  const [login, { isLoading }] = useLoginMutation();
+  const router = useRouter();
+  const onFinish = async (values: any) => {
+    login(values)
+      .unwrap()
+      .then((data) => {
+        notification.success({
+          message: data.data?.message,
+        });
+        router.push('/');
+      })
+      .catch((error) => {
+        notification.error({
+          message: error?.data?.message,
+        });
+      });
   };
   return (
     <Card className="rounded-none shadow-2xl shadow-[#bfbfbf] md:w-[40%] w-[95%]">
@@ -23,13 +35,15 @@ const Login = () => {
         layout="vertical"
         initialValues={{ remember: true }}
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        className="flex flex-col mx-2 p-5"
+        className="flex flex-col mx-2 p-5 text-left"
       >
         <Form.Item<FieldType>
-          label="Username"
-          name="username"
-          rules={[{ required: true, message: 'Please input your username!' }]}
+          label="Email"
+          name="email"
+          rules={[
+            { required: true, message: 'Please input your email!' },
+            { type: 'email' },
+          ]}
         >
           <Input className="h-10" />
         </Form.Item>
@@ -41,11 +55,16 @@ const Login = () => {
         >
           <Input.Password className="h-10" />
         </Form.Item>
-        <div className='text-right mb-10'>
-            Not yet a member? <Link href="/auth/signup">Create an account</Link>
+        <div className="text-right mb-10">
+          Not yet a member? <Link href="/auth/signup">Create an account</Link>
         </div>
         <Form.Item>
-          <Button type="primary" className="w-full" htmlType="submit">
+          <Button
+            type="primary"
+            loading={isLoading}
+            className="w-full"
+            htmlType="submit"
+          >
             Login
           </Button>
         </Form.Item>
