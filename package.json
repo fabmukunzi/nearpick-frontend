@@ -10,8 +10,10 @@
   },
   "dependencies": {
     "@ant-design/cssinjs": "^1.17.2",
+    "@ant-design/icons": "^5.2.6",
     "@reduxjs/toolkit": "^1.9.7",
     "antd": "^5.10.2",
+    "framer-motion": "^10.16.4",
     "next": "14.0.0",
     "react": "^18",
     "react-dom": "^18",
