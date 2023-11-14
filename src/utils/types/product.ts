@@ -54,7 +54,7 @@ export type Product = {
   };
   
   export type ProductsResponse = {
-    products: {
+    data: {
       totalPages: number;
       currentPage: number;
       totalItems: number;

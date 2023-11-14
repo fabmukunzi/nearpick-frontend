@@ -5,7 +5,7 @@ const productEndpoints = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query<ProductsResponse, ProductUrlParams>({
       query: ({lng,lat}) => ({
-        url: `/products?lng=${lng}&lat=${lat}`,
+        url: `/products?long=${lng}&lat=${lat}`,
         method: 'GET',
       }),
     }),

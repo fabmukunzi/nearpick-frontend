@@ -21,23 +21,18 @@ const Home = () => {
   }, [res]);
   const { data, isLoading } = useGetProductsQuery(location);
   return (
-    <div className="h-screen">
+    <div className="h-fit bg-[white] mb-10">
       {isLoading ? (
         <Spin className="flex justify-center my-32" />
       ) : (
-        <motion.div className="flex flex-col gap-5 h-screen">
-          {data?.products.products.map((product) => (
+        <motion.div className="flex flex-wrap justify-center">
+          {data?.data.products.map((product) => (
             <ProductCard
               key={product.id}
               product={product}
               loading={isLoading}
             />
           ))}
-          <Pagination
-            className="flex-end"
-            defaultCurrent={data?.products.currentPage}
-            total={data?.products.totalPages}
-          />
         </motion.div>
       )}
     </div>

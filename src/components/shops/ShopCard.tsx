@@ -1,31 +1,28 @@
 import { useEffect, useReducer, useState } from 'react';
-import {
-  formatDistance,
-  getLocationFromCoordinates,
-} from '@/utils/functions/extractDistance';
+import { getLocationFromCoordinates } from '@/utils/functions/extractDistance';
 import { Product } from '@/utils/types/product';
 import { Card, Descriptions, Image, Tag, Typography } from 'antd';
 import { motion } from 'framer-motion';
 import { FC } from 'react';
 import { ShoppingFilled } from '@ant-design/icons';
-import Link from 'next/link';
+import { Store } from '../../utils/types/store';
 import { useRouter } from 'next/router';
 
 type CardProps = {
-  product: Product;
+  shop: Store;
   loading: boolean;
 };
 
-const ProductCard: FC<CardProps> = ({ product, loading }) => {
+const ShopCard: FC<CardProps> = ({ shop, loading }) => {
   const { Meta } = Card;
   const [location, setLocation] = useState<string | null>(null);
-
+  const product = shop;
   useEffect(() => {
     const fetchLocation = async () => {
       try {
         const locationResult = await getLocationFromCoordinates(
-          product.Store.location.coordinates[0],
-          product.Store.location.coordinates[1]
+          product.location.coordinates[0],
+          product.location.coordinates[1]
         );
         setLocation(locationResult);
       } catch (error: any) {
@@ -34,15 +31,16 @@ const ProductCard: FC<CardProps> = ({ product, loading }) => {
     };
 
     fetchLocation();
-  }, [product.Store.location.coordinates]);
+  }, [product]);
   const { Title } = Typography;
   const { push } = useRouter();
-
+  console.log(product);
   return (
     <Card
       key={product.id}
-      hoverable
-      className="hover:border-primary h-fit w-full md:border-[white] border-primary md:w-64 md:mx-1 mx-6 p-0 mt-10 border"
+      //   hoverable
+      style={{ width: 270, height: 240 }}
+      className="ml-10 border-[#dfdede] bg-pink-500 h-fit p-0 mt-10 border"
       size="small"
       loading={loading}
     >
@@ -51,33 +49,25 @@ const ProductCard: FC<CardProps> = ({ product, loading }) => {
         onClick={() => push(`/products/${product.id}`)}
       >
         <Image
-          src={product.images[1]}
+          src={product?.Owner.avatar}
           alt="product image"
-          className="object-cover w-[30rem] h-52 -top-10 rounded-md overflow-hidden"
+          className="object-cover w-72 h-52 -top-10 rounded-md overflow-hidden"
           preview={false}
         />
       </motion.div>
       <Meta
-        className="font-semibold"
+        title={product.name}
         description={
           <>
-            <Link href={`/products/${product.id}`}>
-              <Title className="font-bold text-base">{product.name}</Title>
-            </Link>
-            <Descriptions
-              column={1}
-              className="-mb-4"
-            >
+            <Descriptions column={1} className="-mb-4">
               {product.distance && (
                 <Descriptions.Item label="Distance">
-                  {formatDistance(product.distance)}
+                  {product.distance}
                 </Descriptions.Item>
               )}
-              <Descriptions.Item label="Shop" className='line line-clamp-2'>
-                {product.Store.name}
-              </Descriptions.Item>
+              <Descriptions.Item label="Shop">{product.name}</Descriptions.Item>
               <Descriptions.Item label="Category">
-                <Tag>{product.Category.name}</Tag>
+                <Tag>{product.Owner.name}</Tag>
               </Descriptions.Item>
               <Descriptions.Item label="Location">
                 <Tag>{location}</Tag>
@@ -86,14 +76,14 @@ const ProductCard: FC<CardProps> = ({ product, loading }) => {
           </>
         }
       />
-      <div className="flex justify-between items-center mt-6">
+      {/* <div className="flex justify-between items-center mt-6">
         <Title key="price" className="font-bold text-base">
           RWF {product.price}
         </Title>
-        <ShoppingFilled className="text-xl hover:text-primary transition border p-1.5 rounded-full cursor-pointer" />
-      </div>
+        <ShoppingFilled className="text-xl border p-1.5 rounded-full cursor-pointer" />
+      </div> */}
     </Card>
   );
 };
 
-export default ProductCard;
+export default ShopCard;

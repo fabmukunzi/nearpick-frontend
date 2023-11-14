@@ -33,7 +33,7 @@ const Header: React.FC = () => {
 
   return (
     <Menu
-      className="fixed w-screen z-[999] left-0 top-0 right-0 flex justify-end px-10"
+      className="fixed w-screen z-[999] bg-primary left-0 top-0 right-0 flex justify-end px-10"
       onClick={onClick}
       selectedKeys={[current]}
       mode="horizontal"

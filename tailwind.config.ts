@@ -1,15 +1,21 @@
-import type { Config } from 'tailwindcss'
+import type { Config } from 'tailwindcss';
 
 const config: Config = {
-  important:true,
+  important: true,
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    colors:{
-      'dark':'#112545'
+    colors: {
+      dark: '#112545',
+      primary: '#64B937',
+      primary_dark: '#854019',
+      'card-bg': '#ffffff',
+    },
+    fontFamily: {
+      'font-sanz': ['Josefin Sans', 'sans-serif'],
     },
     // extend: {
     //   backgroundImage: {
@@ -20,5 +26,5 @@ const config: Config = {
     // },
   },
   plugins: [],
-}
-export default config
+};
+export default config;

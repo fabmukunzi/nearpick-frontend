@@ -1,12 +1,14 @@
 import { theme, ThemeConfig } from 'antd';
 
 const antdTheme: ThemeConfig = {
-  token: {
-    colorPrimary: '#10239e',
-    colorText: '#001d66',
-    colorLink: '#10239e',
-    colorError:'#ff7875'
-  },
+  // token: {
+  //   colorPrimary: 'white',
+  //   colorText: 'white',
+  //   colorLink: 'grey',
+  //   colorError:'#ff7875',
+  //   fontWeightStrong:10,
+  //   fontFamilyCode:'Poppins'
+  // },
   components: {
     Button: {
       defaultBg:'#001d66',

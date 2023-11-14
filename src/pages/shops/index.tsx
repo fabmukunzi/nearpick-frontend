@@ -1,15 +1,15 @@
 import { Inter } from 'next/font/google';
-import { useGetProductsQuery } from '../../store/actions/products';
-import { Spin } from 'antd';
+import { Card, Pagination, Spin } from 'antd';
 import { motion } from 'framer-motion';
-import ProductCard from '@/components/product/productCard';
+import { getCurrentLocation } from '@/utils/functions/currentLocation';
 import { ProductUrlParams } from '@/utils/types/product';
 import { useEffect, useState } from 'react';
-import { getCurrentLocation } from '@/utils/functions/currentLocation';
+import { useGetShopsQuery } from '@/store/actions/shops';
+import ShopCard from '@/components/shops/ShopCard';
 
 const inter = Inter({ subsets: ['latin'] });
 
-const ProductsPage = () => {
+const ShopsPage = () => {
   const [location, setLocation] = useState<ProductUrlParams>({});
   const res = getCurrentLocation();
   useEffect(() => {
@@ -18,24 +18,28 @@ const ProductsPage = () => {
       setLocation({ lat, lng });
     });
   }, [res]);
-  const { data, isLoading } = useGetProductsQuery(location);
+  const { data, isLoading } = useGetShopsQuery(location);
   return (
     <div className="h-screen">
       {isLoading ? (
         <Spin className="flex justify-center my-32" />
       ) : (
-        <motion.div className="flex flex-wrap gap-5 h-screen">
-          {data?.data.products.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
+        <motion.div className="flex flex-col gap-5 h-screen">
+          {data?.stores.stores.map((store) => (
+            <ShopCard
+              key={store.id}
+              shop={store}
               loading={isLoading}
             />
           ))}
+          <Pagination
+            className="flex-end"
+            defaultCurrent={data?.stores.currentPage}
+            total={data?.stores.totalPages}
+          />
         </motion.div>
       )}
     </div>
   );
 };
-
-export default ProductsPage;
+export default ShopsPage;
