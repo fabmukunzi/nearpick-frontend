@@ -1,4 +1,4 @@
-import { UserInitialState, UserSchema } from '@/utils/types/auth'
+import { UserInitialState, UserSchema } from '@utils/types/auth'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 const initialState: UserInitialState = {

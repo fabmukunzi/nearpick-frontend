@@ -1,6 +1,6 @@
 import React from 'react';
 import { Layout, Space } from 'antd';
-import HeaderComponent from '@/components/menu';
+import HeaderComponent from '@components/menu';
 
 const { Header, Footer, Sider, Content } = Layout;
 

@@ -1,13 +1,10 @@
-import { Inter } from 'next/font/google';
 import { Card, Pagination, Spin } from 'antd';
 import { motion } from 'framer-motion';
-import { getCurrentLocation } from '@/utils/functions/currentLocation';
-import { ProductUrlParams } from '@/utils/types/product';
+import { getCurrentLocation } from '@utils/functions/currentLocation';
+import { ProductUrlParams } from '@utils/types/product';
 import { useEffect, useState } from 'react';
-import { useGetShopsQuery } from '@/store/actions/shops';
-import ShopCard from '@/components/shops/ShopCard';
-
-const inter = Inter({ subsets: ['latin'] });
+import { useGetShopsQuery } from '@store/actions/shops';
+import ShopCard from '@components/shops/ShopCard';
 
 const ShopsPage = () => {
   const [location, setLocation] = useState<ProductUrlParams>({});

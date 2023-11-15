@@ -14,7 +14,7 @@ import {
 import storage from 'redux-persist/lib/storage'
 import { baseAPI } from './api'
 import userReducer from './reducers/users'
-import { PERSIST_KEY } from '@/utils/constants'
+import { PERSIST_KEY } from '@utils/constants'
 
 const rootReducer = combineReducers({
   [baseAPI.reducerPath]: baseAPI.reducer,

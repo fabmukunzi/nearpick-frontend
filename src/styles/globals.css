@@ -19,16 +19,6 @@ html{
   scroll-behavior: smooth;
   background: white;
 }
-/* body {
-  color: rgb(var(--foreground-rgb));
-  background-repeat: no-repeat;
-  /* background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb)); */
- */
 
 *::-webkit-scrollbar {
   width: 8px;

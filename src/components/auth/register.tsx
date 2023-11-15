@@ -1,4 +1,4 @@
-import { useSignupMutation } from '@/store/actions/auth';
+import { useSignupMutation } from '@store/actions/auth';
 import {
   Card,
   Form,

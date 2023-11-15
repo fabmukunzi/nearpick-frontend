@@ -1,6 +1,6 @@
 import { useEffect, useReducer, useState } from 'react';
-import { getLocationFromCoordinates } from '@/utils/functions/extractDistance';
-import { Product } from '@/utils/types/product';
+import { getLocationFromCoordinates } from '@utils/functions/extractDistance';
+import { Product } from '@utils/types/product';
 import { Card, Descriptions, Image, Tag, Typography } from 'antd';
 import { motion } from 'framer-motion';
 import { FC } from 'react';

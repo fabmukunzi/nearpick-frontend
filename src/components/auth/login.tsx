@@ -1,4 +1,4 @@
-import { useLoginMutation } from '@/store/actions/auth';
+import { useLoginMutation } from '@store/actions/auth';
 import { Card, Form, Input, Button, Typography, notification } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/router';

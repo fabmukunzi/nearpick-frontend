@@ -1,8 +1,8 @@
-import { useParams } from "next/navigation";
+// import { useSearchParams } from 'next/navigation';
 
 const SingleProduct = () => {
-    const {id}=useParams()
-  return <h1>This is a {id} product</h1>;
+  // const { id } = useSearchParams();
+  return <h1>This is product</h1>;
 };
 
 export default SingleProduct;

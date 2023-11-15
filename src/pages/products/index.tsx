@@ -1,13 +1,10 @@
-import { Inter } from 'next/font/google';
 import { useGetProductsQuery } from '../../store/actions/products';
 import { Spin } from 'antd';
 import { motion } from 'framer-motion';
-import ProductCard from '@/components/product/productCard';
-import { ProductUrlParams } from '@/utils/types/product';
+import ProductCard from '@components/product/productCard';
+import { ProductUrlParams } from '@utils/types/product';
 import { useEffect, useState } from 'react';
-import { getCurrentLocation } from '@/utils/functions/currentLocation';
-
-const inter = Inter({ subsets: ['latin'] });
+import { getCurrentLocation } from '@utils/functions/currentLocation';
 
 const ProductsPage = () => {
   const [location, setLocation] = useState<ProductUrlParams>({});
