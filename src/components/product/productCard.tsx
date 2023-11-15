@@ -64,16 +64,13 @@ const ProductCard: FC<CardProps> = ({ product, loading }) => {
             <Link href={`/products/${product.id}`}>
               <Title className="font-bold text-base">{product.name}</Title>
             </Link>
-            <Descriptions
-              column={1}
-              className="-mb-4"
-            >
+            <Descriptions column={1} className="-mb-4">
               {product.distance && (
                 <Descriptions.Item label="Distance">
                   {formatDistance(product.distance)}
                 </Descriptions.Item>
               )}
-              <Descriptions.Item label="Shop" className='line line-clamp-2'>
+              <Descriptions.Item label="Shop" className="line line-clamp-2">
                 {product.Store.name}
               </Descriptions.Item>
               <Descriptions.Item label="Category">

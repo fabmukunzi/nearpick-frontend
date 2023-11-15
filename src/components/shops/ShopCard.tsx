@@ -1,5 +1,5 @@
 import { useEffect, useReducer, useState } from 'react';
-import { getLocationFromCoordinates } from '@utils/functions/extractDistance';
+import { formatDistance, getLocationFromCoordinates } from '@utils/functions/extractDistance';
 import { Product } from '@utils/types/product';
 import { Card, Descriptions, Image, Tag, Typography } from 'antd';
 import { motion } from 'framer-motion';
@@ -38,15 +38,15 @@ const ShopCard: FC<CardProps> = ({ shop, loading }) => {
   return (
     <Card
       key={product.id}
-      //   hoverable
+      hoverable
       style={{ width: 270, height: 240 }}
-      className="ml-10 border-[#dfdede] bg-pink-500 h-fit p-0 mt-10 border"
+      className="ml-10 border-primary h-fit p-0 mt-10 border"
       size="small"
       loading={loading}
     >
       <motion.div
         whileHover={{ scale: 1.03 }}
-        onClick={() => push(`/products/${product.id}`)}
+        onClick={() => push(`/stores/${product.id}`)}
       >
         <Image
           src={product?.Owner.avatar}
@@ -62,7 +62,7 @@ const ShopCard: FC<CardProps> = ({ shop, loading }) => {
             <Descriptions column={1} className="-mb-4">
               {product.distance && (
                 <Descriptions.Item label="Distance">
-                  {product.distance}
+                  {formatDistance(product.distance)}
                 </Descriptions.Item>
               )}
               <Descriptions.Item label="Shop">{product.name}</Descriptions.Item>

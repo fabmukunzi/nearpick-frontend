@@ -1,7 +1,9 @@
 import { useLoginMutation } from '@store/actions/auth';
+import { setToken, updateUser } from '@store/reducers/users';
 import { Card, Form, Input, Button, Typography, notification } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
 
 type FieldType = {
   email?: string;
@@ -10,11 +12,14 @@ type FieldType = {
 const Login = () => {
   const { Title } = Typography;
   const [login, { isLoading }] = useLoginMutation();
+  const dispatch = useDispatch();
   const router = useRouter();
   const onFinish = async (values: any) => {
     login(values)
       .unwrap()
       .then((data) => {
+        dispatch(updateUser(data?.data?.user));
+        dispatch(setToken(data?.data?.token));
         notification.success({
           message: data.data?.message,
         });
@@ -27,7 +32,7 @@ const Login = () => {
       });
   };
   return (
-    <Card className="rounded-none shadow-2xl shadow-[#bfbfbf] md:w-[40%] w-[95%]">
+    <Card className="rounded-none overflow-hidden shadow-2xl shadow-[#bfbfbf] md:w-[40%] w-[95%]">
       <Title className="text-center font-bold text-2xl ">
         Welcome Back, Login
       </Title>
@@ -59,12 +64,7 @@ const Login = () => {
           Not yet a member? <Link href="/auth/signup">Create an account</Link>
         </div>
         <Form.Item>
-          <Button
-            type="primary"
-            loading={isLoading}
-            className="w-full"
-            htmlType="submit"
-          >
+          <Button loading={isLoading} className="w-full" htmlType="submit">
             Login
           </Button>
         </Form.Item>

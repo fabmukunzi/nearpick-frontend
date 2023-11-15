@@ -49,7 +49,7 @@ const Signup = () => {
       });
   };
   return (
-    <Card className="rounded-none shadow-2xl mt-20 shadow-[#bfbfbf] h-fit md:w-[40%] w-[95%]">
+    <Card className="rounded-none shadow-2xl shadow-[#bfbfbf] h-fit md:w-[40%] w-[95%]">
       <Title className="text-center font-bold text-2xl ">
         Create an account
       </Title>

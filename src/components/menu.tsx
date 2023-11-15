@@ -1,44 +1,137 @@
-import React, { useState } from 'react';
-import {
-  AppstoreOutlined,
-  MailOutlined,
-  SettingOutlined,
-} from '@ant-design/icons';
+import React, { Fragment, useState } from 'react';
+// import {
+//   AppstoreOutlined,
+//   MailOutlined,
+//   SettingOutlined,
+// } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Menu } from 'antd';
+import { Avatar, Badge, Image, Input, Menu, Modal } from 'antd';
 import Link from 'next/link';
+import {
+  SearchOutlined,
+  ShoppingFilled,
+  UserOutlined,
+} from '@ant-design/icons';
+import { useSelector } from 'react-redux';
+import { RootState } from '@store/index';
 
-const items: MenuProps['items'] = [
+const items = [
   {
-    label: <Link href="/products">Products</Link>,
+    label: (
+      <Link href="/" className="text-base">
+        Home
+      </Link>
+    ),
+    key: 'home',
+  },
+  {
+    label: (
+      <Link href="/products" className="text-base">
+        Products
+      </Link>
+    ),
     key: 'products',
   },
   {
-    label: <Link href="/shops">Shops</Link>,
+    label: (
+      <Link href="/shops" className="text-base">
+        Shops
+      </Link>
+    ),
     key: 'shops',
   },
   {
-    label: <Link href="/auth/login">Login</Link>,
+    label: (
+      <Link href="/contact" className="text-base">
+        Contact us
+      </Link>
+    ),
     key: 'login',
   },
 ];
 
 const Header: React.FC = () => {
   const [current, setCurrent] = useState('mail');
-
+  const { user } = useSelector((state: RootState) => state.userReducer);
   const onClick: MenuProps['onClick'] = (e) => {
     console.log('click ', e);
     setCurrent(e.key);
   };
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   return (
-    <Menu
-      className="fixed w-screen z-[999] bg-primary left-0 top-0 right-0 flex justify-end px-10"
-      onClick={onClick}
-      selectedKeys={[current]}
-      mode="horizontal"
-      items={items}
-    />
+    <Fragment>
+      <Modal
+        open={isModalOpen}
+        onOk={handleOk}
+        footer={false}
+        onCancel={handleCancel}
+      >
+        <Input.Search
+          className="h-14 mt-6"
+          placeholder="what are you looking for?"
+        />
+      </Modal>
+      <div className="flex items-center justify-between bg-white">
+        <Link
+          href="/"
+          className="mt-1 w-1/4 flex flex-col items-center justify-center"
+        >
+          <Image
+            preview={false}
+            className="h-8 w-16 object-cover revert"
+            alt="logo"
+            src="https://res.cloudinary.com/dr4reow8e/image/upload/e_background_removal/f_png/v1700070727/1700069859823_qsszxr.jpg"
+          />
+          <Image
+            preview={false}
+            className="h-10 w-32 object-cover -mt-2 revert"
+            alt="logo"
+            src="https://res.cloudinary.com/dr4reow8e/image/upload/v1700073382/1700070120057-removebg-preview_mqxw0l.png"
+          />
+        </Link>
+        <div className="flex gap-10">{items.map((item) => item?.label)}</div>
+        <div className="flex items-center gap-6 w-1/4">
+          {/* <Link href="/profile"> */}
+          <SearchOutlined
+            onClick={showModal}
+            className="text-lg cursor-pointer"
+          />
+          {user ? (
+            <Link href="/profile">
+              <Avatar size={20} src={user.avatar} className="text-lg" />
+            </Link>
+          ) : (
+            <Link href="/auth/login">
+              <UserOutlined className="text-lg" />
+            </Link>
+          )}
+          <Link href="/cart">
+            <Badge
+              count={0}
+              showZero
+              size="small"
+              color="green"
+              className="hover:to-blue-600"
+            >
+              <ShoppingFilled className="text-xl" />
+            </Badge>
+          </Link>
+        </div>
+      </div>
+    </Fragment>
   );
 };
 

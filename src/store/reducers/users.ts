@@ -1,26 +1,26 @@
-import { UserInitialState, UserSchema } from '@utils/types/auth'
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { UserInitialState, UserSchema } from '@utils/types/auth';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: UserInitialState = {
   token: undefined,
   user: undefined,
-}
+};
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setToken: (state, action: PayloadAction<string>) => {
-      const { payload } = action
-      state.token = payload
+    setToken: (state, action: PayloadAction<string | undefined>) => {
+      const { payload } = action;
+      state.token = payload;
     },
     // setVerifyEmail: (state, action: PayloadAction<string>) => {
     //   const { payload } = action
     //   state.verifyEmail = payload
     // },
-    updateUser: (state, action: PayloadAction<UserSchema>) => {
-      const { payload } = action
-      state.user = payload
+    updateUser: (state, action: PayloadAction<UserSchema | undefined>) => {
+      const { payload } = action;
+      state.user = payload;
     },
     // setActiveOrganization: (state, action: PayloadAction<IOrganizationSchema>) => {
     //   const { payload } = action
@@ -37,16 +37,16 @@ export const userSlice = createSlice({
     //   state.permissions = []
     // },
   },
-})
+});
 
 // Action creators are generated for each case reducer function
 export const {
   updateUser,
-//   setVerifyEmail,
+  //   setVerifyEmail,
   setToken,
-//   setActiveOrganization,
-//   logout,
-//   setPermissions,
-} = userSlice.actions
+  //   setActiveOrganization,
+  //   logout,
+  //   setPermissions,
+} = userSlice.actions;
 
-export default userSlice.reducer
+export default userSlice.reducer;

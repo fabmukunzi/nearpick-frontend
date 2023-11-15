@@ -6,6 +6,7 @@ export type UserSchema = {
   phoneNumber: string;
   isVerified: boolean;
   isActive: boolean;
+  avatar: string;
 };
 export type LoginPayload = {
   username: string;
