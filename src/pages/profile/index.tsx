@@ -1,5 +1,5 @@
-const ProfilePage = () => {
-  return <h1>Profile Page</h1>;
-};
+import ProfileComponent from '@components/profile';
+
+const ProfilePage = () => <ProfileComponent />;
 
 export default ProfilePage;

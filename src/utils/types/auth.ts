@@ -7,6 +7,7 @@ export type UserSchema = {
   isVerified: boolean;
   isActive: boolean;
   avatar: string;
+  role:string;
 };
 export type LoginPayload = {
   username: string;

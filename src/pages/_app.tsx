@@ -1,4 +1,5 @@
 import '../styles/globals.css';
+import 'react-phone-number-input/style.css'
 import type { AppProps } from 'next/app';
 import { ConfigProvider, theme } from 'antd';
 import antdTheme from '@utils/config/antdConfig';

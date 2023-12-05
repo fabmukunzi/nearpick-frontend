@@ -4,17 +4,11 @@ import { motion } from 'framer-motion';
 import ProductCard from '@components/product/productCard';
 import { ProductUrlParams } from '@utils/types/product';
 import { useEffect, useState } from 'react';
-import { getCurrentLocation } from '@utils/functions/currentLocation';
+import useCurrentLocation from '@utils/hooks/useCurrentLocation';
 
 const ProductsPage = () => {
-  const [location, setLocation] = useState<ProductUrlParams>({});
-  const res = getCurrentLocation();
-  useEffect(() => {
-    res.then((data) => {
-      const { lat, lng } = data as ProductUrlParams;
-      setLocation({ lat, lng });
-    });
-  }, [res]);
+  const { lat, lng } = useCurrentLocation();
+  const location = { lat: lat || 0, lng: lng || 0 };
   const { data, isLoading } = useGetProductsQuery(location);
   return (
     <div className="h-screen">
