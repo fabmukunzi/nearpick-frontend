@@ -1,21 +1,15 @@
 import { Card, Pagination, Spin, Typography } from 'antd';
 import { motion } from 'framer-motion';
-import { getCurrentLocation } from '@utils/functions/currentLocation';
 import { ProductUrlParams } from '@utils/types/product';
 import { useEffect, useState } from 'react';
 import { useGetShopsQuery } from '@store/actions/shops';
 import ShopCard from '@components/shops/ShopCard';
+import useCurrentLocation from '@utils/hooks/useCurrentLocation';
 
 const ShopsPage = () => {
-  const [location, setLocation] = useState<ProductUrlParams>({});
+  const { lat, lng } = useCurrentLocation();
+  const location = { lat: lat || 0, lng: lng || 0 };
   const { Text } = Typography;
-  const res = getCurrentLocation();
-  useEffect(() => {
-    res.then((data) => {
-      const { lat, lng } = data as ProductUrlParams;
-      setLocation({ lat, lng });
-    });
-  }, [res]);
   const { data, isLoading } = useGetShopsQuery(location);
   return (
     <div className="h-screen">
