@@ -102,22 +102,28 @@ const Header: React.FC = () => {
             src="https://res.cloudinary.com/dr4reow8e/image/upload/v1700073382/1700070120057-removebg-preview_mqxw0l.png"
           />
         </Link>
-        <div className="flex gap-10">{items.map((item) => item?.label)}</div>
+        <div className="flex gap-10">
+          {items.map((item) => (
+            <Fragment key={item.key}>{item?.label}</Fragment>
+          ))}
+        </div>
+
         <div className="flex items-center gap-6 w-1/4">
           {/* <Link href="/profile"> */}
           <SearchOutlined
             onClick={showModal}
             className="text-lg cursor-pointer"
           />
-          {user ? (
+          {/* {user ? (
             <Link href="/profile">
-              <Avatar size={20} src={user.avatar} className="text-lg" />
-            </Link>
-          ) : (
+              <UserOutlined className="text-lg" />
+              {/* <Avatar size={20} src={user.avatar} className="text-lg" /> */}
+            {/* </Link>
+          ) : ( */}
             <Link href="/auth/login">
               <UserOutlined className="text-lg" />
             </Link>
-          )}
+          {/* )} */}
           <Link href="/cart">
             <Badge
               count={0}

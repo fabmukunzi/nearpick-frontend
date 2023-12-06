@@ -1,24 +1,38 @@
-import { useEffect, useReducer, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Card, Descriptions, Image, Tag, Typography } from 'antd';
+import { motion } from 'framer-motion';
+import { ShoppingFilled } from '@ant-design/icons';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import {
   formatDistance,
   getLocationFromCoordinates,
 } from '@utils/functions/extractDistance';
 import { Product } from '@utils/types/product';
-import { Card, Descriptions, Image, Tag, Typography } from 'antd';
-import { motion } from 'framer-motion';
-import { FC } from 'react';
-import { ShoppingFilled } from '@ant-design/icons';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
+import useGoogleMapsDirections from '@utils/hooks/googleMapsDirection';
+// import { getCurrentLocation } from '@utils/functions/currentLocation';
+import useCurrentLocation from '@utils/hooks/useCurrentLocation';
 
 type CardProps = {
   product: Product;
   loading: boolean;
 };
 
-const ProductCard: FC<CardProps> = ({ product, loading }) => {
+const ProductCard: React.FC<CardProps> = ({ product, loading }) => {
   const { Meta } = Card;
   const [location, setLocation] = useState<string | null>(null);
+  const { lat, lng, error: locationError } = useCurrentLocation();
+  const currentLocation = {
+    lat: lat || 0,
+    lng: lng || 0,
+  };
+  const { Title } = Typography;
+  const { push } = useRouter();
+  const { distance, duration } = useGoogleMapsDirections(
+    currentLocation,
+    product.Store.location.coordinates[0],
+    product.Store.location.coordinates[1]
+  );
 
   useEffect(() => {
     const fetchLocation = async () => {
@@ -32,11 +46,8 @@ const ProductCard: FC<CardProps> = ({ product, loading }) => {
         console.error('Error fetching location:', error.message);
       }
     };
-
     fetchLocation();
   }, [product.Store.location.coordinates]);
-  const { Title } = Typography;
-  const { push } = useRouter();
 
   return (
     <Card
@@ -44,7 +55,7 @@ const ProductCard: FC<CardProps> = ({ product, loading }) => {
       hoverable
       className="hover:border-primary h-fit w-full md:border-[white] border-primary md:w-64 md:mx-1 mx-6 p-0 mt-10 border"
       size="small"
-      loading={loading}
+      loading={distance ? false : true}
     >
       <motion.div
         whileHover={{ scale: 1.03 }}
@@ -65,17 +76,18 @@ const ProductCard: FC<CardProps> = ({ product, loading }) => {
               <Title className="font-bold text-base">{product.name}</Title>
             </Link>
             <Descriptions column={1} className="-mb-4">
-              {product.distance && (
-                <Descriptions.Item label="Distance">
-                  {formatDistance(product.distance)}
-                </Descriptions.Item>
-              )}
+              <Descriptions.Item label="Distance">{distance}</Descriptions.Item>
+              <Descriptions.Item label="Estimated time">
+                {duration}
+              </Descriptions.Item>
               <Descriptions.Item label="Shop" className="line line-clamp-2">
                 {product.Store.name}
               </Descriptions.Item>
-              <Descriptions.Item label="Category">
-                <Tag>{product.Category.name}</Tag>
-              </Descriptions.Item>
+              {product.Categories?.length>1 && (
+                <Descriptions.Item label="Category">
+                  <Tag>{product.Categories[0]?.name}</Tag>
+                </Descriptions.Item>
+              )}
               <Descriptions.Item label="Location">
                 <Tag>{location}</Tag>
               </Descriptions.Item>

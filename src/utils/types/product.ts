@@ -28,12 +28,12 @@ export type Product = {
       createdAt: string;
       updatedAt: string;
     };
-    Category: {
+    Categories: {
       id: string;
       name: string;
       createdAt: string;
       updatedAt: string;
-    };
+    }[];
     Store: {
       id: string;
       userId: string;
