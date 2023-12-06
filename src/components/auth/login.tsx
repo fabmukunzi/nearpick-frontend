@@ -61,10 +61,10 @@ const Login = () => {
           <Input.Password className="h-10" />
         </Form.Item>
         <div className="text-right mb-10">
-          Not yet a member? <Link href="/auth/signup">Create an account</Link>
+          Not yet a member? <Link href="/auth/signup" className='text-primary'>Create an account</Link>
         </div>
         <Form.Item>
-          <Button loading={isLoading} className="w-full" htmlType="submit">
+          <Button type='primary' loading={isLoading} className="w-full" htmlType="submit">
             Login
           </Button>
         </Form.Item>

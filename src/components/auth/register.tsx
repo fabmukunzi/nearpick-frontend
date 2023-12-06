@@ -139,8 +139,8 @@ const Signup = () => {
             buttonStyle="solid"
           />
         </Form.Item>
-        <div className="text-right">
-          Already a member? <Link href="/auth/login">Login</Link>
+        <div className="text-right my-3">
+          Already a member? <Link href="/auth/login" className='text-primary'>Login</Link>
         </div>
         <Form.Item>
           <Button

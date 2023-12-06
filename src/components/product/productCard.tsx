@@ -1,7 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Card, Descriptions, Image, Tag, Typography } from 'antd';
 import { motion } from 'framer-motion';
-import { ShoppingFilled } from '@ant-design/icons';
+import {
+  CarOutlined,
+  ClockCircleOutlined,
+  EnvironmentOutlined,
+  NodeIndexOutlined,
+  ShopOutlined,
+  ShoppingFilled,
+} from '@ant-design/icons';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import {
@@ -20,6 +27,7 @@ type CardProps = {
 
 const ProductCard: React.FC<CardProps> = ({ product, loading }) => {
   const { Meta } = Card;
+  const { Text } = Typography;
   const [location, setLocation] = useState<string | null>(null);
   const { lat, lng, error: locationError } = useCurrentLocation();
   const currentLocation = {
@@ -53,7 +61,7 @@ const ProductCard: React.FC<CardProps> = ({ product, loading }) => {
     <Card
       key={product.id}
       hoverable
-      className="hover:border-primary h-fit w-full md:border-[white] border-primary md:w-64 md:mx-1 mx-6 p-0 mt-10 border"
+      className="hover:border-primary h-fit w-full md:border-[white] border-primary md:w-64 md:mx-1 p-0 mt-10 border"
       size="small"
       loading={distance ? false : true}
     >
@@ -75,15 +83,29 @@ const ProductCard: React.FC<CardProps> = ({ product, loading }) => {
             <Link href={`/products/${product.id}`}>
               <Title className="font-bold text-base">{product.name}</Title>
             </Link>
-            <Descriptions column={1} className="-mb-4">
-              <Descriptions.Item label="Distance">{distance}</Descriptions.Item>
-              <Descriptions.Item label="Estimated time">
-                {duration}
-              </Descriptions.Item>
-              <Descriptions.Item label="Shop" className="line line-clamp-2">
+            <div className="flex justify-between">
+                <Text className="font-semibold text-sm">
+                  <NodeIndexOutlined className="text-primary text-base mr-3" />
+                  {distance}
+                </Text>
+                <Text className="font-semibold text-sm">
+                  <CarOutlined className="text-primary text-base mr-3" />
+                  {duration}
+                </Text>
+              </div>
+              <div className='my-2'>
+                <ShopOutlined className='text-base text-primary mr-3' />
                 {product.Store.name}
-              </Descriptions.Item>
-              {product.Categories?.length>1 && (
+              </div>
+              <div className='flex'>
+              <EnvironmentOutlined className="text-primary text-base mr-3" />
+              <Tag style={{fontSize:'12.5px'}}>{location}</Tag>
+              </div>
+            {/* <Descriptions column={1} className="-mb-4">
+              {/* <Descriptions.Item label="Shop" className="line line-clamp-2">
+                {product.Store.name}
+              </Descriptions.Item> */}
+              {/* {product.Categories?.length > 1 && (
                 <Descriptions.Item label="Category">
                   <Tag>{product.Categories[0]?.name}</Tag>
                 </Descriptions.Item>
@@ -91,7 +113,7 @@ const ProductCard: React.FC<CardProps> = ({ product, loading }) => {
               <Descriptions.Item label="Location">
                 <Tag>{location}</Tag>
               </Descriptions.Item>
-            </Descriptions>
+            </Descriptions> */}
           </>
         }
       />

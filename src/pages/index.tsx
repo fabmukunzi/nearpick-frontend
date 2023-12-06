@@ -32,7 +32,7 @@ const Home = () => {
                   <Link href="/">
                     <Button
                       type="primary"
-                      className="px-5 h-10"
+                      className="px-5 h-10 bg-primary"
                       onClick={() => push('/products')}
                     >
                       Explore Now
@@ -49,7 +49,7 @@ const Home = () => {
       ) : (
         <>
           <Title className="text-3xl my-10">Popular Products</Title>
-          <motion.div className="flex flex-wrap justify-center">
+          <motion.div className="grid md:grid-cols-5 grid-cols-1 justify-center">
             {data?.data.products.map((product) => (
               <ProductCard
                 key={product.id}

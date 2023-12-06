@@ -44,22 +44,21 @@ const SingleProduct = () => {
 
   return (
     isLoaded && (
-      <div className="min-h-screen px-page">
-        <div className="flex gap-10">
-          <Card size="small" className="w-[35rem] h-[28.5rem] bg-green-300">
+      <div className="min-h-screen md:px-page">
+        <div className="flex gap-10 flex-wrap">
+          <Card size="small" className="w-full h-[20rem] md:w-[35rem] md:h-[25rem] bg-[#F5F5F5]">
             <Carousel
-              className=""
               arrows
               autoplay
               prevArrow={<RightCircleOutlined />}
               nextArrow={<LeftCircleOutlined />}
-              dots={{ className: 'bg-gray-400 p-2' }}
+              dots={{ className: 'bg-[#DCDCDC] text-primary p-2' }}
             >
               {data?.product.images.map((image, i) => (
                 <Image
                   src={image}
                   key={i}
-                  className="w-[35rem] h-[27rem] object-cover rounded-lg"
+                  className="w-[35rem] md:h-[23rem] h-[19rem] object-cover rounded-lg"
                   alt="Product image"
                 />
               ))}
@@ -110,7 +109,11 @@ const SingleProduct = () => {
             mapContainerStyle={containerStyle}
             center={center}
             zoom={15}
-            options={{ zoomControl: false,mapTypeControl:false,streetViewControl:false }}
+            options={{
+              zoomControl: false,
+              mapTypeControl: false,
+              streetViewControl: false,
+            }}
           >
             <Marker position={center} />
             {directionService && (
