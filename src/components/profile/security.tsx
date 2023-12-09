@@ -1,24 +1,29 @@
 import React from 'react';
-import { Card, Form, Input, Button, Typography } from 'antd';
+import { Card, Form, Input, Button, Typography, notification } from 'antd';
+import { useChangePasswordMutation } from '@store/actions/auth';
 
 const SecurityComponent = () => {
   const [form] = Form.useForm();
   const { Title } = Typography;
-  const onFinish = (values: any) => {
-    // Perform password confirmation logic here
-    // ...
-
-    // Reset the form
+  const [changePassword, { isLoading }] = useChangePasswordMutation();
+  const handleChangePassword = async (values: any) => {
+    delete values.confirmPassword;
+    const res = await changePassword(values);
+    if ('data' in res) {
+      notification.success({
+        message: res.data.message,
+      });
+    }
     form.resetFields();
   };
 
   return (
-    <Card className="border-none min-h-[100%]">
-      <div className="flex flex-col gap-4 w-1/2">
-        <Form form={form} onFinish={onFinish}>
-          <Title>Change Password</Title>
+    <Card className="border-none min-h-[100%]" size="small">
+      <div className="flex flex-col gap-4 md:w-1/2">
+        <Form form={form} onFinish={handleChangePassword}>
+          <Title className="xxs:text-2xl mb-10">Change Password</Title>
           <Form.Item
-            name="currentPassword"
+            name="old_password"
             rules={[
               { required: true, message: 'Please enter your current password' },
             ]}
@@ -26,7 +31,7 @@ const SecurityComponent = () => {
             <Input.Password placeholder="Current Password" />
           </Form.Item>
           <Form.Item
-            name="newPassword"
+            name="new_password"
             rules={[
               { required: true, message: 'Please enter your new password' },
             ]}
@@ -35,7 +40,7 @@ const SecurityComponent = () => {
           </Form.Item>
           <Form.Item
             name="confirmPassword"
-            dependencies={['newPassword']}
+            dependencies={['new_password']}
             hasFeedback
             rules={[
               {
@@ -44,7 +49,7 @@ const SecurityComponent = () => {
               },
               ({ getFieldValue }) => ({
                 validator(_, value) {
-                  if (!value || getFieldValue('newPassword') === value) {
+                  if (!value || getFieldValue('new_password') === value) {
                     return Promise.resolve();
                   }
                   return Promise.reject('The two passwords do not match');
@@ -55,7 +60,7 @@ const SecurityComponent = () => {
             <Input.Password placeholder="Confirm Password" />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" block>
+            <Button loading={isLoading} type="primary" htmlType="submit" block>
               Confirm
             </Button>
           </Form.Item>

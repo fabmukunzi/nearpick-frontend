@@ -1,30 +1,32 @@
+import { useWindowResize } from '@utils/hooks/useWindowResize';
 import { profileLinks } from '@utils/profileItems';
-import { Button, Card } from 'antd';
+import { Button, Card, Typography } from 'antd';
 import { useState } from 'react';
 
 const ProfileComponent = () => {
   const [activeTab, setActiveTab] = useState(profileLinks[0]);
+  const { width } = useWindowResize();
   return (
-    <div className="flex mx-36 gap-4">
-      <Card className="border-primary" style={{ width: '25%' }}>
-        <div className="flex flex-col gap-4">
+    <div className="flex md:mx-36 xxs:px-page gap-4 xxs:flex-col md:flex-row mx-auto w-full">
+      <Card className="border-primary md:w-[25%] xxs:mt-5 md:mt-0">
+        <div className="flex md:flex-col gap-4">
           {profileLinks.map((item, index) => (
             <Button
               key={index}
               icon={<item.icon />}
               onClick={() => setActiveTab(item)}
-              className={`border w-32 transition-all text-base ${
+              className={`border w-28 md:w-32 transition-all text-base ${
                 item.label === activeTab.label
                   ? 'bg-primary hover:text-white'
                   : 'bg-white text-primary border-primary'
               }`}
             >
-              {item.label}
+              {width >= 768 && item.label}
             </Button>
           ))}
         </div>
       </Card>
-      <Card className="w-3/4 border-primary min-h-[100%]">
+      <Card className="md:w-3/5 border-primary min-h-[100%]">
         {<activeTab.component />}
       </Card>
     </div>

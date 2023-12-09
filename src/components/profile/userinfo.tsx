@@ -12,27 +12,38 @@ import {
   message,
   Image,
   Avatar,
+  notification,
 } from 'antd';
 import { EditOutlined, UploadOutlined } from '@ant-design/icons';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@store/index';
+import { useProfileQuery, useUpdateProfileMutation } from '@store/actions/auth';
+import { updateUser } from '@store/reducers/users';
 
 const UserInfoComponent = () => {
-  const { user } = useSelector((state: RootState) => state.userReducer);
+  const { data, isLoading } = useProfileQuery();
+  const [updateProfile, { isLoading: loadUpdate }] = useUpdateProfileMutation();
+  const user = data?.user;
+  const dispatch=useDispatch()
   const [form] = Form.useForm();
   const [isEditMode, setEditMode] = useState(false);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
-
-  const handleEditClick = () => {
-    setEditMode(true);
-  };
-
-  const handleSave = () => {
-    form.resetFields();
-    setEditMode(false);
-  };
-
-  const handleCancel = () => {
+  const handleSave = async (values: any) => {
+    const formData = new FormData();
+    formData.append('name', values.name);
+    formData.append('email', values.email);
+    formData.append('phone', values.phone);
+    if (avatarFile) {
+      formData.append('avatar', avatarFile);
+    }
+    const res = await updateProfile(formData);
+    if ('data' in res) {
+      notification.success({
+        message: res.data.message,
+      });
+    }
+    dispatch(updateUser(data?.user))
+    setAvatarFile(null)
     form.resetFields();
     setEditMode(false);
   };
@@ -46,12 +57,13 @@ const UserInfoComponent = () => {
     <Card
       className="border-none min-h-[100%]"
       headStyle={{ borderBottom: 'none' }}
+      loading={isLoading}
       extra={
         <Button onClick={() => setEditMode(true)} icon={<EditOutlined />} />
       }
     >
-      <div className="flex gap-3 items-start mb-6 -mt-10">
-        <Avatar src={user?.avatar} alt="image" size={80} />
+      <div className="flex gap-3 items-center mb-6 -mt-10">
+        <Avatar src={<Image alt='avatar' className="h-24 object-cover" src={user?.avatar} />} alt="image" size={100} shape="square" />
         <div className="flex flex-col gap-3">
           <Tag color="blue" className="w-fit">
             {user?.role}
@@ -90,24 +102,24 @@ const UserInfoComponent = () => {
         </div>
         <div className="flex gap-4">
           <Form.Item
-            name="firstName"
-            label="First Name"
+            name="name"
+            label="Names"
             rules={[
               { required: true, message: 'Please enter your first name' },
             ]}
           >
             <Input disabled={!isEditMode} />
           </Form.Item>
-          <Form.Item
+          {/* <Form.Item
             name="lastName"
             label="Last Name"
             rules={[{ required: true, message: 'Please enter your last name' }]}
           >
             <Input disabled={!isEditMode} />
-          </Form.Item>
+          </Form.Item> */}
         </div>
         <div className="w-[50%] flex gap-3">
-          <Button htmlType="submit" block>
+          <Button htmlType="submit" loading={loadUpdate} block>
             Save
           </Button>
           <Button onClick={() => setEditMode(false)} htmlType="reset" block>

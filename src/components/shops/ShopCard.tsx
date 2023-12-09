@@ -1,5 +1,8 @@
 import { useEffect, useReducer, useState } from 'react';
-import { formatDistance, getLocationFromCoordinates } from '@utils/functions/extractDistance';
+import {
+  formatDistance,
+  getLocationFromCoordinates,
+} from '@utils/functions/extractDistance';
 import { Product } from '@utils/types/product';
 import { Card, Descriptions, Image, Tag, Typography } from 'antd';
 import { motion } from 'framer-motion';
@@ -7,6 +10,8 @@ import { FC } from 'react';
 import { ShoppingFilled } from '@ant-design/icons';
 import { Store } from '../../utils/types/store';
 import { useRouter } from 'next/router';
+import useCurrentLocation from '@utils/hooks/useCurrentLocation';
+import useGoogleMapsDirections from '@utils/hooks/googleMapsDirection';
 
 type CardProps = {
   shop: Store;
@@ -15,14 +20,23 @@ type CardProps = {
 
 const ShopCard: FC<CardProps> = ({ shop, loading }) => {
   const { Meta } = Card;
+  const { lat, lng, error: locationError } = useCurrentLocation();
+  const currentLocation = {
+    lat: lat || 0,
+    lng: lng || 0,
+  };
+  const { distance, duration } = useGoogleMapsDirections(
+    currentLocation,
+    shop.location.coordinates[0],
+    shop.location.coordinates[1]
+  );
   const [location, setLocation] = useState<string | null>(null);
-  const product = shop;
   useEffect(() => {
     const fetchLocation = async () => {
       try {
         const locationResult = await getLocationFromCoordinates(
-          product.location.coordinates[0],
-          product.location.coordinates[1]
+          shop.location.coordinates[0],
+          shop.location.coordinates[1]
         );
         setLocation(locationResult);
       } catch (error: any) {
@@ -31,13 +45,12 @@ const ShopCard: FC<CardProps> = ({ shop, loading }) => {
     };
 
     fetchLocation();
-  }, [product]);
+  }, [shop]);
   const { Title } = Typography;
   const { push } = useRouter();
-  console.log(product);
   return (
     <Card
-      key={product.id}
+      key={shop.id}
       hoverable
       style={{ width: 270, height: 240 }}
       className="ml-10 border-primary h-fit p-0 mt-10 border"
@@ -46,28 +59,28 @@ const ShopCard: FC<CardProps> = ({ shop, loading }) => {
     >
       <motion.div
         whileHover={{ scale: 1.03 }}
-        onClick={() => push(`/stores/${product.id}`)}
+        onClick={() => push(`/stores/${shop.id}`)}
       >
         <Image
-          src={product?.Owner.avatar}
-          alt="product image"
+          src={shop?.Owner.avatar}
+          alt="shop image"
           className="object-cover w-72 h-52 -top-10 rounded-md overflow-hidden"
           preview={false}
         />
       </motion.div>
       <Meta
-        title={product.name}
+        title={shop.name}
         description={
           <>
             <Descriptions column={1} className="-mb-4">
-              {product.distance && (
+              {distance && (
                 <Descriptions.Item label="Distance">
-                  {formatDistance(product.distance)}
+                  {distance}
                 </Descriptions.Item>
               )}
-              <Descriptions.Item label="Shop">{product.name}</Descriptions.Item>
+              {/* <Descriptions.Item label="Shop">{shop.name}</Descriptions.Item> */}
               <Descriptions.Item label="Category">
-                <Tag>{product.Owner.name}</Tag>
+                <Tag>{shop.Owner.name}</Tag>
               </Descriptions.Item>
               <Descriptions.Item label="Location">
                 <Tag>{location}</Tag>
@@ -78,7 +91,7 @@ const ShopCard: FC<CardProps> = ({ shop, loading }) => {
       />
       {/* <div className="flex justify-between items-center mt-6">
         <Title key="price" className="font-bold text-base">
-          RWF {product.price}
+          RWF {shop.price}
         </Title>
         <ShoppingFilled className="text-xl border p-1.5 rounded-full cursor-pointer" />
       </div> */}

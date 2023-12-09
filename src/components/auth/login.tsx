@@ -27,12 +27,12 @@ const Login = () => {
       })
       .catch((error) => {
         notification.error({
-          message: error?.data?.message,
+          message: error?.data?.message||'Oops! Something went wrong',
         });
       });
   };
   return (
-    <Card className="rounded-none overflow-hidden shadow-2xl shadow-[#bfbfbf] md:w-[40%] w-[95%]">
+    <Card className="rounded-none overflow-hidden md:shadow-2xl md:shadow-[#bfbfbf] md:w-[40%] w-[98%]">
       <Title className="text-center font-bold text-2xl ">
         Welcome Back, Login
       </Title>
@@ -61,10 +61,18 @@ const Login = () => {
           <Input.Password className="h-10" />
         </Form.Item>
         <div className="text-right mb-10">
-          Not yet a member? <Link href="/auth/signup" className='text-primary'>Create an account</Link>
+          Not yet a member?{' '}
+          <Link href="/auth/signup" className="text-primary">
+            Create an account
+          </Link>
         </div>
         <Form.Item>
-          <Button type='primary' loading={isLoading} className="w-full" htmlType="submit">
+          <Button
+            type="primary"
+            loading={isLoading}
+            className="w-full"
+            htmlType="submit"
+          >
             Login
           </Button>
         </Form.Item>

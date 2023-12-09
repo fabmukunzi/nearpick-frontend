@@ -6,7 +6,17 @@ import React, { Fragment, useState } from 'react';
 //   SettingOutlined,
 // } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Avatar, Badge, Drawer, Image, Input, Menu, Modal } from 'antd';
+import {
+  Avatar,
+  Badge,
+  Drawer,
+  Image,
+  Input,
+  Menu,
+  Modal,
+  Popover,
+  Typography,
+} from 'antd';
 import Link from 'next/link';
 import {
   MenuOutlined,
@@ -56,22 +66,15 @@ const items = [
 ];
 
 const Header: React.FC = () => {
-  const [current, setCurrent] = useState('mail');
+  const { Text } = Typography;
   const { user } = useSelector((state: RootState) => state.userReducer);
-  const onClick: MenuProps['onClick'] = (e) => {
-    console.log('click ', e);
-    setCurrent(e.key);
-  };
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const showModal = () => {
     setIsModalOpen(true);
   };
-
   const handleOk = () => {
     setIsModalOpen(false);
   };
-
   const handleCancel = () => {
     setIsModalOpen(false);
   };
@@ -114,7 +117,7 @@ const Header: React.FC = () => {
             <Fragment key={item.key}>{item?.label}</Fragment>
           ))}
         </div>
-        <Drawer className='block md:hidden' open={isOpen} onClose={close}>
+        <Drawer className="block md:hidden" open={isOpen} onClose={close}>
           <div className="flex flex-col md:gap-10 gap-3">
             {items.map((item) => (
               <div onClick={toggle} key={item.key}>
@@ -132,9 +135,16 @@ const Header: React.FC = () => {
           />
           {/* </Link> */}
           {user ? (
-            <Link href="/profile">
-              <Avatar size={20} src={user.avatar} className="text-lg" />
-            </Link>
+            <Popover content={<Text>User profile</Text>} trigger="hover">
+              <Link href="/profile">
+                <Avatar
+                  size={20}
+                  shape="square"
+                  src={user.avatar}
+                  className="text-lg"
+                />
+              </Link>
+            </Popover>
           ) : (
             <Link href="/auth/login">
               <UserOutlined className="text-lg" />
@@ -158,7 +168,7 @@ const Header: React.FC = () => {
               <ShoppingFilled className="text-xl" />
             </Badge>
           </Link>
-          <MenuOutlined className='block md:hidden' onClick={toggle} />
+          <MenuOutlined className="block md:hidden" onClick={toggle} />
         </div>
       </div>
     </Fragment>

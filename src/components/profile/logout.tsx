@@ -10,7 +10,7 @@ const LogoutComponent = () => {
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(logout(undefined));
-    push('/');
+    push('/auth/login');
   };
 
   return (

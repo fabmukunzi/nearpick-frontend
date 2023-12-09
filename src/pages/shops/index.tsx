@@ -11,6 +11,7 @@ const ShopsPage = () => {
   const location = { lat: lat || 0, lng: lng || 0 };
   const { Text } = Typography;
   const { data, isLoading } = useGetShopsQuery(location);
+  console.log(data)
   return (
     <div className="h-screen">
       {isLoading ? (

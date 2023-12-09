@@ -44,12 +44,12 @@ const Signup = () => {
       .catch((error) => {
         console.log(error);
         notification.error({
-          message: error?.data?.message,
+          message: error?.data?.message||'Oops! Something went wrong',
         });
       });
   };
   return (
-    <Card className="rounded-none shadow-2xl shadow-[#bfbfbf] h-fit md:w-[40%] w-[95%]">
+    <Card className="rounded-none md:shadow-2xl shadow-[#bfbfbf] h-fit md:w-[40%]">
       <Title className="text-center font-bold text-2xl ">
         Create an account
       </Title>
@@ -140,7 +140,10 @@ const Signup = () => {
           />
         </Form.Item>
         <div className="text-right my-3">
-          Already a member? <Link href="/auth/login" className='text-primary'>Login</Link>
+          Already a member?{' '}
+          <Link href="/auth/login" className="text-primary">
+            Login
+          </Link>
         </div>
         <Form.Item>
           <Button

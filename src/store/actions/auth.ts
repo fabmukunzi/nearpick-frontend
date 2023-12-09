@@ -2,12 +2,13 @@ import {
   AuthResponse,
   LoginPayload,
   SignupPayload,
+  UserSchema,
 } from '../../utils/types/auth';
 import { baseAPI } from '../api';
 
-interface IGoogleSignupPayload {
-  username: string;
-}
+// interface IGoogleSignupPayload {
+//   username: string;
+// }
 const userEndpoints = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation<AuthResponse, LoginPayload>({
@@ -24,53 +25,36 @@ const userEndpoints = baseAPI.injectEndpoints({
         body,
       }),
     }),
+    profile: builder.query<{ user: UserSchema }, void>({
+      query: () => ({
+        url: '/users/profile',
+        method: 'GET',
+      }),
+      providesTags: ['profile'],
+    }),
+    changePassword: builder.mutation<
+      { message: string },
+      { old_password: string; new_password: string }
+    >({
+      query: (body) => ({
+        url: '/users/update-password',
+        method: 'PATCH',
+        body,
+      }),
+    }),
+    updateProfile: builder.mutation<{ message: string }, FormData>({
+      query: (body) => ({
+        url: `/users/profile`,
+        method: 'PUT',
+        body,
+      }),
+      invalidatesTags: ['profile'],
+    }),
     // googleSignup: builder.mutation<AuthResponse, IGoogleSignupPayload>({
     //   query: (body) => ({
     //     url: 'v1/auth/google/register',
     //     method: 'POST',
     //     body,
-    //   }),
-    // }),
-    // changePassword: builder.mutation<AuthResponse, { secretPhrase: string; password: string }>({
-    //   query: (body) => ({
-    //     url: 'v1/users/change-password',
-    //     method: 'PATCH',
-    //     body,
-    //   }),
-    // }),
-    // profile: builder.query<GenericResponse<UserSchema>, void>({
-    //   query: () => ({
-    //     url: 'v1/users/profile',
-    //     method: 'GET',
-    //   }),
-    // }),
-    // uploadProfileImage: builder.mutation<AuthResponse, IUploadFileResponse>({
-    //   query: (body) => ({
-    //     url: `/v1/users/picture`,
-    //     method: 'POST',
-    //     body,
-    //   }),
-    //   invalidatesTags: ['Profile'],
-    // }),
-    // updateProfile: builder.mutation<AuthResponse, UpdateProfilePayload>({
-    //   query: (body) => ({
-    //     url: `/v1/users/update-profile`,
-    //     method: 'PATCH',
-    //     body,
-    //   }),
-    //   invalidatesTags: ['Profile'],
-    // }),
-    // googleCallBack: builder.mutation<AuthResponse, { code: string }>({
-    //   query: (body) => ({
-    //     url: 'v1/auth/google',
-    //     method: 'POST',
-    //     body,
-    //   }),
-    // }),
-    // imageRemoval: builder.mutation<AuthResponse, UpdateImagePayload>({
-    //   query: ({ target }) => ({
-    //     url: `/v1/users/remove-picture/${target}`,
-    //     method: 'PATCH',
     //   }),
     // }),
     // requestOtp: builder.mutation<GenericResponse<{ email: string }>, string>({
@@ -96,4 +80,10 @@ const userEndpoints = baseAPI.injectEndpoints({
   }),
 });
 
-export const { useLoginMutation, useSignupMutation } = userEndpoints;
+export const {
+  useLoginMutation,
+  useSignupMutation,
+  useProfileQuery,
+  useChangePasswordMutation,
+  useUpdateProfileMutation,
+} = userEndpoints;

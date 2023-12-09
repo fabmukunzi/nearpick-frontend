@@ -66,7 +66,7 @@ const SingleProduct = () => {
   };
   return (
     isLoaded && (
-      <div className="min-h-screen md:px-page">
+      <div className="min-h-screen px-page">
         {isLoading ? (
           <Skeleton />
         ) : (
