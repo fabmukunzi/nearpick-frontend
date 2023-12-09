@@ -30,22 +30,17 @@ export const userSlice = createSlice({
     //   const { payload } = action
     //   state.permissions = payload
     // },
-    // logout: (state) => {
-    //   state.token = undefined
-    //   state.user = undefined
-    //   state.activeOrganization = undefined
-    //   state.permissions = []
-    // },
+    logout: (state) => {
+      state.token = undefined;
+      state.user = undefined;
+    },
   },
 });
-
-// Action creators are generated for each case reducer function
 export const {
   updateUser,
-  //   setVerifyEmail,
   setToken,
   //   setActiveOrganization,
-  //   logout,
+    logout,
   //   setPermissions,
 } = userSlice.actions;
 

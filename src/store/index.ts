@@ -33,16 +33,16 @@ const persistedReducer = persistReducer(persistConfig, rootReducer)
 /**
  * Log a warning and show a toast!
  */
-// const rtkQueryErrorLogger: Middleware = (api: MiddlewareAPI) => (next) => (action) => {
-//   if (isRejectedWithValue(action)) {
-//     notification.error({
-//       message: action.payload?.data?.message || 'Oops something went wrong',
-//       key: action.meta.arg.endpointName,
-//     })
-//   }
+const rtkQueryErrorLogger: Middleware = (api: MiddlewareAPI) => (next) => (action) => {
+  if (isRejectedWithValue(action)) {
+    notification.error({
+      message: action.payload?.data?.message || 'Oops something went wrong',
+      key: action.meta.arg.endpointName,
+    })
+  }
 
-//   return next(action)
-// }
+  return next(action)
+}
 
 export const store = configureStore({
   reducer: persistedReducer,

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Card, Descriptions, Image, Tag, Typography } from 'antd';
+import { Card, Descriptions, Image, Tag, Typography, notification } from 'antd';
 import { motion } from 'framer-motion';
 import {
   CarOutlined,
@@ -19,6 +19,7 @@ import { Product } from '@utils/types/product';
 import useGoogleMapsDirections from '@utils/hooks/googleMapsDirection';
 // import { getCurrentLocation } from '@utils/functions/currentLocation';
 import useCurrentLocation from '@utils/hooks/useCurrentLocation';
+import { useAddToCartMutation } from '@store/actions/cart';
 
 type CardProps = {
   product: Product;
@@ -29,6 +30,7 @@ const ProductCard: React.FC<CardProps> = ({ product, loading }) => {
   const { Meta } = Card;
   const { Text } = Typography;
   const [location, setLocation] = useState<string | null>(null);
+  const [addToCart, { isLoading }] = useAddToCartMutation();
   const { lat, lng, error: locationError } = useCurrentLocation();
   const currentLocation = {
     lat: lat || 0,
@@ -41,7 +43,18 @@ const ProductCard: React.FC<CardProps> = ({ product, loading }) => {
     product.Store.location.coordinates[0],
     product.Store.location.coordinates[1]
   );
-
+  const handleAddToCart = async () => {
+    const payload = {
+      productId: product.id,
+      productQuantity: 1,
+    };
+    const res = await addToCart(payload);
+    if ('data' in res) {
+      notification.success({
+        message: res.data.message,
+      });
+    }
+  };
   useEffect(() => {
     const fetchLocation = async () => {
       try {
@@ -84,28 +97,28 @@ const ProductCard: React.FC<CardProps> = ({ product, loading }) => {
               <Title className="font-bold text-base">{product.name}</Title>
             </Link>
             <div className="flex justify-between">
-                <Text className="font-semibold text-sm">
-                  <NodeIndexOutlined className="text-primary text-base mr-3" />
-                  {distance}
-                </Text>
-                <Text className="font-semibold text-sm">
-                  <CarOutlined className="text-primary text-base mr-3" />
-                  {duration}
-                </Text>
-              </div>
-              <div className='my-2'>
-                <ShopOutlined className='text-base text-primary mr-3' />
-                {product.Store.name}
-              </div>
-              <div className='flex'>
+              <Text className="font-semibold text-sm">
+                <NodeIndexOutlined className="text-primary text-base mr-3" />
+                {distance}
+              </Text>
+              <Text className="font-semibold text-sm">
+                <CarOutlined className="text-primary text-base mr-3" />
+                {duration}
+              </Text>
+            </div>
+            <div className="my-2">
+              <ShopOutlined className="text-base text-primary mr-3" />
+              {product.Store.name}
+            </div>
+            <div className="flex">
               <EnvironmentOutlined className="text-primary text-base mr-3" />
-              <Tag style={{fontSize:'12.5px'}}>{location}</Tag>
-              </div>
+              <Tag style={{ fontSize: '12.5px' }}>{location}</Tag>
+            </div>
             {/* <Descriptions column={1} className="-mb-4">
               {/* <Descriptions.Item label="Shop" className="line line-clamp-2">
                 {product.Store.name}
               </Descriptions.Item> */}
-              {/* {product.Categories?.length > 1 && (
+            {/* {product.Categories?.length > 1 && (
                 <Descriptions.Item label="Category">
                   <Tag>{product.Categories[0]?.name}</Tag>
                 </Descriptions.Item>
@@ -121,7 +134,7 @@ const ProductCard: React.FC<CardProps> = ({ product, loading }) => {
         <Title key="price" className="font-bold text-base">
           RWF {product.price}
         </Title>
-        <ShoppingFilled className="text-xl hover:text-primary transition border p-1.5 rounded-full cursor-pointer" />
+        <ShoppingFilled disabled={isLoading} onClick={handleAddToCart} className="text-xl hover:text-primary transition border p-1.5 rounded-full cursor-pointer" />
       </div>
     </Card>
   );

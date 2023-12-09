@@ -5,7 +5,16 @@ import { useGetSingleProductQuery } from '@store/actions/products';
 import { useRouter } from 'next/router';
 import useGoogleMapsDirections from '@utils/hooks/googleMapsDirection';
 import useCurrentLocation from '@utils/hooks/useCurrentLocation';
-import { Button, Card, Carousel, Image, Tag, Typography } from 'antd';
+import {
+  Button,
+  Card,
+  Carousel,
+  Image,
+  Skeleton,
+  Tag,
+  Typography,
+  notification,
+} from 'antd';
 import {
   ClockCircleOutlined,
   EnvironmentOutlined,
@@ -14,6 +23,7 @@ import {
   ShopOutlined,
   ShoppingFilled,
 } from '@ant-design/icons';
+import { useAddToCartMutation } from '@store/actions/cart';
 
 const containerStyle = {
   width: '100%',
@@ -24,13 +34,14 @@ const containerStyle = {
 const SingleProduct = () => {
   const { Title, Text } = Typography;
   const { lat, lng } = useCurrentLocation();
+  const [addToCart, { isLoading: loadCart }] = useAddToCartMutation();
   const center1 = React.useMemo(
     () => ({ lat: lat || 0, lng: lng || 0 }),
     [lat, lng]
   );
   const { query } = useRouter();
   const id = Array.isArray(query?.id) ? query.id[0] : query?.id || '';
-  const { data } = useGetSingleProductQuery({ id });
+  const { data, isLoading } = useGetSingleProductQuery({ id });
   const center = React.useMemo(
     () => ({
       lat: data?.product.Store.location.coordinates[0] || 0,
@@ -41,66 +52,90 @@ const SingleProduct = () => {
 
   const { distance, duration, directionService, isLoaded } =
     useGoogleMapsDirections(center1, center.lat, center.lng);
-
+  const handleAddToCart = async () => {
+    const payload = {
+      productId: data?.product.id || '',
+      productQuantity: 1,
+    };
+    const res = await addToCart(payload);
+    if ('data' in res) {
+      notification.success({
+        message: res.data.message,
+      });
+    }
+  };
   return (
     isLoaded && (
       <div className="min-h-screen md:px-page">
-        <div className="flex gap-10 flex-wrap">
-          <Card size="small" className="w-full h-[20rem] md:w-[35rem] md:h-[25rem] bg-[#F5F5F5]">
-            <Carousel
-              arrows
-              autoplay
-              prevArrow={<RightCircleOutlined />}
-              nextArrow={<LeftCircleOutlined />}
-              dots={{ className: 'bg-[#DCDCDC] text-primary p-2' }}
-            >
-              {data?.product.images.map((image, i) => (
-                <Image
-                  src={image}
-                  key={i}
-                  className="w-[35rem] md:h-[23rem] h-[19rem] object-cover rounded-lg"
-                  alt="Product image"
-                />
-              ))}
-            </Carousel>
-          </Card>
-          <div>
-            <Tag color={data?.product.isAvailable ? 'green' : 'red'}>
-              {data?.product.isAvailable ? 'In stock' : 'Not in stock'}
-            </Tag>
-            <Title className="font-bold text-2xl mt-page">
-              {data?.product.name}
-            </Title>
-            <Title className="font-semibold text-2xl">
-              RWF {data?.product.price}
-            </Title>
-            {data?.product.Categories.map((category) => (
-              <Tag key={category.id}>{category.name}</Tag>
-            ))}
-            <Text className="font-semibold text-lg">
-              <ShopOutlined className="text-primary text-xl mr-3" />
-              {data?.product.Store.name}
-            </Text>
-            <div className="mt-6 flex gap-4">
-              <Text className="font-semibold text-base">
-                <EnvironmentOutlined className="text-primary text-xl mr-3" />
-                {distance}
-              </Text>
-              <Text className="font-semibold text-base">
-                <ClockCircleOutlined className="text-primary text-lg mr-3" />
-                {duration}
-              </Text>
+        {isLoading ? (
+          <Skeleton />
+        ) : (
+          <>
+            <div className="flex gap-10 flex-wrap">
+              <Card
+                size="small"
+                className="w-full h-[20rem] md:w-[35rem] md:h-[25rem] bg-[#F5F5F5]"
+              >
+                <Carousel
+                  arrows
+                  autoplay
+                  prevArrow={<RightCircleOutlined />}
+                  nextArrow={<LeftCircleOutlined />}
+                  dots={{ className: 'bg-[#DCDCDC] text-primary p-2' }}
+                >
+                  {data?.product.images.map((image, i) => (
+                    <Image
+                      src={image}
+                      key={i}
+                      className="w-[35rem] md:h-[23rem] h-[19rem] object-cover rounded-lg"
+                      alt="Product image"
+                    />
+                  ))}
+                </Carousel>
+              </Card>
+              <div>
+                <Tag color={data?.product.isAvailable ? 'green' : 'red'}>
+                  {data?.product.isAvailable ? 'In stock' : 'Not in stock'}
+                </Tag>
+                <Title className="font-bold text-2xl mt-page">
+                  {data?.product.name}
+                </Title>
+                <Title className="font-semibold text-2xl">
+                  RWF {data?.product.price}
+                </Title>
+                {data?.product.Categories.map((category) => (
+                  <Tag key={category.id}>{category.name}</Tag>
+                ))}
+                <Text className="font-semibold text-lg">
+                  <ShopOutlined className="text-primary text-xl mr-3" />
+                  {data?.product.Store.name}
+                </Text>
+                <div className="mt-6 flex gap-4">
+                  <Text className="font-semibold text-base">
+                    <EnvironmentOutlined className="text-primary text-xl mr-3" />
+                    {distance}
+                  </Text>
+                  <Text className="font-semibold text-base">
+                    <ClockCircleOutlined className="text-primary text-lg mr-3" />
+                    {duration}
+                  </Text>
+                </div>
+                <Button
+                  className="text-white bg-primary my-4"
+                  icon={<ShoppingFilled />}
+                  onClick={handleAddToCart}
+                  loading={loadCart}
+                >
+                  Add to cart
+                </Button>
+              </div>
             </div>
-            <Button
-              className="text-white bg-primary my-4"
-              icon={<ShoppingFilled />}
-            >
-              Add to cart
-            </Button>
-          </div>
-        </div>
-        <Title className="font-bold my-6">Product Location</Title>
+            <Title className="font-bold my-6">Product Location</Title>
+          </>
+        )}
+
         <Card
+          loading={isLoading}
           className="border-primary mt-4"
           size="small"
           style={{ width: '100%' }}

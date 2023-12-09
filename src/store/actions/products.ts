@@ -12,6 +12,7 @@ const productEndpoints = baseAPI.injectEndpoints({
         url: `/products?long=${lng}&lat=${lat}`,
         method: 'GET',
       }),
+      providesTags: ['products'],
     }),
     getSingleProduct: builder.query<
       { product: Product; message: string },

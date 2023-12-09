@@ -9,6 +9,7 @@ const shopsEndpoints = baseAPI.injectEndpoints({
         url: `/stores?lng=${lng}&lat=${lat}`,
         method: 'GET',
       }),
+      providesTags: ['stores'],
     }),
   }),
 });

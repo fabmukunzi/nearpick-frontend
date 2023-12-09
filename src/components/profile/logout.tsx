@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Card, Typography } from 'antd';
 import { useDispatch } from 'react-redux';
-import { updateUser } from '@store/reducers/users';
+import { logout } from '@store/reducers/users';
 import { useRouter } from 'next/router';
 
 const LogoutComponent = () => {
@@ -9,7 +9,7 @@ const LogoutComponent = () => {
   const { push } = useRouter();
   const dispatch = useDispatch();
   const handleLogout = () => {
-    dispatch(updateUser(undefined));
+    dispatch(logout(undefined));
     push('/');
   };
 

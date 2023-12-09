@@ -14,6 +14,8 @@ import {
 } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import { RootState } from '@store/index';
+import { useRouter } from 'next/router';
+import { useGetCartQuery } from '@store/actions/cart';
 
 const items = [
   {
@@ -70,7 +72,9 @@ const Header: React.FC = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-
+const currentTab=useRouter().route;
+console.log(currentTab)
+const { data, isLoading } = useGetCartQuery();
   return (
     <Fragment>
       <Modal
@@ -118,19 +122,23 @@ const Header: React.FC = () => {
             <Link href="/profile">
               <UserOutlined className="text-lg" />
               {/* <Avatar size={20} src={user.avatar} className="text-lg" /> */}
-            {/* </Link>
+          {/* </Link>
           ) : ( */}
-            <Link href="/auth/login">
-              <UserOutlined className="text-lg" />
-            </Link>
+          <Link href="/auth/login">
+            <UserOutlined className="text-lg" />
+          </Link>
           {/* )} */}
-          <Link href="/cart">
+          <Link href="/cart" className={`${
+              currentTab === 'cart'
+                ? 'bg-primary hover:text-white'
+                : 'bg-white text-primary border-primary'
+            }`}>
             <Badge
-              count={0}
+              count={data?.products.length}
               showZero
               size="small"
               color="green"
-              className="hover:to-blue-600"
+              style={{ backgroundColor: '#64B937' }}
             >
               <ShoppingFilled className="text-xl" />
             </Badge>
