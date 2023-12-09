@@ -1,3 +1,4 @@
+'use client';
 import React, { Fragment, useState } from 'react';
 // import {
 //   AppstoreOutlined,
@@ -5,9 +6,10 @@ import React, { Fragment, useState } from 'react';
 //   SettingOutlined,
 // } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Avatar, Badge, Image, Input, Menu, Modal } from 'antd';
+import { Avatar, Badge, Drawer, Image, Input, Menu, Modal } from 'antd';
 import Link from 'next/link';
 import {
+  MenuOutlined,
   SearchOutlined,
   ShoppingFilled,
   UserOutlined,
@@ -16,6 +18,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@store/index';
 import { useRouter } from 'next/router';
 import { useGetCartQuery } from '@store/actions/cart';
+import useDisclose from '@utils/hooks/useDisclose';
 
 const items = [
   {
@@ -72,9 +75,9 @@ const Header: React.FC = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-const currentTab=useRouter().route;
-console.log(currentTab)
-const { data, isLoading } = useGetCartQuery();
+  const currentTab = useRouter().route;
+  const { data, isLoading } = useGetCartQuery();
+  const { close, isOpen, toggle } = useDisclose();
   return (
     <Fragment>
       <Modal
@@ -106,35 +109,47 @@ const { data, isLoading } = useGetCartQuery();
             src="https://res.cloudinary.com/dr4reow8e/image/upload/v1700073382/1700070120057-removebg-preview_mqxw0l.png"
           />
         </Link>
-        <div className="flex gap-10">
+        <div className="md:flex hidden md:gap-10 gap-3">
           {items.map((item) => (
             <Fragment key={item.key}>{item?.label}</Fragment>
           ))}
         </div>
+        <Drawer className='block md:hidden' open={isOpen} onClose={close}>
+          <div className="flex flex-col md:gap-10 gap-3">
+            {items.map((item) => (
+              <div onClick={toggle} key={item.key}>
+                {item?.label}
+              </div>
+            ))}
+          </div>
+        </Drawer>
 
-        <div className="flex items-center gap-6 w-1/4">
+        <div className="flex justify-center items-center gap-6 w-1/4">
           {/* <Link href="/profile"> */}
           <SearchOutlined
             onClick={showModal}
             className="text-lg cursor-pointer"
           />
-          {/* {user ? (
+          {/* </Link> */}
+          {user ? (
             <Link href="/profile">
+              <Avatar size={20} src={user.avatar} className="text-lg" />
+            </Link>
+          ) : (
+            <Link href="/auth/login">
               <UserOutlined className="text-lg" />
-              {/* <Avatar size={20} src={user.avatar} className="text-lg" /> */}
-          {/* </Link>
-          ) : ( */}
-          <Link href="/auth/login">
-            <UserOutlined className="text-lg" />
-          </Link>
-          {/* )} */}
-          <Link href="/cart" className={`${
+            </Link>
+          )}
+          <Link
+            href="/cart"
+            className={`${
               currentTab === 'cart'
                 ? 'bg-primary hover:text-white'
                 : 'bg-white text-primary border-primary'
-            }`}>
+            }`}
+          >
             <Badge
-              count={data?.products.length}
+              count={data?.products.length || 0}
               showZero
               size="small"
               color="green"
@@ -143,6 +158,7 @@ const { data, isLoading } = useGetCartQuery();
               <ShoppingFilled className="text-xl" />
             </Badge>
           </Link>
+          <MenuOutlined className='block md:hidden' onClick={toggle} />
         </div>
       </div>
     </Fragment>

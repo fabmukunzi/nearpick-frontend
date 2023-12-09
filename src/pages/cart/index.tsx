@@ -57,7 +57,7 @@ const Cart = () => {
             </Button>
           </div>
         )}
-        <div className="flex gap-6">
+        <div className="flex gap-6 xxs:flex-wrap md:flex-nowrap">
           <div className="rounded-lg md:w-2/3">
             {data?.products?.map((product) => (
               <Card
@@ -66,10 +66,10 @@ const Cart = () => {
                 key={product.id}
                 size="small"
               >
-                <div className="justify-between sm:flex sm:justify-start">
+                <div className="justify-between flex items-center gap-1">
                   <Avatar
                     src={product.images[0]}
-                    className="w-36"
+                    className="w-36 xxs:h-32 md:h-24"
                     shape="square"
                     size={80}
                   />
@@ -84,7 +84,7 @@ const Cart = () => {
                         {product?.Store?.name}
                       </Text>
                     </div>
-                    <div className="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
+                    <div className="flex justify-between xxs:flex-col-reverse md:flex-none gap-2 sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
                       <div className="flex items-center justify-between mx-page">
                         <Text className="text-sm">RWF {product.price}</Text>
                         <Popover
@@ -99,9 +99,9 @@ const Cart = () => {
                           />
                         </Popover>
                       </div>
-                      <div className="flex gap-2">
+                      <div className="flex gap-2 my-2">
                         <InputNumber
-                          className="w-28 border bg-white text-center text-xs outline-none"
+                          className="md:w-28 border bg-white text-center text-xs outline-none"
                           type="number"
                           defaultValue={product.quantity}
                           min={1}
@@ -121,7 +121,10 @@ const Cart = () => {
             ))}
           </div>
           {data && (
-            <Card className="w-1/3 max-h-fit" loading={isLoading || loadRemove}>
+            <Card
+              className="md:w-1/3 w-full max-h-fit"
+              loading={isLoading || loadRemove}
+            >
               <div className="mb-2 flex justify-between">
                 <Text className="text-gray-700">Subtotal</Text>
                 <Text className="text-gray-700">RWF {data?.total}</Text>

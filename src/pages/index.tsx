@@ -14,12 +14,12 @@ const Home = () => {
   const location = { lat: lat || 0, lng: lng || 0 };
   const { data, isLoading } = useGetProductsQuery(location);
   return (
-    <div className="h-fit bg-white mb-10 px-page">
+    <div className="h-fit bg-white mb-10 md:px-page p-0">
       <div className="mx-auto rounded-xl">
         <Carousel autoplay>
           {homeSlides?.map((slide, index) => (
             <div key={index}>
-              <div className="flex flex-col items-center justify-center h-[80vh] w-screen">
+              <div className="flex flex-col items-center justify-center md:h-[80vh] h-fit w-screen">
                 <Image
                   className="object-cover h-full w-full"
                   preview={false}
@@ -48,8 +48,8 @@ const Home = () => {
         <Spin className="flex justify-center my-32" />
       ) : (
         <>
-          <Title className="text-3xl my-10">Popular Products</Title>
-          <motion.div className="grid md:grid-cols-5 grid-cols-1 justify-center">
+          <Title className="text-3xl md:my-10 my-2 text-center">Popular Products</Title>
+          <motion.div className="flex flex-wrap md:gap-2 w-full mx-auto">
             {data?.data.products.map((product) => (
               <ProductCard
                 key={product.id}
