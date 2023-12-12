@@ -9,21 +9,22 @@ import useCurrentLocation from '@utils/hooks/useCurrentLocation';
 const ShopsPage = () => {
   const { lat, lng } = useCurrentLocation();
   const location = { lat: lat || 0, lng: lng || 0 };
-  const { Text } = Typography;
+  const { Title } = Typography;
   const { data, isLoading } = useGetShopsQuery(location);
-  console.log(data)
   return (
-    <div className="h-screen">
+    <div className="h-fit bg-white mb-10 md:px-page p-0">
+      <Title level={3} className="font-bold text-center">
+        Shops
+      </Title>
       {isLoading ? (
         <Spin className="flex justify-center my-32" />
       ) : (
-        <motion.div className="flex flex-wrap justify-center">
-          <Text>Shops</Text>
+        <motion.div className="flex flex-wrap md:gap-2 w-full mx-auto">
           {data?.stores.stores.map((store) => (
             <ShopCard key={store.id} shop={store} loading={isLoading} />
           ))}
           <Pagination
-            className="flex-end"
+            className="my-3"
             defaultCurrent={data?.stores.currentPage}
             total={data?.stores.totalPages}
           />

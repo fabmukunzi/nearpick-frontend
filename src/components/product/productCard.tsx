@@ -74,7 +74,7 @@ const ProductCard: React.FC<CardProps> = ({ product, loading }) => {
     <Card
       key={product.id}
       // hoverable
-      className=" h-fit w-[90%] md:w-[15.22rem] mx-auto md:mx-1 p-0 mt-10"
+      className="h-fit w-[90%] md:w-[15.22rem] mx-auto md:mx-1 p-0 mt-10"
       size="small"
       loading={distance ? false : true}
     >

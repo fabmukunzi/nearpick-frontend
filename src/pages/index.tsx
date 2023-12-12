@@ -48,7 +48,7 @@ const Home = () => {
         <Spin className="flex justify-center my-32" />
       ) : (
         <>
-          <Title className="text-3xl md:my-10 my-2 text-center">Popular Products</Title>
+          <Title level={3} className="font-bold md:my-10 my-2 text-center">Popular Products</Title>
           <motion.div className="flex flex-wrap md:gap-2 w-full mx-auto">
             {data?.data.products.map((product) => (
               <ProductCard

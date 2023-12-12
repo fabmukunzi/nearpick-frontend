@@ -3,15 +3,20 @@ import {
   formatDistance,
   getLocationFromCoordinates,
 } from '@utils/functions/extractDistance';
-import { Product } from '@utils/types/product';
-import { Card, Descriptions, Image, Tag, Typography } from 'antd';
+import { Card, Image, Tag, Typography } from 'antd';
 import { motion } from 'framer-motion';
 import { FC } from 'react';
-import { ShoppingFilled } from '@ant-design/icons';
+import {
+  CarOutlined,
+  EnvironmentOutlined,
+  NodeIndexOutlined,
+  ShopOutlined,
+} from '@ant-design/icons';
 import { Store } from '../../utils/types/store';
 import { useRouter } from 'next/router';
 import useCurrentLocation from '@utils/hooks/useCurrentLocation';
 import useGoogleMapsDirections from '@utils/hooks/googleMapsDirection';
+import Link from 'next/link';
 
 type CardProps = {
   shop: Store;
@@ -46,16 +51,16 @@ const ShopCard: FC<CardProps> = ({ shop, loading }) => {
 
     fetchLocation();
   }, [shop]);
-  const { Title } = Typography;
+  const { Title, Text } = Typography;
   const { push } = useRouter();
   return (
     <Card
       key={shop.id}
-      hoverable
+      // hoverable
       style={{ width: 270, height: 240 }}
-      className="ml-10 border-primary h-fit p-0 mt-10 border"
+      className="h-fit w-[90%] md:w-[15.22rem] mx-auto md:mx-1 p-0 mt-10"
       size="small"
-      loading={loading}
+      loading={loading || (distance ? false : true)}
     >
       <motion.div
         whileHover={{ scale: 1.03 }}
@@ -69,32 +74,33 @@ const ShopCard: FC<CardProps> = ({ shop, loading }) => {
         />
       </motion.div>
       <Meta
-        title={shop.name}
+        className="font-semibold"
         description={
           <>
-            <Descriptions column={1} className="-mb-4">
-              {distance && (
-                <Descriptions.Item label="Distance">
-                  {distance}
-                </Descriptions.Item>
-              )}
-              {/* <Descriptions.Item label="Shop">{shop.name}</Descriptions.Item> */}
-              <Descriptions.Item label="Category">
-                <Tag>{shop.Owner.name}</Tag>
-              </Descriptions.Item>
-              <Descriptions.Item label="Location">
-                <Tag>{location}</Tag>
-              </Descriptions.Item>
-            </Descriptions>
+            <Link href={`/stores/${shop.id}`}>
+              <Title className="font-bold text-base">{shop.name}</Title>
+            </Link>
+            <div className="flex justify-between my-4">
+              <Text className="font-semibold text-sm">
+                <NodeIndexOutlined className="text-primary text-base mr-3" />
+                {distance}
+              </Text>
+              <Text className="font-semibold text-sm">
+                <CarOutlined className="text-primary text-base mr-3" />
+                {duration}
+              </Text>
+            </div>
+            {/* <div className="my-2">
+              <ShopOutlined className="text-base text-primary mr-3" />
+              {shop.name}
+            </div> */}
+            <div className="flex">
+              <EnvironmentOutlined className="text-primary text-base mr-3" />
+              <Tag style={{ fontSize: '12.5px' }}>{location}</Tag>
+            </div>
           </>
         }
       />
-      {/* <div className="flex justify-between items-center mt-6">
-        <Title key="price" className="font-bold text-base">
-          RWF {shop.price}
-        </Title>
-        <ShoppingFilled className="text-xl border p-1.5 rounded-full cursor-pointer" />
-      </div> */}
     </Card>
   );
 };

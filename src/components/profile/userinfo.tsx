@@ -49,7 +49,6 @@ const UserInfoComponent = () => {
   };
   const handleAvatarChange = (info: any) => {
     const file = info.fileList[0]?.originFileObj;
-    console.log(info);
     setAvatarFile(file);
   };
 
