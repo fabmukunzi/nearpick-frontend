@@ -77,7 +77,7 @@ const ShopCard: FC<CardProps> = ({ shop, loading }) => {
         className="font-semibold"
         description={
           <>
-            <Link href={`/stores/${shop.id}`}>
+            <Link href={`/shops/${shop.id}`}>
               <Title className="font-bold text-base">{shop.name}</Title>
             </Link>
             <div className="flex justify-between my-4">

@@ -8,6 +8,7 @@ import {
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Avatar, Breadcrumb, Button, Layout, Menu, theme } from 'antd';
+import { useRouter } from 'next/router';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -28,10 +29,16 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-  getItem('Analytics', '1', <AppstoreOutlined className='text-xl mx-1' />),
-  getItem('Products', '2', <ShoppingOutlined className='text-xl mx-1' />),
-  getItem('Stores', '3', <ShopOutlined className='text-xl mx-1' />),
-  getItem('Users', '4', <UserOutlined className='text-xl mx-1' />),
+  getItem('Analytics', '1', <AppstoreOutlined className="text-xl mx-1" />),
+  getItem('Products', '2', <ShoppingOutlined className="text-xl mx-1" />),
+  getItem('Stores', '3', <ShopOutlined className="text-xl mx-1" />),
+  getItem('Users', '4', <UserOutlined className="text-xl mx-1" />),
+];
+const routes = [
+  { path: 'analytics', key: '1' },
+  { path: 'products', key: '2' },
+  { path: 'stores', key: '3' },
+  { path: 'users', key: '4' },
 ];
 
 const App: React.FC = () => {
@@ -39,7 +46,12 @@ const App: React.FC = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
-
+  const { route, push } = useRouter();
+  const handleItemClick = (item:MenuItem) => {
+    routes.map((route) =>
+      item?.key === route.key ? push(`dashboard/${route.path}`) : ''
+    );
+  };
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider
@@ -51,22 +63,31 @@ const App: React.FC = () => {
       >
         <Avatar
           className="flex mx-auto mb-10"
-          size={collapsed?50:80}
+          size={collapsed ? 50 : 80}
           src="https://res.cloudinary.com/dr4reow8e/image/upload/e_background_removal/f_png/v1700070727/1700069859823_qsszxr.jpg"
         />
-        <Menu defaultSelectedKeys={['1']} mode="inline" items={items} />
+        <Menu
+          onClick={handleItemClick}
+          defaultSelectedKeys={['1']}
+          mode="inline"
+          items={items}
+        />
       </Sider>
       <Layout>
         <Header className="flex justify-end gap-4 bg-white items-center">
-          <Avatar size={50} src="https://res.cloudinary.com/dr4reow8e/image/upload/e_background_removal/f_png/v1700070727/1700069859823_qsszxr.jpg" />
+          <Avatar
+            className="rounded-full border-primary"
+            size={35}
+            src="https://res.cloudinary.com/dr4reow8e/image/upload/e_background_removal/f_png/v1700070727/1700069859823_qsszxr.jpg"
+          />
           <Button icon={<LogoutOutlined />} className="bg-primary">
             Logout
           </Button>
         </Header>
         <Content style={{ margin: '0 16px' }}>
           <Breadcrumb style={{ margin: '16px 0' }}>
-            <Breadcrumb.Item>dashboard</Breadcrumb.Item>
-            <Breadcrumb.Item>products</Breadcrumb.Item>
+            {/* <Breadcrumb.Item>dashboard</Breadcrumb.Item> */}
+            <Breadcrumb.Item>{route?.slice(1, 20)}</Breadcrumb.Item>
           </Breadcrumb>
           <div
             style={{

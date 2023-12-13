@@ -18,7 +18,8 @@ const roboto = Poppins({
 
 export default function App({ Component, pageProps }: AppProps) {
   const { route } = useRouter();
-  const Layout = route === '/dashboard' ? DashboardLayout : AppLayout;
+  const Layout =
+    route?.split('/')[1] === 'dashboard' ? DashboardLayout : AppLayout;
   return (
     <ConfigProvider theme={antdTheme}>
       <main className={roboto.className}>

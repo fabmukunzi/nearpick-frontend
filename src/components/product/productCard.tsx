@@ -40,8 +40,8 @@ const ProductCard: React.FC<CardProps> = ({ product, loading }) => {
   const { push } = useRouter();
   const { distance, duration } = useGoogleMapsDirections(
     currentLocation,
-    product.Store.location.coordinates[0],
-    product.Store.location.coordinates[1]
+    product.Store?.location.coordinates[0],
+    product.Store?.location.coordinates[1]
   );
   const handleAddToCart = async () => {
     const payload = {
@@ -59,8 +59,8 @@ const ProductCard: React.FC<CardProps> = ({ product, loading }) => {
     const fetchLocation = async () => {
       try {
         const locationResult = await getLocationFromCoordinates(
-          product.Store.location.coordinates[0],
-          product.Store.location.coordinates[1]
+          product.Store?.location.coordinates[0],
+          product.Store?.location.coordinates[1]
         );
         setLocation(locationResult);
       } catch (error: any) {
@@ -68,7 +68,7 @@ const ProductCard: React.FC<CardProps> = ({ product, loading }) => {
       }
     };
     fetchLocation();
-  }, [product.Store.location.coordinates]);
+  }, [product.Store?.location.coordinates]);
 
   return (
     <Card
@@ -108,7 +108,7 @@ const ProductCard: React.FC<CardProps> = ({ product, loading }) => {
             </div>
             <div className="my-2">
               <ShopOutlined className="text-base text-primary mr-3" />
-              {product.Store.name}
+              {product.Store?.name}
             </div>
             <div className="flex">
               <EnvironmentOutlined className="text-primary text-base mr-3" />

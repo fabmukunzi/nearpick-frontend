@@ -1,6 +1,10 @@
 import { baseAPI } from '../api';
-import { ProductUrlParams, ProductsResponse } from '../../utils/types/product';
-import { IStoresResponse } from '@utils/types/store';
+import {
+  Product,
+  ProductUrlParams,
+  ProductsResponse,
+} from '../../utils/types/product';
+import { IStoresResponse, Store } from '@utils/types/store';
 
 const shopsEndpoints = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
@@ -11,7 +15,26 @@ const shopsEndpoints = baseAPI.injectEndpoints({
       }),
       providesTags: ['stores'],
     }),
+    getSingleShop: builder.query<{ store: Store }, { id: string }>({
+      query: ({ id }) => ({
+        url: `/stores/${id}`,
+        method: 'GET',
+      }),
+    }),
+    getShopProducts: builder.query<
+      { products: { rows: Product[] } },
+      { id: string }
+    >({
+      query: ({ id }) => ({
+        url: `/stores/${id}/products`,
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
-export const { useGetShopsQuery } = shopsEndpoints;
+export const {
+  useGetShopsQuery,
+  useGetSingleShopQuery,
+  useGetShopProductsQuery,
+} = shopsEndpoints;
