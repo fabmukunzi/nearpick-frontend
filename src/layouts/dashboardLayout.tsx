@@ -49,7 +49,7 @@ const App: React.FC = () => {
   const { route, push } = useRouter();
   const handleItemClick = (item:MenuItem) => {
     routes.map((route) =>
-      item?.key === route.key ? push(`dashboard/${route.path}`) : ''
+      item?.key === route.key ? push(`${route.path}`) : ''
     );
   };
   return (

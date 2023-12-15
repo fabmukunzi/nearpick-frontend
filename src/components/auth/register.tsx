@@ -37,15 +37,15 @@ const Signup = () => {
       .unwrap()
       .then((data) => {
         notification.success({
-          message: data.data?.message,
+          message: data?.data?.message,
         });
         router.push('/auth/login');
       })
       .catch((error) => {
         console.log(error);
-        notification.error({
-          message: error?.data?.message||'Oops! Something went wrong',
-        });
+        // notification.error({
+        //   message: error?.data?.message||'Oops! Something went wrong',
+        // });
       });
   };
   return (

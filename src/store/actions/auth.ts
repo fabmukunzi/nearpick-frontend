@@ -71,12 +71,13 @@ const userEndpoints = baseAPI.injectEndpoints({
     //     body,
     //   }),
     // }),
-    // checkUserName: builder.mutation<GenericResponse<{ taken: boolean }>, string>({
-    //   query: (username) => ({
-    //     url: `v1/users/username-checker/${username}`,
-    //     method: 'GET',
-    //   }),
-    // }),
+    verifyCode: builder.mutation<any, { authCode: string; id?: string }>({
+      query: ({ authCode, id }) => ({
+        url: `/users/login/verify/${id}`,
+        method: 'POST',
+        body: authCode,
+      }),
+    }),
   }),
 });
 
@@ -86,4 +87,5 @@ export const {
   useProfileQuery,
   useChangePasswordMutation,
   useUpdateProfileMutation,
+  useVerifyCodeMutation,
 } = userEndpoints;

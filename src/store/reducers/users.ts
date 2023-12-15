@@ -14,10 +14,10 @@ export const userSlice = createSlice({
       const { payload } = action;
       state.token = payload;
     },
-    // setVerifyEmail: (state, action: PayloadAction<string>) => {
-    //   const { payload } = action
-    //   state.verifyEmail = payload
-    // },
+    setVerifyEmail: (state, action: PayloadAction<any>) => {
+      const { payload } = action;
+      state.user = payload;
+    },
     updateUser: (state, action: PayloadAction<UserSchema | undefined>) => {
       const { payload } = action;
       state.user = payload;
@@ -40,8 +40,8 @@ export const {
   updateUser,
   setToken,
   //   setActiveOrganization,
-    logout,
-  //   setPermissions,
+  logout,
+  setVerifyEmail,
 } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -79,7 +79,7 @@ const Header: React.FC = () => {
     setIsModalOpen(false);
   };
   const currentTab = useRouter().route;
-  const { data, isLoading } = useGetCartQuery();
+  const { data, isLoading } = useGetCartQuery(undefined, { skip: !user?.isVerified });
   const { close, isOpen, toggle } = useDisclose();
   return (
     <Fragment>
@@ -138,10 +138,10 @@ const Header: React.FC = () => {
             <Popover content={<Text>User profile</Text>} trigger="hover">
               <Link href="/profile">
                 <Avatar
-                  size={20}
-                  shape="square"
+                  size={25}
+                  shape="circle"
                   src={user.avatar}
-                  className="text-lg"
+                  className="text-lg border-primary"
                 />
               </Link>
             </Popover>

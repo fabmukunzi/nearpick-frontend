@@ -1,5 +1,5 @@
 import { useLoginMutation } from '@store/actions/auth';
-import { setToken, updateUser } from '@store/reducers/users';
+import { setToken, setVerifyEmail, updateUser } from '@store/reducers/users';
 import { Card, Form, Input, Button, Typography, notification } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -26,9 +26,14 @@ const Login = () => {
         router.push('/');
       })
       .catch((error) => {
-        notification.error({
-          message: error?.data?.message||'Oops! Something went wrong',
-        });
+        if (error.data.message === 'Check your email for verification code') {
+          dispatch(setVerifyEmail(error?.data?.user));
+          router.push('/auth/verify');
+        }
+
+        // notification.error({
+        //   message: error?.data?.message||'Oops! Something went wrong',
+        // });
       });
   };
   return (
