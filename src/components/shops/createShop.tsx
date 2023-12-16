@@ -67,7 +67,7 @@ const CreateShop: FC<Props> = ({ isOpen, close }) => {
             allowClear
             style={{ width: '100%' }}
             placeholder="Select categories"
-            options={data?.categories.map((category) => ({
+            options={data?.categories.map((category: any) => ({
               value: category.id,
               label: category.name,
             }))}

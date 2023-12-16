@@ -14,6 +14,14 @@ const productEndpoints = baseAPI.injectEndpoints({
       }),
       providesTags: ['products'],
     }),
+    createProduct: builder.mutation<{ message: string }, FormData>({
+      query: (body) => ({
+        url: `/products`,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['products'],
+    }),
     getSingleProduct: builder.query<
       { product: Product; message: string },
       { id?: string }
@@ -26,5 +34,8 @@ const productEndpoints = baseAPI.injectEndpoints({
   }),
 });
 
-export const { useGetProductsQuery, useGetSingleProductQuery } =
-  productEndpoints;
+export const {
+  useGetProductsQuery,
+  useGetSingleProductQuery,
+  useCreateProductMutation,
+} = productEndpoints;
