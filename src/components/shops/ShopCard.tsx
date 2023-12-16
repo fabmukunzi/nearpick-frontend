@@ -21,11 +21,12 @@ import Link from 'next/link';
 type CardProps = {
   shop: Store;
   loading: boolean;
+  actions?: Array<React.ReactNode>;
 };
 
-const ShopCard: FC<CardProps> = ({ shop, loading }) => {
+const ShopCard: FC<CardProps> = ({ shop, loading, actions }) => {
   const { Meta } = Card;
-  const { lat, lng, error: locationError } = useCurrentLocation();
+  const { lat, lng } = useCurrentLocation();
   const currentLocation = {
     lat: lat || 0,
     lng: lng || 0,
@@ -56,11 +57,11 @@ const ShopCard: FC<CardProps> = ({ shop, loading }) => {
   return (
     <Card
       key={shop.id}
-      // hoverable
       style={{ width: 270, height: 240 }}
       className="h-fit w-[90%] md:w-[15.22rem] mx-auto md:mx-1 p-0 mt-10"
       size="small"
       loading={loading || (distance ? false : true)}
+      actions={actions || []}
     >
       <motion.div
         whileHover={{ scale: 1.03 }}

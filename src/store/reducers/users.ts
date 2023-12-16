@@ -4,6 +4,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 const initialState: UserInitialState = {
   token: undefined,
   user: undefined,
+  verifyUser: undefined,
 };
 
 export const userSlice = createSlice({
@@ -16,7 +17,7 @@ export const userSlice = createSlice({
     },
     setVerifyEmail: (state, action: PayloadAction<any>) => {
       const { payload } = action;
-      state.user = payload;
+      state.verifyUser = payload;
     },
     updateUser: (state, action: PayloadAction<UserSchema | undefined>) => {
       const { payload } = action;

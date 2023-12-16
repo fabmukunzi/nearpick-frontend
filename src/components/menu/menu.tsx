@@ -79,7 +79,7 @@ const Header: React.FC = () => {
     setIsModalOpen(false);
   };
   const currentTab = useRouter().route;
-  const { data, isLoading } = useGetCartQuery(undefined, { skip: !user?.isVerified });
+  const { data, isLoading } = useGetCartQuery(undefined, { skip: !user });
   const { close, isOpen, toggle } = useDisclose();
   return (
     <Fragment>

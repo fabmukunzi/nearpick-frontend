@@ -9,6 +9,8 @@ import {
 import type { MenuProps } from 'antd';
 import { Avatar, Breadcrumb, Button, Layout, Menu, theme } from 'antd';
 import { useRouter } from 'next/router';
+import { logout } from '@store/reducers/users';
+import { useDispatch } from 'react-redux';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -40,14 +42,19 @@ const routes = [
   { path: 'stores', key: '3' },
   { path: 'users', key: '4' },
 ];
-
-const App: React.FC = () => {
+interface Props {
+  children: React.ReactNode;
+}
+const DashboardLayout: React.FC<Props> = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
+  const dispatch = useDispatch();
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
   const { route, push } = useRouter();
-  const handleItemClick = (item:MenuItem) => {
+  const defaultSelectedKey =
+    routes.find((r) => r.path === route?.split('/')[2])?.key || '1';
+  const handleItemClick = (item: MenuItem) => {
     routes.map((route) =>
       item?.key === route.key ? push(`${route.path}`) : ''
     );
@@ -56,6 +63,7 @@ const App: React.FC = () => {
     <Layout style={{ minHeight: '100vh' }}>
       <Sider
         theme="light"
+        className="bg-slate-100"
         breakpoint="lg"
         collapsible
         collapsed={collapsed}
@@ -68,42 +76,35 @@ const App: React.FC = () => {
         />
         <Menu
           onClick={handleItemClick}
-          defaultSelectedKeys={['1']}
+          className="bg-slate-100"
+          defaultSelectedKeys={[defaultSelectedKey]}
           mode="inline"
           items={items}
         />
       </Sider>
       <Layout>
-        <Header className="flex justify-end gap-4 bg-white items-center">
+        <Header className="flex justify-end gap-4 bg-slate-100 items-center">
           <Avatar
             className="rounded-full border-primary"
             size={35}
             src="https://res.cloudinary.com/dr4reow8e/image/upload/e_background_removal/f_png/v1700070727/1700069859823_qsszxr.jpg"
           />
-          <Button icon={<LogoutOutlined />} className="bg-primary">
+          <Button
+            onClick={() => {
+              dispatch(logout());
+              push('/');
+            }}
+            icon={<LogoutOutlined />}
+            className="bg-primary"
+          >
             Logout
           </Button>
         </Header>
-        <Content style={{ margin: '0 16px' }}>
-          <Breadcrumb style={{ margin: '16px 0' }}>
-            {/* <Breadcrumb.Item>dashboard</Breadcrumb.Item> */}
-            <Breadcrumb.Item>{route?.slice(1, 20)}</Breadcrumb.Item>
-          </Breadcrumb>
-          <div
-            style={{
-              padding: 24,
-              minHeight: 360,
-              background: colorBgContainer,
-              borderRadius: borderRadiusLG,
-            }}
-          >
-            Bill is a cat.
-          </div>
-        </Content>
+        <Content className="min-h-screen">{children}</Content>
         <Footer style={{ textAlign: 'center' }}>©2023 nearpick</Footer>
       </Layout>
     </Layout>
   );
 };
 
-export default App;
+export default DashboardLayout;

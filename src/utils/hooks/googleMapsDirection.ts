@@ -15,7 +15,7 @@ const useGoogleMapsDirections = (
 ): GoogleMapsDirections => {
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
-    googleMapsApiKey: process.env.NEXT_PUBLIC_API_KEY || '',
+    googleMapsApiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY || '',
   });
   const [distance, setDistance] = useState<string | undefined>(undefined);
   const [duration, setDuration] = useState<string | undefined>(undefined);
@@ -30,8 +30,8 @@ const useGoogleMapsDirections = (
       destination: { lat, lng },
       travelMode: window.google.maps.TravelMode.DRIVING,
     });
-    setDistance(result.routes[0].legs[0].distance?.text);
-    setDuration(result.routes[0].legs[0].duration?.text);
+    setDistance(result?.routes[0].legs[0].distance?.text);
+    setDuration(result?.routes[0].legs[0].duration?.text);
     setDirectionsResponse(result);
   };
   useEffect(() => {

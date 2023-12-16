@@ -47,4 +47,5 @@ export type SignupPayload = {
 export type UserInitialState = {
   token?: string;
   user?: UserSchema;
+  verifyUser?: UserSchema;
 };

@@ -17,7 +17,7 @@ type FieldType = {
 const Verify = () => {
   const { Title, Text } = Typography;
   const [verifyCode, { isLoading }] = useVerifyCodeMutation();
-  const { user } = useSelector((state: RootState) => state.userReducer);
+  const { verifyUser } = useSelector((state: RootState) => state.userReducer);
   const dispatch = useDispatch();
   const router = useRouter();
   const [otp, setOtp] = useState('');
@@ -25,7 +25,7 @@ const Verify = () => {
 
   const { token } = useToken();
   const onFinish = async (values: any) => {
-    verifyCode({ authCode: values, id: user?.id })
+    verifyCode({ authCode: values, id: verifyUser?.id })
       .unwrap()
       .then((data) => {
         dispatch(updateUser(data?.data?.user));
@@ -48,7 +48,7 @@ const Verify = () => {
         Check Your Email
       </Title>
       <Text className="text-gray-500flex justify-center">
-        We have send 6-digit confirmation code to <b>{user?.email}</b>,
+        We have send 6-digit confirmation code to <b>{verifyUser?.email}</b>,
         please enter the code in below box to verify your email.
       </Text>
       <Form

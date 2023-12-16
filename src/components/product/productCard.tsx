@@ -24,9 +24,10 @@ import { useAddToCartMutation } from '@store/actions/cart';
 type CardProps = {
   product: Product;
   loading: boolean;
+  actions?: Array<React.ReactNode>;
 };
 
-const ProductCard: React.FC<CardProps> = ({ product, loading }) => {
+const ProductCard: React.FC<CardProps> = ({ product, loading,actions }) => {
   const { Meta } = Card;
   const { Text } = Typography;
   const [location, setLocation] = useState<string | null>(null);
@@ -73,7 +74,7 @@ const ProductCard: React.FC<CardProps> = ({ product, loading }) => {
   return (
     <Card
       key={product.id}
-      // hoverable
+      actions={actions || []}
       className="h-fit w-[90%] md:w-[15.22rem] mx-auto md:mx-1 p-0 mt-10"
       size="small"
       loading={distance ? false : true}

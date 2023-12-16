@@ -4,7 +4,7 @@ import {
   ProductUrlParams,
   ProductsResponse,
 } from '../../utils/types/product';
-import { IStoresResponse, Store } from '@utils/types/store';
+import { IStoresResponse, ShopPayload, Store } from '@utils/types/store';
 
 const shopsEndpoints = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
@@ -30,6 +30,20 @@ const shopsEndpoints = baseAPI.injectEndpoints({
         method: 'GET',
       }),
     }),
+    createShop: builder.mutation<{ message: string }, ShopPayload>({
+      query: (body) => ({
+        url: `/stores`,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['stores'],
+    }),
+    getUserStores: builder.query<{ stores: Store[] }, void>({
+      query: () => ({
+        url: `/users/stores`,
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
@@ -37,4 +51,5 @@ export const {
   useGetShopsQuery,
   useGetSingleShopQuery,
   useGetShopProductsQuery,
+  useCreateShopMutation,
 } = shopsEndpoints;
