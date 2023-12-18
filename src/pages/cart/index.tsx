@@ -65,7 +65,7 @@ const Cart = () => {
   return (
     <div className="min-h-screen">
       <Card
-        loading={isLoading}
+        loading={isLoading || loadClear}
         title="Cart Items"
         headStyle={{ fontWeight: 'bold', fontSize: '20px' }}
       >
@@ -88,7 +88,7 @@ const Cart = () => {
             {data?.products?.map((product) => (
               <Card
                 className="my-3"
-                loading={loadRemove}
+                loading={loadRemove || loadClear}
                 key={product.id}
                 size="small"
               >
@@ -148,49 +148,48 @@ const Cart = () => {
               </Card>
             ))}
           </div>
-          {data?.products?.length ||
-            (0 > 0 && (
-              <Card
-                className="md:w-1/3 w-full max-h-fit"
-                loading={isLoading || loadRemove}
+          {(data?.products?.length || 0) > 0 && (
+            <Card
+              className="md:w-1/3 w-full max-h-fit"
+              loading={isLoading || loadRemove || loadClear}
+            >
+              <div className="mb-2 flex justify-between">
+                <Text className="text-gray-700">Subtotal</Text>
+                <Text className="text-gray-700">
+                  RWF {formatNumber(data?.total || 0)}
+                </Text>
+              </div>
+              <div className="flex justify-between">
+                <Text className="text-gray-700">VAT</Text>
+                <Text className="text-gray-700">RWF 0</Text>
+              </div>
+              <hr className="my-4" />
+              <div className="flex justify-between">
+                <Text className="text-lg font-bold">Total</Text>
+                <Text className="mb-1 text-lg font-bold">
+                  RWF {formatNumber(data?.total || 0)}
+                </Text>
+              </div>
+              <Button
+                className="mt-6 bg-primary"
+                loading={loadClear}
+                onClick={() => {
+                  handleFlutterPayment({
+                    callback: async (response) => {
+                      if (response.status === 'successful') await clearCart();
+                      !loadClear && closePaymentModal();
+                    },
+                    onClose: () => {
+                      console.log('You close me ooo');
+                    },
+                  });
+                }}
+                block
               >
-                <div className="mb-2 flex justify-between">
-                  <Text className="text-gray-700">Subtotal</Text>
-                  <Text className="text-gray-700">
-                    RWF {formatNumber(data?.total || 0)}
-                  </Text>
-                </div>
-                <div className="flex justify-between">
-                  <Text className="text-gray-700">VAT</Text>
-                  <Text className="text-gray-700">RWF 0</Text>
-                </div>
-                <hr className="my-4" />
-                <div className="flex justify-between">
-                  <Text className="text-lg font-bold">Total</Text>
-                  <Text className="mb-1 text-lg font-bold">
-                    RWF {formatNumber(data?.total || 0)}
-                  </Text>
-                </div>
-                <Button
-                  className="mt-6 bg-primary"
-                  loading={loadClear}
-                  onClick={() => {
-                    handleFlutterPayment({
-                      callback: (response) => {
-                        clearCart();
-                        closePaymentModal();
-                      },
-                      onClose: () => {
-                        console.log('You close me ooo');
-                      },
-                    });
-                  }}
-                  block
-                >
-                  Pay with flutterwave
-                </Button>
-              </Card>
-            ))}
+                Pay with flutterwave
+              </Button>
+            </Card>
+          )}
         </div>
       </Card>
     </div>

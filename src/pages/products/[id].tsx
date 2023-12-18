@@ -103,13 +103,15 @@ const SingleProduct = () => {
                 <Title className="font-semibold text-2xl">
                   RWF {data?.product.price}
                 </Title>
-                {data?.product.Categories.map((category) => (
-                  <Tag className='text-primary' key={category.id}>{category.name}</Tag>
-                ))}
-                <Text className="font-semibold text-lg">
+                <Text className="font-semibold text-lg mr-4">
                   <ShopOutlined className="text-primary text-xl mr-3" />
                   {data?.product.Store.name}
                 </Text>
+                {data?.product.Categories.map((category) => (
+                  <Tag className="text-primary" key={category.id}>
+                    {category.name}
+                  </Tag>
+                ))}
                 <div className="mt-6 flex gap-4">
                   <Text className="font-semibold text-base">
                     <EnvironmentOutlined className="text-primary text-xl mr-3" />

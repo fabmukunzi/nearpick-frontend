@@ -23,11 +23,13 @@ const ShopsPage = () => {
           {data?.stores.stores.map((store) => (
             <ShopCard key={store.id} shop={store} loading={isLoading} />
           ))}
-          <Pagination
-            className="my-3"
-            defaultCurrent={data?.stores.currentPage}
-            total={data?.stores.totalPages}
-          />
+          {(data?.stores?.stores?.length || 0) > 12 && (
+            <Pagination
+              className="my-3"
+              defaultCurrent={data?.stores.currentPage}
+              total={data?.stores.totalPages}
+            />
+          )}
         </motion.div>
       )}
     </div>

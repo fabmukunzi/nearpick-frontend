@@ -129,7 +129,7 @@ const Header: React.FC = () => {
           </div>
         </Drawer>
 
-        <div className="flex justify-center items-center gap-6 w-1/4">
+        <div className="flex justify-center items-center md:gap-6 gap-4 w-1/4">
           {/* <Link href="/profile"> */}
           <SearchOutlined
             onClick={showModal}
@@ -170,12 +170,12 @@ const Header: React.FC = () => {
               <ShoppingFilled className="text-xl" />
             </Badge>
           </Link>
-          <MenuOutlined className="block md:hidden" onClick={toggle} />
           {user?.role == 'admin' && (
             <Link href="/dashboard/products">
               <DashboardOutlined className="text-lg" />
             </Link>
           )}
+          <MenuOutlined className="block md:hidden" onClick={toggle} />
         </div>
       </div>
     </Fragment>
