@@ -1,4 +1,4 @@
-import { Product } from '@utils/types/product';
+import { PaymentPayload, PaymentResponse, Product } from '@utils/types/product';
 import { baseAPI } from '../api';
 
 const cartEndpoints = baseAPI.injectEndpoints({
@@ -31,6 +31,12 @@ const cartEndpoints = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['cart'],
     }),
+    payWithMomo: builder.mutation<PaymentResponse, PaymentPayload>({
+      query: () => ({
+        url: `/pay/momo`,
+        method: 'POST',
+      }),
+    }),
   }),
 });
 
@@ -38,4 +44,5 @@ export const {
   useAddToCartMutation,
   useGetCartQuery,
   useRemoveFromCartMutation,
+  usePayWithMomoMutation,
 } = cartEndpoints;

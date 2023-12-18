@@ -7,7 +7,7 @@ import {
 import PageHeader from '@components/dashboard/pageHeader';
 import ShopCard from '@components/shops/ShopCard';
 import CreateShop from '@components/shops/createShop';
-import { useGetShopsQuery } from '@store/actions/shops';
+import { useDeleteShopMutation, useGetShopsQuery } from '@store/actions/shops';
 import useCurrentLocation from '@utils/hooks/useCurrentLocation';
 import useDisclose from '@utils/hooks/useDisclose';
 import { Button, Card, Result, Typography } from 'antd';
@@ -17,6 +17,7 @@ const ShopsPage = () => {
   const { lat, lng } = useCurrentLocation();
   const location = { lat: lat || 0, lng: lng || 0 };
   const { data, isLoading } = useGetShopsQuery(location);
+  const [deleteShop, { isLoading: deleteLoad }] = useDeleteShopMutation();
   const { close, isOpen, toggle } = useDisclose();
   return (
     <Card className="min-h-screen" loading={isLoading}>
@@ -36,10 +37,13 @@ const ShopsPage = () => {
               loading={isLoading}
               actions={[
                 <EditOutlined className="text-xl" key="edit" />,
-                <DeleteFilled
-                  className="text-xl hover:text-red-500"
+                <Button
                   key="delete"
-                />,
+                  loading={deleteLoad}
+                  className="bg-red-600 hover:bg-red-500 border-none hover:border-none"
+                  onClick={() => deleteShop({ id: store.id })}
+                  icon={<DeleteFilled className="text-xl text-white" />}
+                ></Button>,
               ]}
             />
           ))

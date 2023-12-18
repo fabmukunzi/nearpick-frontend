@@ -1,6 +1,6 @@
 export type UserSchema = {
   id: string;
-  names: string;
+  name: string;
   email: string;
   dateOfBirth: string;
   phoneNumber: string;

@@ -26,6 +26,7 @@ import {
 import ProductCard from '@components/product/productCard';
 import { motion } from 'framer-motion';
 import { Product } from '@utils/types/product';
+import { Store } from '@utils/types/store';
 
 const containerStyle = {
   width: '100%',
@@ -45,7 +46,7 @@ const SingleProduct = () => {
   const { data, isLoading } = useGetSingleShopQuery({ id });
   const [isProducts, setIsProducts] = useState(false);
   const { data: shopProdcuts, isLoading: loadProducts } =
-    useGetShopProductsQuery({ id });
+    useGetShopProductsQuery({ id }, { skip: !id || !isProducts });
   const center = React.useMemo(
     () => ({
       lat: data?.store.location.coordinates[0] || 0,
@@ -53,7 +54,7 @@ const SingleProduct = () => {
     }),
     [data]
   );
-
+  console.log(center);
   const { distance, duration, directionService, isLoaded } =
     useGoogleMapsDirections(center1, center.lat, center.lng);
   return (
@@ -61,13 +62,16 @@ const SingleProduct = () => {
       <div>
         {isProducts ? (
           <motion.div className="grid md:grid-cols-5 grid-cols-1 justify-center">
-            {shopProdcuts?.products.rows.map((product: Product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                loading={loadProducts}
-              />
-            ))}
+            {shopProdcuts?.products.rows.map((product: Product) => {
+              let newProduct:Product = { ...product, Store: data?.store as Store };
+              return (
+                <ProductCard
+                  key={product.id}
+                  product={newProduct}
+                  loading={loadProducts}
+                />
+              );
+            })}
           </motion.div>
         ) : (
           <div className="min-h-screen px-page">
@@ -76,7 +80,7 @@ const SingleProduct = () => {
             ) : (
               <>
                 <div className="flex justify-between items-center">
-                  <Title className="font-bold my-6">
+                  <Title className="font-bold my-6 xxs:text-lg md:text-4xl">
                     {data?.store.name} Location
                   </Title>
                   <Button

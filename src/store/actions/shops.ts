@@ -44,6 +44,13 @@ const shopsEndpoints = baseAPI.injectEndpoints({
         method: 'GET',
       }),
     }),
+    deleteShop: builder.mutation<{ message: string }, { id: string }>({
+      query: ({ id }) => ({
+        url: `/stores/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['stores'],
+    }),
   }),
 });
 
@@ -52,5 +59,6 @@ export const {
   useGetSingleShopQuery,
   useGetShopProductsQuery,
   useCreateShopMutation,
-  useGetUserStoresQuery
+  useGetUserStoresQuery,
+  useDeleteShopMutation,
 } = shopsEndpoints;

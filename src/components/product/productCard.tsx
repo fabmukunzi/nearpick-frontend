@@ -20,6 +20,7 @@ import useGoogleMapsDirections from '@utils/hooks/googleMapsDirection';
 // import { getCurrentLocation } from '@utils/functions/currentLocation';
 import useCurrentLocation from '@utils/hooks/useCurrentLocation';
 import { useAddToCartMutation } from '@store/actions/cart';
+import formatNumber from '@utils/functions/formatNumber';
 
 type CardProps = {
   product: Product;
@@ -27,7 +28,7 @@ type CardProps = {
   actions?: Array<React.ReactNode>;
 };
 
-const ProductCard: React.FC<CardProps> = ({ product, loading,actions }) => {
+const ProductCard: React.FC<CardProps> = ({ product, loading, actions }) => {
   const { Meta } = Card;
   const { Text } = Typography;
   const [location, setLocation] = useState<string | null>(null);
@@ -44,6 +45,7 @@ const ProductCard: React.FC<CardProps> = ({ product, loading,actions }) => {
     product.Store?.location.coordinates[0],
     product.Store?.location.coordinates[1]
   );
+  console.log(product)
   const handleAddToCart = async () => {
     const payload = {
       productId: product.id,
@@ -131,12 +133,18 @@ const ProductCard: React.FC<CardProps> = ({ product, loading,actions }) => {
           </>
         }
       />
-      <div className="flex justify-between items-center mt-6">
-        <Title key="price" className="font-bold text-base">
-          RWF {product.price}
-        </Title>
-        <ShoppingFilled disabled={isLoading} onClick={handleAddToCart} className="text-xl hover:text-primary transition border p-1.5 rounded-full cursor-pointer" />
-      </div>
+      {!actions && (
+        <div className="flex justify-between items-center mt-6">
+          <Title key="price" className="font-bold text-base">
+            RWF {formatNumber(product.price)}
+          </Title>
+          <ShoppingFilled
+            disabled={isLoading}
+            onClick={handleAddToCart}
+            className="text-xl hover:text-primary transition border p-1.5 rounded-full cursor-pointer"
+          />
+        </div>
+      )}
     </Card>
   );
 };

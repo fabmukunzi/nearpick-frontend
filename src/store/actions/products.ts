@@ -31,6 +31,21 @@ const productEndpoints = baseAPI.injectEndpoints({
         method: 'GET',
       }),
     }),
+    deleteProduct: builder.mutation<{ message: string }, { id: string }>({
+      query: ({ id }) => ({
+        url: `/products/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['products'],
+    }),
+    updateProduct: builder.mutation<{ message: string }, {id:string,body:FormData}>({
+      query: ({id,body}) => ({
+        url: `/products/${id}`,
+        method: 'PATCH',
+        body,
+      }),
+      invalidatesTags: ['products'],
+    }),
   }),
 });
 
@@ -38,4 +53,6 @@ export const {
   useGetProductsQuery,
   useGetSingleProductQuery,
   useCreateProductMutation,
+  useUpdateProductMutation,
+  useDeleteProductMutation,
 } = productEndpoints;

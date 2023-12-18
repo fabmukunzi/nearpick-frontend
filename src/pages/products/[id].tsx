@@ -24,14 +24,10 @@ import {
   ShoppingFilled,
 } from '@ant-design/icons';
 import { useAddToCartMutation } from '@store/actions/cart';
-
-const containerStyle = {
-  width: '100%',
-  height: '600px',
-  borderRadius: '5px',
-};
+import { useWindowResize } from '@utils/hooks/useWindowResize';
 
 const SingleProduct = () => {
+  const { width } = useWindowResize();
   const { Title, Text } = Typography;
   const { lat, lng } = useCurrentLocation();
   const [addToCart, { isLoading: loadCart }] = useAddToCartMutation();
@@ -49,7 +45,11 @@ const SingleProduct = () => {
     }),
     [data]
   );
-
+  const containerStyle = {
+    width: '100%',
+    height: width > 720 ? '600px' : '400px',
+    borderRadius: '5px',
+  };
   const { distance, duration, directionService, isLoaded } =
     useGoogleMapsDirections(center1, center.lat, center.lng);
   const handleAddToCart = async () => {
@@ -94,8 +94,8 @@ const SingleProduct = () => {
                 </Carousel>
               </Card>
               <div>
-                <Tag color={data?.product.isAvailable ? 'green' : 'red'}>
-                  {data?.product.isAvailable ? 'In stock' : 'Not in stock'}
+                <Tag color={!data?.product.isAvailable ? 'green' : 'red'}>
+                  {!data?.product.isAvailable ? 'In stock' : 'Not in stock'}
                 </Tag>
                 <Title className="font-bold text-2xl mt-page">
                   {data?.product.name}
@@ -104,7 +104,7 @@ const SingleProduct = () => {
                   RWF {data?.product.price}
                 </Title>
                 {data?.product.Categories.map((category) => (
-                  <Tag key={category.id}>{category.name}</Tag>
+                  <Tag className='text-primary' key={category.id}>{category.name}</Tag>
                 ))}
                 <Text className="font-semibold text-lg">
                   <ShopOutlined className="text-primary text-xl mr-3" />
@@ -136,7 +136,7 @@ const SingleProduct = () => {
 
         <Card
           loading={isLoading}
-          className="border-primary mt-4"
+          className="mt-4"
           size="small"
           style={{ width: '100%' }}
         >

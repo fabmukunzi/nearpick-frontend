@@ -1,0 +1,52 @@
+import { useVerifyEmailQuery } from '@store/actions/auth';
+import { Button, Result, Spin } from 'antd';
+import { useRouter } from 'next/router';
+import React from 'react';
+
+const VerifyEmailPage = () => {
+  const { query } = useRouter();
+  const token = query.token as string;
+  const { data, isLoading } = useVerifyEmailQuery(
+    { token: token },
+    { skip: !query.token }
+  );
+  return (
+    <div className="flex justify-center items-center min-h-[50%]">
+      {isLoading && (
+        <div className="flex justify-center items-center flex-col">
+          <Spin />
+          <p>Verifying your account</p>
+        </div>
+      )}
+      {!data && !isLoading && (
+        <Result
+          status="500"
+          title="500"
+          subTitle="Sorry, something went wrong."
+          extra={
+            <Button onClick={() => location.reload()} type="primary">
+              Try Again
+            </Button>
+          }
+        />
+      )}
+      {data && (
+        <Result
+          status="success"
+          // title="200"
+          subTitle="Your account has been verified."
+          extra={
+            <Button
+              onClick={() => (location.href = '/auth/login')}
+              type="primary"
+            >
+              Go to login
+            </Button>
+          }
+        />
+      )}
+    </div>
+  );
+};
+
+export default VerifyEmailPage;

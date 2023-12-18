@@ -8,7 +8,7 @@ export type Product = {
     bonus: number;
     isExpired: boolean;
     isAvailable: boolean;
-    categoryId: string;
+    categoryId: string[];
     userId: string;
     storeId: string;
     createdAt: string;
@@ -66,4 +66,31 @@ export type Product = {
     lng?: number;
     lat?: number;
   };
+
+  interface Authorization {
+    redirect: string;
+    mode: string;
+  }
+  
+  interface Meta {
+    authorization: Authorization;
+  }
+  
+  export interface PaymentResponse {
+    status: string;
+    message: string;
+    meta: Meta;
+  }
+
+  export interface PaymentPayload {
+    tx_ref: string;
+    order_id: string;
+    amount: number;
+    currency: string;
+    email: string;
+    phone_number: string;
+    fullname: string;
+  }
+  
+  
   

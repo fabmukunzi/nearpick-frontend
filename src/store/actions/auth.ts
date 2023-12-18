@@ -50,6 +50,12 @@ const userEndpoints = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['profile'],
     }),
+    verifyEmail: builder.query<{ user: UserSchema }, {token:string}>({
+      query: ({token}) => ({
+        url: `/users/verify-email/${token}`,
+        method: 'GET',
+      }),
+    }),
     // googleSignup: builder.mutation<AuthResponse, IGoogleSignupPayload>({
     //   query: (body) => ({
     //     url: 'v1/auth/google/register',
@@ -88,4 +94,5 @@ export const {
   useChangePasswordMutation,
   useUpdateProfileMutation,
   useVerifyCodeMutation,
+  useVerifyEmailQuery
 } = userEndpoints;

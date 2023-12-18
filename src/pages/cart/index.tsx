@@ -9,8 +9,12 @@ import {
 } from '@ant-design/icons';
 import {
   useGetCartQuery,
+  usePayWithMomoMutation,
   useRemoveFromCartMutation,
 } from '@store/actions/cart';
+import { RootState } from '@store/index';
+import { FLUTTERWAVE_PUBLIC_KEY } from '@utils/constants';
+import formatNumber from '@utils/functions/formatNumber';
 import {
   Avatar,
   Button,
@@ -20,15 +24,35 @@ import {
   Typography,
   notification,
 } from 'antd';
-import { loadEmoji } from 'next/dist/compiled/@vercel/og/emoji';
+import { closePaymentModal, useFlutterwave } from 'flutterwave-react-v3';
 import { useRouter } from 'next/router';
-
+import { useSelector } from 'react-redux';
 const Cart = () => {
   const { Text, Title } = Typography;
+  const { user } = useSelector((state: RootState) => state.userReducer);
   const [removeFromCart, { isLoading: loadRemove }] =
     useRemoveFromCartMutation();
+  const [payWithMomo, { isLoading: loadpay }] = usePayWithMomoMutation();
   const { data, isLoading } = useGetCartQuery();
   const { push } = useRouter();
+  const config = {
+    public_key: FLUTTERWAVE_PUBLIC_KEY || '',
+    tx_ref: Date.now().toString(), // Convert to string
+    amount: data?.total || 0,
+    currency: 'RWF',
+    payment_options: 'card',
+    customer: {
+      email: user?.email || '',
+      phone_number: user?.phoneNumber || '',
+      name: user?.name || '',
+    },
+    customizations: {
+      title: 'Near Pick',
+      description: 'Payment for products',
+      logo: 'https://res.cloudinary.com/dr4reow8e/image/upload/e_background_removal/f_png/v1700070727/1700069859823_qsszxr.jpg',
+    },
+  };
+  const handleFlutterPayment = useFlutterwave(config);
   const handleRemoveItem = async (productId: string) => {
     const res = await removeFromCart({ productId });
     if ('data' in res) {
@@ -86,7 +110,9 @@ const Cart = () => {
                     </div>
                     <div className="flex justify-between xxs:flex-col-reverse md:flex-none gap-2 sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
                       <div className="flex items-center justify-between mx-page">
-                        <Text className="text-sm">RWF {product.price}</Text>
+                        <Text className="text-sm">
+                          RWF {formatNumber(product.price)}
+                        </Text>
                         <Popover
                           content={<Text>Remove this item from cart</Text>}
                           trigger="hover"
@@ -127,7 +153,9 @@ const Cart = () => {
             >
               <div className="mb-2 flex justify-between">
                 <Text className="text-gray-700">Subtotal</Text>
-                <Text className="text-gray-700">RWF {data?.total}</Text>
+                <Text className="text-gray-700">
+                  RWF {formatNumber(data?.total)}
+                </Text>
               </div>
               <div className="flex justify-between">
                 <Text className="text-gray-700">VAT</Text>
@@ -137,11 +165,26 @@ const Cart = () => {
               <div className="flex justify-between">
                 <Text className="text-lg font-bold">Total</Text>
                 <Text className="mb-1 text-lg font-bold">
-                  RWF {data?.total}
+                  RWF {formatNumber(data?.total)}
                 </Text>
               </div>
-              <Button className="mt-6 bg-primary" block>
-                Check out
+              <Button
+                className="mt-6 bg-primary"
+                loading={loadpay}
+                onClick={() => {
+                  handleFlutterPayment({
+                    callback: (response) => {
+                      console.log(response);
+                      closePaymentModal();
+                    },
+                    onClose: () => {
+                      console.log('You close me ooo');
+                    },
+                  });
+                }}
+                block
+              >
+                Pay with flutterwave
               </Button>
             </Card>
           )}

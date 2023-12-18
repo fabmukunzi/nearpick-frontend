@@ -19,6 +19,7 @@ import {
 } from 'antd';
 import Link from 'next/link';
 import {
+  DashboardOutlined,
   MenuOutlined,
   SearchOutlined,
   ShoppingFilled,
@@ -78,6 +79,7 @@ const Header: React.FC = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+  if (user?.role === 'seller') location.href = '/dashboard/products';
   const currentTab = useRouter().route;
   const { data, isLoading } = useGetCartQuery(undefined, { skip: !user });
   const { close, isOpen, toggle } = useDisclose();
@@ -138,10 +140,10 @@ const Header: React.FC = () => {
             <Popover content={<Text>User profile</Text>} trigger="hover">
               <Link href="/profile">
                 <Avatar
-                  size={25}
+                  size={20}
                   shape="circle"
                   src={user.avatar}
-                  className="text-lg border-primary"
+                  className="text-lg border-primary -mt-1"
                 />
               </Link>
             </Popover>
@@ -169,6 +171,11 @@ const Header: React.FC = () => {
             </Badge>
           </Link>
           <MenuOutlined className="block md:hidden" onClick={toggle} />
+          {user?.role == 'admin' && (
+            <Link href="/dashboard/products">
+              <DashboardOutlined className="text-lg" />
+            </Link>
+          )}
         </div>
       </div>
     </Fragment>

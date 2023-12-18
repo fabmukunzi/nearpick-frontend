@@ -33,7 +33,7 @@ const Verify = () => {
         notification.success({
           message: data.data?.message,
         });
-        router.push('/dashboard/analytics');
+        router.push('/dashboard/products');
       })
       .catch((error) => {
         console.error(error);
