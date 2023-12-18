@@ -21,7 +21,7 @@ module.exports = {
         page: '20px',
       },
       screens: {
-        xxs: '380px',
+        xxs: '320px',
         x: '414px',
         pro: '428px',
         galaxy: '800px',

@@ -63,7 +63,10 @@ const SingleProduct = () => {
         {isProducts ? (
           <motion.div className="grid md:grid-cols-5 grid-cols-1 justify-center">
             {shopProdcuts?.products.rows.map((product: Product) => {
-              let newProduct:Product = { ...product, Store: data?.store as Store };
+              let newProduct: Product = {
+                ...product,
+                Store: data?.store as Store,
+              };
               return (
                 <ProductCard
                   key={product.id}
@@ -75,7 +78,7 @@ const SingleProduct = () => {
           </motion.div>
         ) : (
           <div className="min-h-screen px-page">
-            {isLoading ? (
+            {isLoading || loadProducts ? (
               <Skeleton />
             ) : (
               <>
@@ -104,7 +107,7 @@ const SingleProduct = () => {
               </>
             )}
             <Card
-              loading={isLoading}
+              loading={isLoading || loadProducts}
               className="mt-4"
               size="small"
               style={{ width: '100%' }}

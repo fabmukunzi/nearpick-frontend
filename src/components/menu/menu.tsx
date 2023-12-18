@@ -96,7 +96,7 @@ const Header: React.FC = () => {
           placeholder="what are you looking for?"
         />
       </Modal>
-      <div className="flex items-center justify-between bg-white">
+      <div className="flex items-center h-[inherit] justify-between bg-white">
         <Link
           href="/"
           className="mt-1 w-1/4 flex flex-col items-center justify-center"

@@ -14,19 +14,19 @@ const Home = () => {
   const location = { lat: lat || 0, lng: lng || 0 };
   const { data, isLoading } = useGetProductsQuery(location);
   return (
-    <div className="h-fit bg-white mb-10 md:px-page p-0">
+    <div className="h-fit bg-white mb-10">
       <div className="mx-auto rounded-xl">
         <Carousel autoplay>
           {homeSlides?.map((slide, index) => (
             <div key={index}>
-              <div className="flex flex-col items-center justify-center md:h-[80vh] h-fit w-screen">
+              <div className="flex flex-col items-center justify-center md:h-[80vh] h-fit w-screen md:px-page p-0">
                 <Image
-                  className="object-cover h-full w-full"
+                  className="object-cover h-full w-screen"
                   preview={false}
                   alt="Product"
                   src={slide.image.src}
                 />
-                <div className="absolute text-center text-white">
+                <div className="absolute xxs:pt-20 md:pt-48 text-center w-screen h-full text-white bg-[rgb(0,0,0,0.3)]">
                   <h2 className="text-3xl font-bold mb-2">{slide.content}</h2>
                   <p className="text-lg mb-4">Subtitle or additional details</p>
                   <Link href="/">
@@ -48,7 +48,9 @@ const Home = () => {
         <Spin className="flex justify-center my-32" />
       ) : (
         <>
-          <Title level={3} className="font-bold md:my-10 my-2 text-center">Popular Products</Title>
+          <Title level={3} className="font-bold md:my-10 my-2 text-center">
+            Popular Products
+          </Title>
           <motion.div className="flex flex-wrap md:gap-2 w-full mx-auto">
             {data?.data.products.map((product) => (
               <ProductCard
