@@ -37,6 +37,13 @@ const cartEndpoints = baseAPI.injectEndpoints({
         method: 'POST',
       }),
     }),
+    clearCart: builder.mutation<{ message: string }, void>({
+      query: () => ({
+        url: `/cart`,
+        method: 'PUT',
+      }),
+      invalidatesTags: ['cart'],
+    }),
   }),
 });
 
@@ -45,4 +52,5 @@ export const {
   useGetCartQuery,
   useRemoveFromCartMutation,
   usePayWithMomoMutation,
+  useClearCartMutation,
 } = cartEndpoints;

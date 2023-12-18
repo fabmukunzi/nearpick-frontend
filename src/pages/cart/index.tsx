@@ -8,6 +8,7 @@ import {
   ShoppingCartOutlined,
 } from '@ant-design/icons';
 import {
+  useClearCartMutation,
   useGetCartQuery,
   usePayWithMomoMutation,
   useRemoveFromCartMutation,
@@ -32,7 +33,7 @@ const Cart = () => {
   const { user } = useSelector((state: RootState) => state.userReducer);
   const [removeFromCart, { isLoading: loadRemove }] =
     useRemoveFromCartMutation();
-  const [payWithMomo, { isLoading: loadpay }] = usePayWithMomoMutation();
+  const [clearCart, { isLoading: loadClear }] = useClearCartMutation();
   const { data, isLoading } = useGetCartQuery();
   const { push } = useRouter();
   const config = {
@@ -68,19 +69,20 @@ const Cart = () => {
         title="Cart Items"
         headStyle={{ fontWeight: 'bold', fontSize: '20px' }}
       >
-        {!data && (
-          <div className="flex justify-center flex-col items-center">
-            <ShoppingCartOutlined className="text-9xl text-primary" />
-            <Title>Your cart is empty</Title>
-            <Button
-              onClick={() => push('/')}
-              type="primary"
-              className="bg-primary"
-            >
-              Go back to shop
-            </Button>
-          </div>
-        )}
+        {data?.products.length ||
+          (0 === 0 && (
+            <div className="flex justify-center flex-col items-center">
+              <ShoppingCartOutlined className="text-9xl text-primary" />
+              <Title>Your cart is empty</Title>
+              <Button
+                onClick={() => push('/')}
+                type="primary"
+                className="bg-primary"
+              >
+                Go back to shop
+              </Button>
+            </div>
+          ))}
         <div className="flex gap-6 xxs:flex-wrap md:flex-nowrap">
           <div className="rounded-lg md:w-2/3">
             {data?.products?.map((product) => (
@@ -146,48 +148,49 @@ const Cart = () => {
               </Card>
             ))}
           </div>
-          {data && (
-            <Card
-              className="md:w-1/3 w-full max-h-fit"
-              loading={isLoading || loadRemove}
-            >
-              <div className="mb-2 flex justify-between">
-                <Text className="text-gray-700">Subtotal</Text>
-                <Text className="text-gray-700">
-                  RWF {formatNumber(data?.total)}
-                </Text>
-              </div>
-              <div className="flex justify-between">
-                <Text className="text-gray-700">VAT</Text>
-                <Text className="text-gray-700">RWF 0</Text>
-              </div>
-              <hr className="my-4" />
-              <div className="flex justify-between">
-                <Text className="text-lg font-bold">Total</Text>
-                <Text className="mb-1 text-lg font-bold">
-                  RWF {formatNumber(data?.total)}
-                </Text>
-              </div>
-              <Button
-                className="mt-6 bg-primary"
-                loading={loadpay}
-                onClick={() => {
-                  handleFlutterPayment({
-                    callback: (response) => {
-                      console.log(response);
-                      closePaymentModal();
-                    },
-                    onClose: () => {
-                      console.log('You close me ooo');
-                    },
-                  });
-                }}
-                block
+          {data?.products?.length ||
+            (0 > 0 && (
+              <Card
+                className="md:w-1/3 w-full max-h-fit"
+                loading={isLoading || loadRemove}
               >
-                Pay with flutterwave
-              </Button>
-            </Card>
-          )}
+                <div className="mb-2 flex justify-between">
+                  <Text className="text-gray-700">Subtotal</Text>
+                  <Text className="text-gray-700">
+                    RWF {formatNumber(data?.total || 0)}
+                  </Text>
+                </div>
+                <div className="flex justify-between">
+                  <Text className="text-gray-700">VAT</Text>
+                  <Text className="text-gray-700">RWF 0</Text>
+                </div>
+                <hr className="my-4" />
+                <div className="flex justify-between">
+                  <Text className="text-lg font-bold">Total</Text>
+                  <Text className="mb-1 text-lg font-bold">
+                    RWF {formatNumber(data?.total || 0)}
+                  </Text>
+                </div>
+                <Button
+                  className="mt-6 bg-primary"
+                  loading={loadClear}
+                  onClick={() => {
+                    handleFlutterPayment({
+                      callback: (response) => {
+                        clearCart();
+                        closePaymentModal();
+                      },
+                      onClose: () => {
+                        console.log('You close me ooo');
+                      },
+                    });
+                  }}
+                  block
+                >
+                  Pay with flutterwave
+                </Button>
+              </Card>
+            ))}
         </div>
       </Card>
     </div>
