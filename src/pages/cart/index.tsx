@@ -8,6 +8,7 @@ import {
   ShoppingCartOutlined,
 } from '@ant-design/icons';
 import {
+  useAddToCartMutation,
   useClearCartMutation,
   useGetCartQuery,
   usePayWithMomoMutation,
@@ -20,25 +21,32 @@ import {
   Avatar,
   Button,
   Card,
+  Form,
   InputNumber,
   Popover,
+  Spin,
   Typography,
   notification,
 } from 'antd';
+import { useForm } from 'antd/lib/form/Form';
 import { closePaymentModal, useFlutterwave } from 'flutterwave-react-v3';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 const Cart = () => {
   const { Text, Title } = Typography;
+  const [form] = useForm();
   const { user } = useSelector((state: RootState) => state.userReducer);
   const [removeFromCart, { isLoading: loadRemove }] =
     useRemoveFromCartMutation();
+  const [addToCart, { isLoading: loadUpdate }] = useAddToCartMutation();
   const [clearCart, { isLoading: loadClear }] = useClearCartMutation();
+  const [selectedProduct, setSelectedProduct] = useState('');
   const { data, isLoading } = useGetCartQuery();
   const { push } = useRouter();
   const config = {
     public_key: FLUTTERWAVE_PUBLIC_KEY || '',
-    tx_ref: Date.now().toString(), // Convert to string
+    tx_ref: Date.now().toString(),
     amount: data?.total || 0,
     currency: 'RWF',
     payment_options: 'card',
@@ -54,7 +62,21 @@ const Cart = () => {
     },
   };
   const handleFlutterPayment = useFlutterwave(config);
+  const handleAddToCart = async (productId: string) => {
+    setSelectedProduct(productId);
+    const payload = {
+      productId: productId,
+      productQuantity: parseInt(form.getFieldValue(`${productId}`), 10),
+    };
+    const res = await addToCart(payload);
+    if ('data' in res) {
+      notification.success({
+        message: res.data.message,
+      });
+    }
+  };
   const handleRemoveItem = async (productId: string) => {
+    setSelectedProduct(productId);
     const res = await removeFromCart({ productId });
     if ('data' in res) {
       notification.success({
@@ -87,8 +109,8 @@ const Cart = () => {
           <div className="rounded-lg md:w-2/3">
             {data?.products?.map((product) => (
               <Card
-                className="my-3"
-                loading={loadRemove || loadClear}
+                className={`my-3`}
+                loading={isLoading || loadClear}
                 key={product.id}
                 size="small"
               >
@@ -111,7 +133,7 @@ const Cart = () => {
                       </Text>
                     </div>
                     <div className="flex justify-between xxs:flex-col-reverse md:flex-none gap-2 sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
-                      <div className="flex items-center justify-between mx-page">
+                      <div className="flex items-center justify-between md:mx-page">
                         <Text className="text-sm">
                           RWF {formatNumber(product.price)}
                         </Text>
@@ -119,28 +141,42 @@ const Cart = () => {
                           content={<Text>Remove this item from cart</Text>}
                           trigger="hover"
                         >
-                          <CloseCircleOutlined
-                            className="text-xl text-red-500"
-                            onClick={() => {
-                              handleRemoveItem(product.id);
-                            }}
-                          />
+                          {selectedProduct === product.id && loadRemove ? (
+                            <Spin />
+                          ) : (
+                            <CloseCircleOutlined
+                              className="text-xl text-red-500"
+                              onClick={() => {
+                                handleRemoveItem(product.id);
+                              }}
+                            />
+                          )}
                         </Popover>
                       </div>
                       <div className="flex gap-2 my-2">
-                        <InputNumber
-                          className="md:w-28 border bg-white text-center text-xs outline-none"
-                          type="number"
-                          defaultValue={product.quantity}
-                          min={1}
-                        />
-                        <Button
-                          type="primary"
-                          className="bg-primary"
-                          icon={<CheckSquareOutlined />}
-                        >
-                          Confirm
-                        </Button>
+                        <Form form={form}>
+                          <Form.Item name={`${product.id}`}>
+                            <InputNumber
+                              className="md:w-28 border bg-white text-center text-xs outline-none"
+                              type="number"
+                              size="large"
+                              defaultValue={product.quantity}
+                              min={1}
+                            />
+                          </Form.Item>
+                          <Button
+                            htmlType="submit"
+                            type="primary"
+                            className="bg-primary"
+                            loading={
+                              selectedProduct === product.id && loadUpdate
+                            }
+                            icon={<CheckSquareOutlined />}
+                            onClick={() => handleAddToCart(product.id)}
+                          >
+                            Confirm
+                          </Button>
+                        </Form>
                       </div>
                     </div>
                   </div>

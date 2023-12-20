@@ -26,7 +26,7 @@ const Login = () => {
         router.push('/');
       })
       .catch((error) => {
-        if (error.data.message === 'Check your email for verification code') {
+        if (error.data?.message === 'Check your email for verification code') {
           dispatch(setVerifyEmail(error?.data?.user));
           router.push('/auth/verify');
         }

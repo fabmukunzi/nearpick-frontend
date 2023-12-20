@@ -1,5 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Card, Descriptions, Image, Tag, Typography, notification } from 'antd';
+import {
+  Card,
+  Descriptions,
+  Image,
+  Tag,
+  Typography,
+  notification,
+  Spin,
+} from 'antd';
 import { motion } from 'framer-motion';
 import {
   CarOutlined,
@@ -11,13 +19,9 @@ import {
 } from '@ant-design/icons';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import {
-  formatDistance,
-  getLocationFromCoordinates,
-} from '@utils/functions/extractDistance';
+import { getLocationFromCoordinates } from '@utils/functions/extractDistance';
 import { Product } from '@utils/types/product';
 import useGoogleMapsDirections from '@utils/hooks/googleMapsDirection';
-// import { getCurrentLocation } from '@utils/functions/currentLocation';
 import useCurrentLocation from '@utils/hooks/useCurrentLocation';
 import { useAddToCartMutation } from '@store/actions/cart';
 import formatNumber from '@utils/functions/formatNumber';
@@ -45,19 +49,25 @@ const ProductCard: React.FC<CardProps> = ({ product, loading, actions }) => {
     product.Store?.location.coordinates[0],
     product.Store?.location.coordinates[1]
   );
-  console.log(product)
+
   const handleAddToCart = async () => {
-    const payload = {
-      productId: product.id,
-      productQuantity: 1,
-    };
-    const res = await addToCart(payload);
-    if ('data' in res) {
-      notification.success({
-        message: res.data.message,
-      });
+    try {
+      const payload = {
+        productId: product.id,
+        productQuantity: 1,
+      };
+      const res = await addToCart(payload);
+
+      if ('data' in res) {
+        notification.success({
+          message: res.data.message,
+        });
+      }
+    } catch (error: any) {
+      console.error('Error adding product to cart:', error.message);
     }
   };
+
   useEffect(() => {
     const fetchLocation = async () => {
       try {
@@ -117,19 +127,6 @@ const ProductCard: React.FC<CardProps> = ({ product, loading, actions }) => {
               <EnvironmentOutlined className="text-primary text-base mr-3" />
               <Tag style={{ fontSize: '12.5px' }}>{location}</Tag>
             </div>
-            {/* <Descriptions column={1} className="-mb-4">
-              {/* <Descriptions.Item label="Shop" className="line line-clamp-2">
-                {product.Store.name}
-              </Descriptions.Item> */}
-            {/* {product.Categories?.length > 1 && (
-                <Descriptions.Item label="Category">
-                  <Tag>{product.Categories[0]?.name}</Tag>
-                </Descriptions.Item>
-              )}
-              <Descriptions.Item label="Location">
-                <Tag>{location}</Tag>
-              </Descriptions.Item>
-            </Descriptions> */}
           </>
         }
       />
@@ -138,11 +135,14 @@ const ProductCard: React.FC<CardProps> = ({ product, loading, actions }) => {
           <Title key="price" className="font-bold text-base">
             RWF {formatNumber(product.price)}
           </Title>
-          <ShoppingFilled
-            disabled={isLoading}
-            onClick={handleAddToCart}
-            className="text-xl hover:text-primary transition border p-1.5 rounded-full cursor-pointer"
-          />
+          {isLoading ? (
+            <Spin />
+          ) : (
+            <ShoppingFilled
+              onClick={handleAddToCart}
+              className="text-xl hover:text-primary transition border p-1.5 rounded-full cursor-pointer"
+            />
+          )}
         </div>
       )}
     </Card>
