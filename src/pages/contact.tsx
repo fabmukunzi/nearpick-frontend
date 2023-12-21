@@ -9,6 +9,7 @@ import {
   TwitterOutlined,
 } from '@ant-design/icons';
 import { useWindowResize } from '@utils/hooks/useWindowResize';
+import Head from 'next/head';
 const { TextArea } = Input;
 
 const ContactUs = () => {
@@ -22,6 +23,9 @@ const ContactUs = () => {
 
   return (
     <div className="p-page">
+      <Head>
+        <title>Izimart | Contact</title>
+      </Head>
       <Title level={3} className="text-center font-bold mb-4">
         GET IN TOUCH
       </Title>

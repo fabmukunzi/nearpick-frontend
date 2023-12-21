@@ -30,7 +30,6 @@ const Login = () => {
           dispatch(setVerifyEmail(error?.data?.user));
           router.push('/auth/verify');
         }
-
         // notification.error({
         //   message: error?.data?.message||'Oops! Something went wrong',
         // });

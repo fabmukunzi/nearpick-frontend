@@ -16,6 +16,7 @@ import useCurrentLocation from '@utils/hooks/useCurrentLocation';
 import useDisclose from '@utils/hooks/useDisclose';
 import { Product } from '@utils/types/product';
 import { Button, Card, Result, Typography } from 'antd';
+import Head from 'next/head';
 import { useState } from 'react';
 
 const ProductsPage = () => {
@@ -35,6 +36,9 @@ const ProductsPage = () => {
   } = editProductDisclose;
   return (
     <Card className="min-h-screen" loading={isLoading}>
+      <Head>
+        <title>Dashboard | Products</title>
+      </Head>
       <PageHeader
         title="Products"
         action={toggle}

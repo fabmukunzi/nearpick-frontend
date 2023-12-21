@@ -11,6 +11,7 @@ import { useDeleteShopMutation, useGetShopsQuery } from '@store/actions/shops';
 import useCurrentLocation from '@utils/hooks/useCurrentLocation';
 import useDisclose from '@utils/hooks/useDisclose';
 import { Button, Card, Result, Typography } from 'antd';
+import Head from 'next/head';
 
 const ShopsPage = () => {
   const { Title } = Typography;
@@ -21,6 +22,9 @@ const ShopsPage = () => {
   const { close, isOpen, toggle } = useDisclose();
   return (
     <Card className="min-h-screen" loading={isLoading}>
+      <Head>
+        <title>Dashboard | Stores</title>
+      </Head>
       <PageHeader
         title="Stores"
         action={toggle}

@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useGetShopsQuery } from '@store/actions/shops';
 import ShopCard from '@components/shops/ShopCard';
 import useCurrentLocation from '@utils/hooks/useCurrentLocation';
+import Head from 'next/head';
 
 const ShopsPage = () => {
   const { lat, lng } = useCurrentLocation();
@@ -13,6 +14,9 @@ const ShopsPage = () => {
   const { data, isLoading } = useGetShopsQuery(location);
   return (
     <div className="h-fit bg-white mb-10 md:px-page p-0">
+      <Head>
+        <title>Izimart | Shops</title>
+      </Head>
       <Title level={3} className="font-bold text-center">
         Shops
       </Title>

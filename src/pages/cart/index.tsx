@@ -30,6 +30,7 @@ import {
 } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
 import { closePaymentModal, useFlutterwave } from 'flutterwave-react-v3';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -86,6 +87,9 @@ const Cart = () => {
   };
   return (
     <div className="min-h-screen">
+      <Head>
+        <title>Izimart | Cart</title>
+      </Head>
       <Card
         loading={isLoading || loadClear}
         title="Cart Items"

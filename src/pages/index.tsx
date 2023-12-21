@@ -6,6 +6,7 @@ import useCurrentLocation from '@utils/hooks/useCurrentLocation';
 import { homeSlides } from '@utils/images';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 const Home = () => {
   const { Title } = Typography;
@@ -15,6 +16,9 @@ const Home = () => {
   const { data, isLoading } = useGetProductsQuery(location);
   return (
     <div className="h-fit bg-white mb-10">
+      <Head>
+        <title>Izimart | Home</title>
+      </Head>
       <div className="mx-auto rounded-xl">
         <Carousel autoplay>
           {homeSlides?.map((slide, index) => (

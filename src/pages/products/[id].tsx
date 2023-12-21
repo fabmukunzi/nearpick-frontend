@@ -25,6 +25,7 @@ import {
 } from '@ant-design/icons';
 import { useAddToCartMutation } from '@store/actions/cart';
 import { useWindowResize } from '@utils/hooks/useWindowResize';
+import Head from 'next/head';
 
 const SingleProduct = () => {
   const { width } = useWindowResize();
@@ -67,6 +68,9 @@ const SingleProduct = () => {
   return (
     isLoaded && (
       <div className="min-h-screen px-page">
+        <Head>
+          <title>Izimart | Products</title>
+        </Head>
         {isLoading ? (
           <Skeleton />
         ) : (

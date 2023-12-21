@@ -27,6 +27,7 @@ import ProductCard from '@components/product/productCard';
 import { motion } from 'framer-motion';
 import { Product } from '@utils/types/product';
 import { Store } from '@utils/types/store';
+import Head from 'next/head';
 
 const containerStyle = {
   width: '100%',
@@ -60,6 +61,9 @@ const SingleProduct = () => {
   return (
     isLoaded && (
       <div>
+        <Head>
+          <title>Izimart | Shops</title>
+        </Head>
         {isProducts ? (
           <motion.div className="grid md:grid-cols-5 grid-cols-1 justify-center">
             {shopProdcuts?.products.rows.map((product: Product) => {

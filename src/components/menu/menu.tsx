@@ -109,9 +109,9 @@ const Header: React.FC = () => {
           />
           <Image
             preview={false}
-            className="h-10 w-32 object-cover -mt-2 revert"
+            className="h-10 w-32 object-cover revert"
             alt="logo"
-            src="https://res.cloudinary.com/dr4reow8e/image/upload/v1700073382/1700070120057-removebg-preview_mqxw0l.png"
+            src="https://res.cloudinary.com/dr4reow8e/image/upload/v1703194568/Black_And_White_Aesthetic_Minimalist_Modern_Simple_Typography_Coconut_Cosmetics_Logo-removebg-preview_noh17e.png"
           />
         </Link>
         <div className="md:flex hidden md:gap-10 gap-3">

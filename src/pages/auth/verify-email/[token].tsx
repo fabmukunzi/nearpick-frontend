@@ -1,5 +1,6 @@
 import { useVerifyEmailQuery } from '@store/actions/auth';
 import { Button, Result, Spin } from 'antd';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React from 'react';
 
@@ -12,8 +13,11 @@ const VerifyEmailPage = () => {
   );
   return (
     <div className="flex justify-center items-center min-h-[50%]">
+      <Head>
+        <title>Izimart | verify email</title>
+      </Head>
       {isLoading && (
-        <div className="flex justify-center items-center flex-col">
+        <div className="flex justify-center items-center flex-col min-h-[100%]">
           <Spin />
           <p>Verifying your account</p>
         </div>

@@ -19,12 +19,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@store/index';
 import { useProfileQuery, useUpdateProfileMutation } from '@store/actions/auth';
 import { updateUser } from '@store/reducers/users';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 
 const UserInfoComponent = () => {
   const { data, isLoading } = useProfileQuery();
   const [updateProfile, { isLoading: loadUpdate }] = useUpdateProfileMutation();
   const user = data?.user;
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   const [form] = Form.useForm();
   const [isEditMode, setEditMode] = useState(false);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
@@ -42,8 +44,8 @@ const UserInfoComponent = () => {
         message: res.data.message,
       });
     }
-    dispatch(updateUser(data?.user))
-    setAvatarFile(null)
+    dispatch(updateUser(data?.user));
+    setAvatarFile(null);
     form.resetFields();
     setEditMode(false);
   };
@@ -62,7 +64,18 @@ const UserInfoComponent = () => {
       }
     >
       <div className="flex gap-3 items-center mb-6 -mt-10">
-        <Avatar src={<Image alt='avatar' className="h-24 object-cover" src={user?.avatar} />} alt="image" size={100} shape="square" />
+        <Avatar
+          src={
+            <Image
+              alt="avatar"
+              className="h-24 object-cover"
+              src={user?.avatar}
+            />
+          }
+          alt="image"
+          size={100}
+          shape="square"
+        />
         <div className="flex flex-col gap-3">
           <Tag color="blue" className="w-fit">
             {user?.role}
@@ -71,7 +84,7 @@ const UserInfoComponent = () => {
             beforeUpload={() => false}
             onChange={handleAvatarChange}
             className="truncate"
-            accept="image/*"
+            accept=".jpg, .png, .webp, .jpeg, .gif"
           >
             <Button icon={<UploadOutlined />} className="avatar-upload-button">
               Upload Avatar
@@ -90,13 +103,18 @@ const UserInfoComponent = () => {
             <Input disabled />
           </Form.Item>
           <Form.Item
-            name="phone"
             label="Phone Number"
+            name="phone"
+            className="w-full"
             rules={[
-              { required: true, message: 'Please enter your phone number' },
+              { required: true, message: 'Please input your phone number!' },
             ]}
           >
-            <Input disabled={!isEditMode} />
+            <PhoneInput
+              disabled={!isEditMode}
+              inputStyle={{ width: 'auto', height: 40 }}
+              country={'rw'}
+            />
           </Form.Item>
         </div>
         <div className="flex gap-4">
