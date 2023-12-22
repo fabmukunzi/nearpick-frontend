@@ -149,7 +149,7 @@ const Signup = () => {
           <Button
             type="primary"
             loading={isLoading}
-            className="w-full"
+            className="w-full bg-primary"
             htmlType="submit"
           >
             Register

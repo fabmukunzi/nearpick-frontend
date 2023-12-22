@@ -1,80 +1,65 @@
 import React from 'react';
-import { Space, Table, Tag } from 'antd';
+import { Table, Typography, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-
-interface DataType {
-  key: string;
-  name: string;
-  age: number;
-  address: string;
-  tags: string[];
-}
-
-const columns: ColumnsType<DataType> = [
+import { useGetOrdersQuery } from '@store/actions/order';
+import { Product } from '@utils/types/product';
+import { OrderItem } from '@utils/types/order';
+const { Text } = Typography;
+const columns: ColumnsType<OrderItem> = [
   {
     title: 'Order ID',
-    dataIndex: 'name',
-    key: 'name',
-    render: (text) => <a>{text}</a>,
+    dataIndex: 'id',
+    key: 'id',
+    render: (text) => <Text className="truncate">{text}</Text>,
   },
   {
     title: 'Items',
-    dataIndex: 'age',
-    key: 'age',
+    dataIndex: 'products',
+    key: 'products',
+    render: (products) => {
+      return products?.map((product: Product) => product.name);
+    },
   },
   {
     title: 'Price',
-    dataIndex: 'address',
-    key: 'address',
+    dataIndex: 'total',
+    key: 'total',
   },
   {
     title: 'Status',
-    key: 'tags',
-    dataIndex: 'tags',
-    render: (_, { tags }) => (
-      <>
-        {tags.map((tag) => {
-          let color = tag.length > 5 ? 'geekblue' : 'green';
-          if (tag === 'loser') {
-            color = 'volcano';
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </>
-    ),
-  }
-];
-
-const data: DataType[] = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sydney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
+    key: 'status',
+    dataIndex: 'status',
+    render: (status) => {
+      return (
+        <Tag
+          color={`${
+            status === 'pending'
+              ? 'yellow'
+              : status === 'completed'
+              ? 'green'
+              : 'red'
+          }`}
+          key={status}
+        >
+          {status}
+        </Tag>
+      );
+    },
   },
 ];
 
-const OrdersComponent: React.FC = () => (
-  <Table columns={columns} dataSource={data} />
-);
+const OrdersComponent: React.FC = () => {
+  const { data, isLoading } = useGetOrdersQuery();
+  return (
+    <Table
+      loading={isLoading}
+      columns={columns}
+      dataSource={data?.data.items}
+      scroll={{
+        x: 'max-content',
+      }}
+    />
+  );
+};
 
 export default OrdersComponent;

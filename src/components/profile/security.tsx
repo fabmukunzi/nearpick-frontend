@@ -60,7 +60,7 @@ const SecurityComponent = () => {
             <Input.Password placeholder="Confirm Password" />
           </Form.Item>
           <Form.Item>
-            <Button loading={isLoading} type="primary" htmlType="submit" block>
+            <Button className='bg-primary' loading={isLoading} type="primary" htmlType="submit" block>
               Confirm
             </Button>
           </Form.Item>

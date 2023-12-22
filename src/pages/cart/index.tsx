@@ -14,6 +14,7 @@ import {
   usePayWithMomoMutation,
   useRemoveFromCartMutation,
 } from '@store/actions/cart';
+import { useCreateOrderMutation } from '@store/actions/order';
 import { RootState } from '@store/index';
 import { FLUTTERWAVE_PUBLIC_KEY } from '@utils/constants';
 import formatNumber from '@utils/functions/formatNumber';
@@ -41,6 +42,7 @@ const Cart = () => {
   const [removeFromCart, { isLoading: loadRemove }] =
     useRemoveFromCartMutation();
   const [addToCart, { isLoading: loadUpdate }] = useAddToCartMutation();
+  const [createOrder, { isLoading: loadOrder }] = useCreateOrderMutation();
   const [clearCart, { isLoading: loadClear }] = useClearCartMutation();
   const [selectedProduct, setSelectedProduct] = useState('');
   const { data, isLoading } = useGetCartQuery();
@@ -114,7 +116,7 @@ const Cart = () => {
             {data?.products?.map((product) => (
               <Card
                 className={`my-3`}
-                loading={isLoading || loadClear}
+                loading={isLoading || loadClear || loadOrder}
                 key={product.id}
                 size="small"
               >
@@ -216,7 +218,8 @@ const Cart = () => {
                 onClick={() => {
                   handleFlutterPayment({
                     callback: async (response) => {
-                      if (response.status === 'successful') await clearCart();
+                      if (response.status === 'successful')
+                      await createOrder();
                       !loadClear && closePaymentModal();
                     },
                     onClose: () => {

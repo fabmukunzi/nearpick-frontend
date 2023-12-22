@@ -114,7 +114,7 @@ const CreateShop: FC<Props> = ({ isOpen, close }) => {
         <Form.Item>
           <Button
             loading={loadShop}
-            className="mt-5"
+            className="mt-5 bg-primary"
             type="primary"
             htmlType="submit"
           >

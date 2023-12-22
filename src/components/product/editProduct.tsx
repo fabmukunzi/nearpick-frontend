@@ -186,7 +186,7 @@ const EditProduct: FC<Props> = ({ isOpen, close, product }) => {
         <Form.Item>
           <Button
             loading={loadProduct}
-            className="mt-5"
+            className="mt-5 bg-primary"
             type="primary"
             htmlType="submit"
           >

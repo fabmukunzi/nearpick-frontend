@@ -12,6 +12,7 @@ export default function Custom404() {
       </Head>
       <Title>Page Not Found</Title>
       <Button
+        className="bg-primary"
         onClick={() => {
           router.push('/');
         }}

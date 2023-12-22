@@ -74,7 +74,7 @@ const Login = () => {
           <Button
             type="primary"
             loading={isLoading}
-            className="w-full"
+            className="w-full bg-primary"
             htmlType="submit"
           >
             Login

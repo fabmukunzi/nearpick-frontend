@@ -80,7 +80,7 @@ const Verify = () => {
               fontSize: token.fontSize + 4,
               outline: 'none',
               borderRadius: token.borderRadius,
-              borderWidth: '3px',
+              borderWidth: '2px',
               borderStyle: 'solid',
               borderColor: token.colorPrimary,
             //   color: token.colorWhite,
@@ -92,7 +92,7 @@ const Verify = () => {
           <Button
             type="primary"
             loading={isLoading}
-            className="w-full"
+            className="w-full bg-primary"
             htmlType="submit"
           >
             Verify

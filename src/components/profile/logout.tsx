@@ -18,7 +18,7 @@ const LogoutComponent = () => {
       <div className="flex flex-col gap-4 justify-center items-center">
         <Text className="">Are you sure you want to logout?</Text>
         <div className="w-32">
-          <Button className="w-32" onClick={handleLogout}>
+          <Button className="w-32 bg-primary" onClick={handleLogout}>
             Logout
           </Button>
           {/* <Button>Cancel</Button> */}

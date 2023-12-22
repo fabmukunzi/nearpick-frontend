@@ -60,7 +60,11 @@ const UserInfoComponent = () => {
       headStyle={{ borderBottom: 'none' }}
       loading={isLoading}
       extra={
-        <Button onClick={() => setEditMode(true)} icon={<EditOutlined />} />
+        <Button
+          className="bg-primary"
+          onClick={() => setEditMode(true)}
+          icon={<EditOutlined />}
+        />
       }
     >
       <div className="flex gap-3 items-center mb-6 -mt-10">
@@ -86,7 +90,7 @@ const UserInfoComponent = () => {
             className="truncate"
             accept=".jpg, .png, .webp, .jpeg, .gif"
           >
-            <Button icon={<UploadOutlined />} className="avatar-upload-button">
+            <Button icon={<UploadOutlined />} className="bg-primary">
               Upload Avatar
             </Button>
           </Upload>
@@ -136,10 +140,20 @@ const UserInfoComponent = () => {
           </Form.Item> */}
         </div>
         <div className="w-[50%] flex gap-3">
-          <Button htmlType="submit" loading={loadUpdate} block>
+          <Button
+            className="bg-primary"
+            htmlType="submit"
+            loading={loadUpdate}
+            block
+          >
             Save
           </Button>
-          <Button onClick={() => setEditMode(false)} htmlType="reset" block>
+          <Button
+            className="bg-primary"
+            onClick={() => setEditMode(false)}
+            htmlType="reset"
+            block
+          >
             Cancel
           </Button>
         </div>

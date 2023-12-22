@@ -28,7 +28,11 @@ const VerifyEmailPage = () => {
           title="500"
           subTitle="Sorry, something went wrong."
           extra={
-            <Button onClick={() => location.reload()} type="primary">
+            <Button
+              className="bg-primary"
+              onClick={() => location.reload()}
+              type="primary"
+            >
               Try Again
             </Button>
           }
@@ -41,6 +45,7 @@ const VerifyEmailPage = () => {
           subTitle="Your account has been verified."
           extra={
             <Button
+              className="bg-primary"
               onClick={() => (location.href = '/auth/login')}
               type="primary"
             >
