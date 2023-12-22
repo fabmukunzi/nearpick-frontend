@@ -31,8 +31,8 @@ const Home = () => {
                   src={slide.image.src}
                 />
                 <div className="absolute xxs:pt-20 md:pt-48 text-center w-screen h-full text-white bg-[rgb(0,0,0,0.3)]">
-                  <h2 className="text-3xl font-bold mb-2">{slide.content}</h2>
-                  <p className="text-lg mb-4">Subtitle or additional details</p>
+                  <Title level={2} className="text-3xl font-bold mb-2 text-white">{slide.content}</Title>
+                  <Title level={5} className="text-lg mb-4 text-white font-semibold">{slide.subtitle}</Title>
                   <Link href="/">
                     <Button
                       type="primary"

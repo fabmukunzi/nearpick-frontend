@@ -19,7 +19,7 @@ type FieldType = {
   lastName: string;
   email: string;
   password: string;
-  phoneNumber: string;
+  phone: string;
   role: string;
   confirmPassword?: string;
 };
@@ -89,7 +89,7 @@ const Signup = () => {
           </Form.Item>
           <Form.Item<FieldType>
             label="Phone Number"
-            name="phoneNumber"
+            name="phone"
             className="w-full"
             rules={[
               { required: true, message: 'Please input your phone number!' },

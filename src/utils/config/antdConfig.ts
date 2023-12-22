@@ -2,20 +2,20 @@ import { theme, ThemeConfig } from 'antd';
 
 const antdTheme: ThemeConfig = {
   token: {
-    colorPrimary: '#64B937',
+    colorPrimary: '#00b012',
     colorText: 'rgb(26,32,26)',
     colorError: '#ff7875',
     fontWeightStrong: 10,
     fontFamilyCode: 'Poppins',
     colorLink: 'black',
-    colorLinkHover: '#64B937',
-    colorLinkActive: '#64B937',
+    colorLinkHover: '#00b012',
+    colorLinkActive: '#00b012',
   },
   components: {
     Button: {
-      defaultBg: '#64B937',
-      // colorPrimaryBg:'#64B937',
-      // groupBorderColor:'#64B937',
+      defaultBg: '#00b012',
+      // colorPrimaryBg:'#00b012',
+      // groupBorderColor:'#00b012',
       controlHeight: 40,
       // fontWeight: 'bold',
       colorText: 'white',
@@ -30,7 +30,7 @@ const antdTheme: ThemeConfig = {
       lineHeight: 1,
     },
     Card:{
-      colorBorder:'#64B937'
+      colorBorder:'#00b012'
     }
   },
 };

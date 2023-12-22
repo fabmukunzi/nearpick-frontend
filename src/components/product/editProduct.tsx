@@ -39,7 +39,7 @@ const EditProduct: FC<Props> = ({ isOpen, close, product }) => {
     useUpdateProductMutation();
   const handleUpdateProduct = async (values: any) => {
     const formData = new FormData();
-    const defaultImageUrls = fileList.map((defaultImage) => defaultImage.url);
+    const defaultImageUrls = fileList.map((defaultImage) => defaultImage.url).filter((image) => image)
     formData.append('oldImages', JSON.stringify(defaultImageUrls));
     Object.keys(values).forEach((key) => {
       console.log(values);
@@ -74,7 +74,6 @@ const EditProduct: FC<Props> = ({ isOpen, close, product }) => {
     </div>
   );
   useEffect(() => {
-    // Update fileList when product images change
     if (product?.images) {
       setFileList(
         product?.images.map((url, index) => ({
@@ -135,9 +134,7 @@ const EditProduct: FC<Props> = ({ isOpen, close, product }) => {
           label="Product Category"
           name="categoryId"
           rules={[{ required: true, message: 'Category is required' }]}
-          initialValue={product?.Categories?.map(
-            (category) => category.id
-          )}
+          initialValue={product?.Categories?.map((category) => category.id)}
         >
           <Select
             disabled={isLoading}

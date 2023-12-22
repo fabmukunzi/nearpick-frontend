@@ -49,10 +49,10 @@ const ProductsPage = () => {
       {pr && <EditProduct close={closeEdit} isOpen={isEditOpen} product={pr} />}
       <div className="flex flex-wrap md:gap-2 w-full mx-auto">
         {data?.data.products.length || 0 > 0 ? (
-          data?.data.products.map((product) => (
+          data?.data?.products.map((product) => (
             <>
               <ProductCard
-                key={product.id}
+                key={product?.id}
                 product={product}
                 loading={isLoading}
                 actions={[

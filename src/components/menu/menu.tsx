@@ -1,23 +1,7 @@
-'use client';
 import React, { Fragment, useState } from 'react';
-// import {
-//   AppstoreOutlined,
-//   MailOutlined,
-//   SettingOutlined,
-// } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import {
-  Avatar,
-  Badge,
-  Drawer,
-  Image,
-  Input,
-  Menu,
-  Modal,
-  Popover,
-  Typography,
-} from 'antd';
+import { Avatar, Badge, Drawer, Image, Input, Modal, Typography } from 'antd';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import {
   DashboardOutlined,
   MenuOutlined,
@@ -111,7 +95,7 @@ const Header: React.FC = () => {
             preview={false}
             className="h-10 w-32 object-cover revert"
             alt="logo"
-            src="https://res.cloudinary.com/dr4reow8e/image/upload/v1703194568/Black_And_White_Aesthetic_Minimalist_Modern_Simple_Typography_Coconut_Cosmetics_Logo-removebg-preview_noh17e.png"
+            src="https://res.cloudinary.com/dr4reow8e/image/upload/v1703227669/izimart-logo-removebg-preview_qcjnzw.png"
           />
         </Link>
         <div className="md:flex hidden md:gap-10 gap-3">
@@ -135,18 +119,15 @@ const Header: React.FC = () => {
             onClick={showModal}
             className="text-lg cursor-pointer"
           />
-          {/* </Link> */}
           {user ? (
-            <Popover content={<Text>User profile</Text>} trigger="hover">
-              <Link href="/profile">
-                <Avatar
-                  size={20}
-                  shape="circle"
-                  src={user.avatar}
-                  className="text-lg border-primary -mt-1"
-                />
-              </Link>
-            </Popover>
+            <Link href="/profile">
+              <Avatar
+                size={20}
+                shape="circle"
+                src={user.avatar || ''}
+                className="text-lg border-primary -mt-1"
+              />
+            </Link>
           ) : (
             <Link href="/auth/login">
               <UserOutlined className="text-lg" />
@@ -164,7 +145,7 @@ const Header: React.FC = () => {
               count={data?.products.length || 0}
               showZero
               size="small"
-              color="green"
+              color="#00b012"
               style={{ backgroundColor: '#64B937' }}
             >
               <ShoppingFilled className="text-xl" />

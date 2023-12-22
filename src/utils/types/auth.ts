@@ -40,7 +40,7 @@ export type SignupPayload = {
   password: string;
   firstName: string;
   lastName: string;
-  phoneNumber: string;
+  phone: string;
   confirmPassword?: string;
 };
 

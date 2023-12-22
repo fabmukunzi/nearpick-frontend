@@ -90,7 +90,11 @@ const UserInfoComponent = () => {
             className="truncate"
             accept=".jpg, .png, .webp, .jpeg, .gif"
           >
-            <Button icon={<UploadOutlined />} className="bg-primary">
+            <Button
+              icon={<UploadOutlined />}
+              disabled={!isEditMode}
+              className="bg-primary"
+            >
               Upload Avatar
             </Button>
           </Upload>
@@ -116,7 +120,7 @@ const UserInfoComponent = () => {
           >
             <PhoneInput
               disabled={!isEditMode}
-              inputStyle={{ width: 'auto', height: 40 }}
+              inputStyle={{ width: 'auto', height: 30 }}
               country={'rw'}
             />
           </Form.Item>

@@ -96,7 +96,7 @@ const ProductCard: React.FC<CardProps> = ({ product, loading, actions }) => {
         onClick={() => push(`/products/${product.id}`)}
       >
         <Image
-          src={product.images[1]}
+          src={product?.images[1]}
           alt="product image"
           className="object-cover w-[30rem] h-52 -top-10 rounded-md overflow-hidden"
           preview={false}
