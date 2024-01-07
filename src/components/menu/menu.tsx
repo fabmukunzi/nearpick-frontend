@@ -87,7 +87,7 @@ const Header: React.FC = () => {
         >
           <Image
             preview={false}
-            className="h-8 w-16 object-cover revert"
+            className="h-8 mt-2 w-16 object-cover revert"
             alt="logo"
             src="https://res.cloudinary.com/dr4reow8e/image/upload/e_background_removal/f_png/v1700070727/1700069859823_qsszxr.jpg"
           />

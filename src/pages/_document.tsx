@@ -9,10 +9,10 @@ const MyDocument = () => {
         {/* Standard meta tags */}
         <meta charSet="UTF-8" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-        <meta
+        {/* <meta
           name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no"
-        />
+        /> */}
         <meta name="Izimart" content="Izimart" />
         <meta name="description" content="Get all your nearby products" />
 

@@ -89,7 +89,7 @@ const ProductCard: React.FC<CardProps> = ({ product, loading, actions }) => {
       actions={actions || []}
       className="h-fit w-[90%] md:w-[15.22rem] mx-auto md:mx-1 p-0 mt-10"
       size="small"
-      loading={distance ? false : true}
+      loading={loading}
     >
       <motion.div
         whileHover={{ scale: 1.03 }}
@@ -109,24 +109,28 @@ const ProductCard: React.FC<CardProps> = ({ product, loading, actions }) => {
             <Link href={`/products/${product.id}`}>
               <Title className="font-bold text-base">{product.name}</Title>
             </Link>
-            <div className="flex justify-between">
-              <Text className="font-semibold text-sm">
-                <NodeIndexOutlined className="text-primary text-base mr-3" />
-                {distance}
-              </Text>
-              <Text className="font-semibold text-sm">
-                <CarOutlined className="text-primary text-base mr-3" />
-                {duration}
-              </Text>
-            </div>
+            {distance && (
+              <div className="flex justify-between">
+                <Text className="font-semibold text-sm">
+                  <NodeIndexOutlined className="text-primary text-base mr-3" />
+                  {distance}
+                </Text>
+                <Text className="font-semibold text-sm">
+                  <CarOutlined className="text-primary text-base mr-3" />
+                  {duration}
+                </Text>
+              </div>
+            )}
             <div className="my-2">
               <ShopOutlined className="text-base text-primary mr-3" />
               {product.Store?.name}
             </div>
-            <div className="flex">
-              <EnvironmentOutlined className="text-primary text-base mr-3" />
-              <Tag style={{ fontSize: '12.5px' }}>{location}</Tag>
-            </div>
+            {distance && (
+              <div className="flex">
+                <EnvironmentOutlined className="text-primary text-base mr-3" />
+                <Tag style={{ fontSize: '12.5px' }}>{location}</Tag>
+              </div>
+            )}
           </>
         }
       />

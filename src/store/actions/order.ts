@@ -4,7 +4,10 @@ import { OrdersResponse } from '@utils/types/order';
 
 const orderEndpoints = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
-    createOrder: builder.mutation<{ message: string; order: any }, void>({
+    createOrder: builder.mutation<
+      { message: string; order: any },
+      { shippingAddress: string }
+    >({
       query: () => ({
         url: `/order`,
         method: 'POST',

@@ -2,7 +2,7 @@ export const getLocationFromCoordinates = async (
   latitude: number,
   longitude: number
 ): Promise<string> => {
-  const apiKey = 'AIzaSyC63nofXo7TrdUawWh8VManHU2yowVc_Mc';
+  const apiKey = process.env.NEXT_PUBLIC_MAPS_API_KEY;
   const apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`;
 
   try {

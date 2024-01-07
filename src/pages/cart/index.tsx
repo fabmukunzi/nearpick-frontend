@@ -7,6 +7,7 @@ import {
   ShopOutlined,
   ShoppingCartOutlined,
 } from '@ant-design/icons';
+import Checkout from '@components/checkout';
 import {
   useAddToCartMutation,
   useClearCartMutation,
@@ -18,6 +19,7 @@ import { useCreateOrderMutation } from '@store/actions/order';
 import { RootState } from '@store/index';
 import { FLUTTERWAVE_PUBLIC_KEY } from '@utils/constants';
 import formatNumber from '@utils/functions/formatNumber';
+import useDisclose from '@utils/hooks/useDisclose';
 import {
   Avatar,
   Button,
@@ -42,29 +44,11 @@ const Cart = () => {
   const [removeFromCart, { isLoading: loadRemove }] =
     useRemoveFromCartMutation();
   const [addToCart, { isLoading: loadUpdate }] = useAddToCartMutation();
-  const [createOrder, { isLoading: loadOrder }] = useCreateOrderMutation();
+  const { isOpen, close, toggle } = useDisclose();
   const [clearCart, { isLoading: loadClear }] = useClearCartMutation();
   const [selectedProduct, setSelectedProduct] = useState('');
   const { data, isLoading } = useGetCartQuery();
   const { push } = useRouter();
-  const config = {
-    public_key: FLUTTERWAVE_PUBLIC_KEY || '',
-    tx_ref: Date.now().toString(),
-    amount: data?.total || 0,
-    currency: 'RWF',
-    payment_options: 'card',
-    customer: {
-      email: user?.email || '',
-      phone_number: user?.phoneNumber || '',
-      name: user?.name || '',
-    },
-    customizations: {
-      title: 'Near Pick',
-      description: 'Payment for products',
-      logo: 'https://res.cloudinary.com/dr4reow8e/image/upload/e_background_removal/f_png/v1700070727/1700069859823_qsszxr.jpg',
-    },
-  };
-  const handleFlutterPayment = useFlutterwave(config);
   const handleAddToCart = async (productId: string) => {
     setSelectedProduct(productId);
     const payload = {
@@ -92,6 +76,7 @@ const Cart = () => {
       <Head>
         <title>Izimart | Cart</title>
       </Head>
+      <Checkout isOpen={isOpen} close={close} amount={data?.total||0} user={user} />
       <Card
         loading={isLoading || loadClear}
         title="Cart Items"
@@ -116,11 +101,11 @@ const Cart = () => {
             {data?.products?.map((product) => (
               <Card
                 className={`my-3`}
-                loading={isLoading || loadClear || loadOrder}
+                loading={isLoading || loadClear}
                 key={product.id}
                 size="small"
               >
-                <div className="justify-between flex items-center gap-1">
+                <div className="justify-between flex gap-1">
                   <Avatar
                     src={product.images[0]}
                     className="w-36 xxs:h-32 md:h-24"
@@ -215,21 +200,10 @@ const Cart = () => {
               <Button
                 className="mt-6 bg-primary"
                 loading={loadClear}
-                onClick={() => {
-                  handleFlutterPayment({
-                    callback: async (response) => {
-                      if (response.status === 'successful')
-                      await createOrder();
-                      !loadClear && closePaymentModal();
-                    },
-                    onClose: () => {
-                      console.log('You close me ooo');
-                    },
-                  });
-                }}
+                onClick={toggle}
                 block
               >
-                Pay with flutterwave
+                Checkout
               </Button>
             </Card>
           )}

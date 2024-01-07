@@ -32,11 +32,18 @@ function getItem(
   } as MenuItem;
 }
 
-const items: MenuItem[] = [
+const sellerItems: MenuItem[] = [
   // getItem('Analytics', '1', <AppstoreOutlined className="text-xl mx-1" />),
   getItem('Products', '2', <ShoppingOutlined className="text-xl mx-1" />),
   getItem('Stores', '3', <ShopOutlined className="text-xl mx-1" />),
   getItem('Sales', '5', <ShoppingCartOutlined className="text-xl mx-1" />),
+];
+const adminItems: MenuItem[] = [
+  // getItem('Analytics', '1', <AppstoreOutlined className="text-xl mx-1" />),
+  getItem('Products', '2', <ShoppingOutlined className="text-xl mx-1" />),
+  getItem('Stores', '3', <ShopOutlined className="text-xl mx-1" />),
+  getItem('Sales', '5', <ShoppingCartOutlined className="text-xl mx-1" />),
+  getItem('Users', '4', <UserOutlined className="text-xl mx-1" />),
 ];
 const routes = [
   // { path: 'analytics', key: '1' },
@@ -56,22 +63,21 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
   const { route, push } = useRouter();
-  const defaultSelectedKey = routes.find(
-    (r) => r.path === route?.split('/')[2]
-  )?.key||'';
+  const defaultSelectedKey =
+    routes.find((r) => r.path === route?.split('/')[2])?.key || '';
   const handleItemClick = (item: MenuItem) => {
     routes.map((route) =>
       item?.key === route.key ? push(`${route.path}`) : ''
     );
   };
   if (user?.role === 'buyer') location.href = '/';
-  useEffect(() => {
-    if (user?.role === 'admin') {
-      items.push(
-        getItem('Users', '4', <UserOutlined className="text-xl mx-1" />)
-      );
-    } else if (user?.role === 'buyer') location.href = '/';
-  }, [user]);
+  // useEffect(() => {
+  //   if (user?.role === 'admin') {
+  //     items.push(
+  //       getItem('Users', '4', <UserOutlined className="text-xl mx-1" />)
+  //     );
+  //   } else if (user?.role === 'buyer') location.href = '/';
+  // }, []);
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider
@@ -92,7 +98,7 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
           className="bg-slate-100"
           defaultSelectedKeys={[defaultSelectedKey]}
           mode="inline"
-          items={items}
+          items={user?.role === 'admin' ? adminItems : sellerItems}
         />
       </Sider>
       <Layout>
@@ -115,7 +121,9 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
           </Button>
         </Header>
         <Content className="min-h-screen">{children}</Content>
-        <Footer style={{ textAlign: 'center' }}>©2023 nearpick</Footer>
+        <Footer style={{ textAlign: 'center' }}>
+          ©{new Date().getFullYear()} Roline Services Ltd.
+        </Footer>
       </Layout>
     </Layout>
   );

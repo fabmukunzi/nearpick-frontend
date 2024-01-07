@@ -36,7 +36,7 @@ interface Params {
     const formattedNumber = num.toLocaleString(undefined, mergedOptions)
     const abbreviation = abbreviations[abbreviationIndex]
   
-    return `${formattedNumber} ${abbreviation}`
+    return `${formattedNumber}${abbreviation}`
   }
   
   export default formatNumber

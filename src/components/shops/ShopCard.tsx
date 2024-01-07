@@ -60,7 +60,7 @@ const ShopCard: FC<CardProps> = ({ shop, loading, actions }) => {
       style={{ width: 270, height: 240 }}
       className="h-fit w-[90%] md:w-[15.22rem] mx-auto md:mx-1 p-0 mt-10"
       size="small"
-      loading={loading || (distance ? false : true)}
+      loading={loading}
       actions={actions || []}
     >
       <motion.div
@@ -81,24 +81,28 @@ const ShopCard: FC<CardProps> = ({ shop, loading, actions }) => {
             <Link href={`/shops/${shop.id}`}>
               <Title className="font-bold text-base">{shop.name}</Title>
             </Link>
-            <div className="flex justify-between my-4">
-              <Text className="font-semibold text-sm">
-                <NodeIndexOutlined className="text-primary text-base mr-3" />
-                {distance}
-              </Text>
-              <Text className="font-semibold text-sm">
-                <CarOutlined className="text-primary text-base mr-3" />
-                {duration}
-              </Text>
-            </div>
+            {distance && (
+              <div className="flex justify-between my-4">
+                <Text className="font-semibold text-sm">
+                  <NodeIndexOutlined className="text-primary text-base mr-3" />
+                  {distance}
+                </Text>
+                <Text className="font-semibold text-sm">
+                  <CarOutlined className="text-primary text-base mr-3" />
+                  {duration}
+                </Text>
+              </div>
+            )}
             {/* <div className="my-2">
               <ShopOutlined className="text-base text-primary mr-3" />
               {shop.name}
             </div> */}
-            <div className="flex">
-              <EnvironmentOutlined className="text-primary text-base mr-3" />
-              <Tag style={{ fontSize: '12.5px' }}>{location}</Tag>
-            </div>
+            {distance && (
+              <div className="flex">
+                <EnvironmentOutlined className="text-primary text-base mr-3" />
+                <Tag style={{ fontSize: '12.5px' }}>{location}</Tag>
+              </div>
+            )}
           </>
         }
       />

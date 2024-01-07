@@ -50,9 +50,15 @@ const userEndpoints = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['profile'],
     }),
-    verifyEmail: builder.query<{ user: UserSchema }, {token:string}>({
-      query: ({token}) => ({
+    verifyEmail: builder.query<{ user: UserSchema }, { token: string }>({
+      query: ({ token }) => ({
         url: `/users/verify-email/${token}`,
+        method: 'GET',
+      }),
+    }),
+    getUsers: builder.query<{ items: UserSchema[] }, void>({
+      query: () => ({
+        url: `/users`,
         method: 'GET',
       }),
     }),
@@ -94,5 +100,6 @@ export const {
   useChangePasswordMutation,
   useUpdateProfileMutation,
   useVerifyCodeMutation,
-  useVerifyEmailQuery
+  useVerifyEmailQuery,
+  useGetUsersQuery
 } = userEndpoints;

@@ -91,6 +91,17 @@ export type Product = {
     phone_number: string;
     fullname: string;
   }
+
+  export interface Sale {
+    id: string;
+    orderId: string;
+    productId: string;
+    status: string;
+    quantitySold: number;
+    createdAt: string;
+    updatedAt: string;
+    Product: Product;
+  };
   
   
   
