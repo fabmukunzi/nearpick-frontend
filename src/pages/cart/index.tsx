@@ -32,7 +32,6 @@ import {
   notification,
 } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
-import { closePaymentModal, useFlutterwave } from 'flutterwave-react-v3';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -76,31 +75,35 @@ const Cart = () => {
       <Head>
         <title>Izimart | Cart</title>
       </Head>
-      <Checkout isOpen={isOpen} close={close} amount={data?.total||0} user={user} />
+      <Checkout
+        isOpen={isOpen}
+        close={close}
+        amount={data?.total || 0}
+        user={user}
+      />
       <Card
         loading={isLoading || loadClear}
         title="Cart Items"
         headStyle={{ fontWeight: 'bold', fontSize: '20px' }}
       >
-        {data?.products.length ||
-          (0 === 0 && (
-            <div className="flex justify-center flex-col items-center">
-              <ShoppingCartOutlined className="text-9xl text-primary" />
-              <Title>Your cart is empty</Title>
-              <Button
-                onClick={() => push('/')}
-                type="primary"
-                className="bg-primary"
-              >
-                Go back to shop
-              </Button>
-            </div>
-          ))}
+        {data?.products.length === 0 && (
+          <div className="flex justify-center flex-col items-center">
+            <ShoppingCartOutlined className="text-9xl text-primary" />
+            <Title>Your cart is empty</Title>
+            <Button
+              onClick={() => push('/')}
+              type="primary"
+              className="bg-primary"
+            >
+              Go back to shop
+            </Button>
+          </div>
+        )}
         <div className="flex gap-6 xxs:flex-wrap md:flex-nowrap">
-          <div className="rounded-lg md:w-2/3">
+          <div className="rounded-lg md:w-2/3 xxs:w-screen">
             {data?.products?.map((product) => (
               <Card
-                className={`my-3`}
+                className="w-full"
                 loading={isLoading || loadClear}
                 key={product.id}
                 size="small"
@@ -112,7 +115,7 @@ const Cart = () => {
                     shape="square"
                     size={80}
                   />
-                  <div className="sm:ml-4 sm:flex sm:w-full sm:justify-between">
+                  <div className="sm:ml-4 w-[45%] xxs:-mt-7 sm:mt-0 sm:flex sm:w-full sm:justify-between">
                     <div className="mt-5 sm:mt-0">
                       <Title className="text-lg font-bold text-gray-900">
                         {product.name}

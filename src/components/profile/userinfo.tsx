@@ -21,6 +21,7 @@ import { useProfileQuery, useUpdateProfileMutation } from '@store/actions/auth';
 import { updateUser } from '@store/reducers/users';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
+import { useWindowResize } from '@utils/hooks/useWindowResize';
 
 const UserInfoComponent = () => {
   const { data, isLoading } = useProfileQuery();
@@ -106,32 +107,30 @@ const UserInfoComponent = () => {
         onFinish={handleSave}
         initialValues={user}
       >
-        <div className="flex gap-4">
+        <div className="md:flex gap-4 w-full">
           <Form.Item name="email" label="Email">
             <Input disabled />
           </Form.Item>
           <Form.Item
             label="Phone Number"
             name="phone"
-            className="w-full"
+            className="xxs:w-full md:w-auto"
             rules={[
               { required: true, message: 'Please input your phone number!' },
             ]}
           >
             <PhoneInput
               disabled={!isEditMode}
-              inputStyle={{ width: 'auto', height: 30 }}
+              inputStyle={{ width: '100%', height: 30 }}
               country={'rw'}
             />
           </Form.Item>
         </div>
-        <div className="flex gap-4">
+        <div className="md:flex gap-4">
           <Form.Item
             name="name"
             label="Names"
-            rules={[
-              { required: true, message: 'Please enter your first name' },
-            ]}
+            rules={[{ required: true, message: 'Please enter your names' }]}
           >
             <Input disabled={!isEditMode} />
           </Form.Item>
@@ -143,7 +142,7 @@ const UserInfoComponent = () => {
             <Input disabled={!isEditMode} />
           </Form.Item> */}
         </div>
-        <div className="w-[50%] flex gap-3">
+        <div className="md:w-[50%] flex gap-3">
           <Button
             className="bg-primary"
             htmlType="submit"

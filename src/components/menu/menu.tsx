@@ -14,6 +14,7 @@ import { RootState } from '@store/index';
 import { useRouter } from 'next/router';
 import { useGetCartQuery } from '@store/actions/cart';
 import useDisclose from '@utils/hooks/useDisclose';
+import { useProfileQuery } from '@store/actions/auth';
 
 const items = [
   {
@@ -51,8 +52,9 @@ const items = [
 ];
 
 const Header: React.FC = () => {
-  const { Text } = Typography;
-  const { user } = useSelector((state: RootState) => state.userReducer);
+  const user = useSelector((state: RootState) => state.userReducer.user);
+  // const { data: userProfile, isLoading: loadingProfile } = useProfileQuery();
+  // const user = userProfile?.user;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
