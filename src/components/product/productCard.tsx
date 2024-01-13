@@ -125,6 +125,7 @@ const ProductCard: React.FC<CardProps> = ({ product, loading, actions }) => {
               <ShopOutlined className="text-base text-primary mr-3" />
               {product.Store?.name}
             </div>
+            {product.Categories[0]?.name}
             {distance && (
               <div className="flex">
                 <EnvironmentOutlined className="text-primary text-base mr-3" />

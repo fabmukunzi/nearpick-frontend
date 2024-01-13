@@ -28,12 +28,12 @@ const Verify = () => {
     verifyCode({ authCode: values, id: verifyUser?.id })
       .unwrap()
       .then((data) => {
-        dispatch(updateUser(data?.data?.user));
-        dispatch(setToken(data?.data?.token));
         notification.success({
           message: data.data?.message,
         });
-        router.push('/dashboard/products');
+        location.href = '/dashboard/products';
+        dispatch(updateUser(data?.data?.user));
+        dispatch(setToken(data?.data?.token));
       })
       .catch((error) => {
         console.error(error);
@@ -83,7 +83,7 @@ const Verify = () => {
               borderWidth: '2px',
               borderStyle: 'solid',
               borderColor: token.colorPrimary,
-            //   color: token.colorWhite,
+              //   color: token.colorWhite,
             }}
             shouldAutoFocus
           />

@@ -12,19 +12,24 @@ import {
   useDeleteProductMutation,
   useGetProductsQuery,
 } from '@store/actions/products';
+import { RootState } from '@store/index';
 import useCurrentLocation from '@utils/hooks/useCurrentLocation';
 import useDisclose from '@utils/hooks/useDisclose';
 import { Product } from '@utils/types/product';
 import { Button, Card, Result, Typography } from 'antd';
 import Head from 'next/head';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const ProductsPage = () => {
   const { Title } = Typography;
   const [pr, setPr] = useState<Product>();
   const { lat, lng } = useCurrentLocation();
   const location = { lat: lat || 0, lng: lng || 0 };
-  const { data, isLoading } = useGetProductsQuery(location);
+  const { user } = useSelector((state: RootState) => state.userReducer);
+  const { data, isLoading } = useGetProductsQuery(location, {
+    skip: user?.role == 'buyer',
+  });
   const [deleteProduct, { isLoading: deleteLoad }] = useDeleteProductMutation();
   const createProductDisclose = useDisclose();
   const editProductDisclose = useDisclose();

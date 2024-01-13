@@ -50,7 +50,7 @@ const userEndpoints = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['profile'],
     }),
-    verifyEmail: builder.query<{ user: UserSchema }, { token: string }>({
+    verifyEmail: builder.query<{ message: string }, { token: string }>({
       query: ({ token }) => ({
         url: `/users/verify-email/${token}`,
         method: 'GET',

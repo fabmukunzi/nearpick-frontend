@@ -7,13 +7,18 @@ import { homeSlides } from '@utils/images';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import { useSelector } from 'react-redux';
+import { RootState } from '@store/index';
 
 const Home = () => {
   const { Title } = Typography;
   const { push } = useRouter();
   const { lat, lng } = useCurrentLocation();
   const location = { lat: lat || 0, lng: lng || 0 };
-  const { data, isLoading } = useGetProductsQuery(location);
+  const { user } = useSelector((state: RootState) => state.userReducer);
+  const { data, isLoading } = useGetProductsQuery(location, {
+    skip: user?.role== 'seller',
+  });
   return (
     <div className="h-fit bg-white mb-10">
       <Head>

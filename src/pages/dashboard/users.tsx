@@ -3,7 +3,7 @@ import { useGetUsersQuery } from '@store/actions/auth';
 import { useGetSellerSalesQuery } from '@store/actions/sales';
 import { formatDate } from '@utils/functions/formatDate';
 import { UserSchema } from '@utils/types/auth';
-import { Table, Tag, Typography } from 'antd';
+import { Button, Space, Table, Tag, Typography } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import Head from 'next/head';
 
@@ -21,6 +21,7 @@ const UsersPage = () => {
       title: 'Date Joined',
       dataIndex: 'createdAt',
       key: 'date',
+      sorter: (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
       render: (text) => <Text className="truncate">{formatDate(text)}</Text>,
     },
     {
@@ -53,6 +54,16 @@ const UsersPage = () => {
         );
       },
     },
+    {
+      title: 'Action',
+      key: 'action',
+      render: () => (
+        <Space size="middle">
+          <Button>Edit</Button>
+          <Button className='bg-red-500'>Delete</Button>
+        </Space>
+      ),
+    },
   ];
   return (
     <div className="p-page">
@@ -62,11 +73,15 @@ const UsersPage = () => {
       <PageHeader title="Sales" />
       <Table
         className="my-6"
+        size='small'
         loading={isLoading}
         columns={columns}
         dataSource={data?.items}
         scroll={{
           x: 'max-content',
+        }}
+        pagination={{
+          pageSize: 6,
         }}
       />
     </div>

@@ -12,49 +12,51 @@ const VerifyEmailPage = () => {
     { skip: !query.token }
   );
   return (
-    <div className="flex justify-center items-center min-h-[50%]">
-      <Head>
-        <title>Izimart | verify email</title>
-      </Head>
-      {isLoading && (
-        <div className="flex justify-center items-center flex-col min-h-[100%]">
-          <Spin />
-          <p>Verifying your account</p>
-        </div>
-      )}
-      {!data && !isLoading && (
-        <Result
-          status="500"
-          title="500"
-          subTitle="Sorry, something went wrong."
-          extra={
-            <Button
-              className="bg-primary"
-              onClick={() => location.reload()}
-              type="primary"
-            >
-              Try Again
-            </Button>
-          }
-        />
-      )}
-      {data && (
-        <Result
-          status="success"
-          // title="200"
-          subTitle="Your account has been verified."
-          extra={
-            <Button
-              className="bg-primary"
-              onClick={() => (location.href = '/auth/login')}
-              type="primary"
-            >
-              Go to login
-            </Button>
-          }
-        />
-      )}
-    </div>
+    <Spin
+      spinning={isLoading}
+      size="large"
+      tip="Verifying your account"
+      wrapperClassName={`${isLoading ? 'h-screen' : ''}`}
+    >
+      <div className="flex justify-center items-center">
+        <Head>
+          <title>Izimart | verify email</title>
+        </Head>
+        {data &&
+          data?.message !== 'Your account has verified successfully' &&
+          !isLoading && (
+            <Result
+              status="500"
+              title="500"
+              subTitle="Sorry, something went wrong."
+              extra={
+                <Button
+                  className="bg-primary"
+                  onClick={() => location.reload()}
+                  type="primary"
+                >
+                  Try Again
+                </Button>
+              }
+            />
+          )}
+        {data && (
+          <Result
+            status="success"
+            subTitle="Your account has been verified."
+            extra={
+              <Button
+                className="bg-primary"
+                onClick={() => (location.href = '/auth/login')}
+                type="primary"
+              >
+                Go to login
+              </Button>
+            }
+          />
+        )}
+      </div>
+    </Spin>
   );
 };
 

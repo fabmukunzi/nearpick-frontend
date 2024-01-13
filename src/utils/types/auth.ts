@@ -8,6 +8,7 @@ export type UserSchema = {
   isActive: boolean;
   avatar: string;
   role: string;
+  createdAt: string;
 };
 export type LoginPayload = {
   username: string;
