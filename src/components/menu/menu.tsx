@@ -1,5 +1,14 @@
 import React, { Fragment, useState } from 'react';
-import { Avatar, Badge, Drawer, Image, Input, Modal, Typography } from 'antd';
+import {
+  Avatar,
+  Badge,
+  Drawer,
+  Image,
+  Input,
+  Modal,
+  Select,
+  Typography,
+} from 'antd';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import {
@@ -15,6 +24,7 @@ import { useRouter } from 'next/router';
 import { useGetCartQuery } from '@store/actions/cart';
 import useDisclose from '@utils/hooks/useDisclose';
 import { useProfileQuery } from '@store/actions/auth';
+import { currencies } from '@utils/currency';
 
 const items = [
   {
@@ -70,7 +80,26 @@ const Header: React.FC = () => {
   const { data, isLoading } = useGetCartQuery(undefined, { skip: !user });
   const { close, isOpen, toggle } = useDisclose();
   return (
-    <Fragment>
+    <div className="bg-white w-full">
+      <div className="w-full h-10 bg-primary flex justify-around items-center">
+        <div className="text-white">
+          Call us :
+          <Link className="text-white" href={`tel:${+250780403244}`}>
+            +250780403244
+          </Link>
+        </div>
+        <Select
+          showSearch
+          defaultValue={{ label: 'Rwandan Franc', value: 'RWF' }}
+          className="bg-primary w-64"
+          options={currencies.map((currency) => {
+            return {
+              label: currency.name,
+              value: currency.code,
+            };
+          })}
+        />
+      </div>
       <Modal
         open={isModalOpen}
         onOk={handleOk}
@@ -161,7 +190,7 @@ const Header: React.FC = () => {
           <MenuOutlined className="block md:hidden" onClick={toggle} />
         </div>
       </div>
-    </Fragment>
+    </div>
   );
 };
 

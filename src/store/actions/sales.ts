@@ -3,7 +3,10 @@ import { baseAPI } from '../api';
 
 const salesEndpoints = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
-    getSellerSales: builder.query<{ message: string; data: Sale[] }, void>({
+    getSellerSales: builder.query<
+      { message: string; data: { items: Sale[] } },
+      void
+    >({
       query: (body) => ({
         url: `/sales`,
         method: 'GET',

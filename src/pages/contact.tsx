@@ -10,13 +10,32 @@ import {
 } from '@ant-design/icons';
 import { useWindowResize } from '@utils/hooks/useWindowResize';
 import Head from 'next/head';
+import Link from 'next/link';
+import emailjs from '@emailjs/browser';
 const { TextArea } = Input;
 
 const ContactUs = () => {
   const [form] = Form.useForm();
-
-  const onFinish = (values: any) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const onFinish = async (values: any) => {
     console.log('Form submitted:', values);
+    setIsLoading(true);
+    try {
+      await emailjs.send(
+        'service_146cykb',
+        'template_cyuhg2b',
+        {
+          names: values.name,
+          message: values.message,
+          from: values.email,
+        },
+        'Bx8_7S9UE47JRnKef'
+      );
+      setIsLoading(false);
+    } catch (e) {
+      setIsLoading(false);
+      console.log(e);
+    }
   };
   const { Title, Text } = Typography;
   const { width } = useWindowResize();
@@ -54,7 +73,7 @@ const ContactUs = () => {
                 </Title>
                 <Text>Mon - Sat, 9AM - 7PM</Text>
                 <br />
-                <Text className="font-semibold">+250798221541</Text>
+                <Text className="font-semibold">+250791789979</Text>
               </div>
             </div>
             <div className="flex flex-col gap-4 justify-start">
@@ -62,9 +81,15 @@ const ContactUs = () => {
                 Follow us
               </Title>
               <div className="flex gap-4">
-                <InstagramOutlined className="text-2xl" />
-                <FacebookOutlined className="text-2xl" />
-                <TwitterOutlined className="text-2xl" />
+                <Link href="#">
+                  <InstagramOutlined className="text-2xl" />
+                </Link>
+                <Link href="#">
+                  <FacebookOutlined className="text-2xl" />
+                </Link>
+                <Link href="#">
+                  <TwitterOutlined className="text-2xl" />
+                </Link>
               </div>
             </div>
           </div>
@@ -113,6 +138,7 @@ const ContactUs = () => {
                 htmlType="submit"
                 className="bg-primary"
                 block
+                loading={isLoading}
               >
                 Send Message
               </Button>

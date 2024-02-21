@@ -61,6 +61,35 @@ const userEndpoints = baseAPI.injectEndpoints({
         url: `/users`,
         method: 'GET',
       }),
+      providesTags: ['users'],
+    }),
+
+    changeAccountStatus: builder.mutation<
+      { message: string },
+      { status: string; userId: string }
+    >({
+      query: ({ status, userId }) => ({
+        url: `/users/${userId}/status?status=${status}`,
+        method: 'PATCH',
+      }),
+      invalidatesTags: ['users'],
+    }),
+    changeUserRole: builder.mutation<
+      { message: string },
+      { role: string; userId: string }
+    >({
+      query: ({ role, userId }) => ({
+        url: `/users/${userId}?role=${role}`,
+        method: 'PATCH',
+      }),
+      invalidatesTags: ['users'],
+    }),
+    deleteUser: builder.mutation<{ message: string }, { userId: string }>({
+      query: ({ userId }) => ({
+        url: `/users/${userId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['users'],
     }),
     // googleSignup: builder.mutation<AuthResponse, IGoogleSignupPayload>({
     //   query: (body) => ({
@@ -101,5 +130,8 @@ export const {
   useUpdateProfileMutation,
   useVerifyCodeMutation,
   useVerifyEmailQuery,
-  useGetUsersQuery
+  useGetUsersQuery,
+  useChangeAccountStatusMutation,
+  useChangeUserRoleMutation,
+  useDeleteUserMutation,
 } = userEndpoints;

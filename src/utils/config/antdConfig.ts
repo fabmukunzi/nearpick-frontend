@@ -29,9 +29,9 @@ const antdTheme: ThemeConfig = {
     Menu: {
       lineHeight: 1,
     },
-    Card:{
-      colorBorder:'#00b012'
-    }
+    Card: {
+      colorBorder: '#00b012',
+    },
   },
 };
 

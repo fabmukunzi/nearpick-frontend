@@ -1,14 +1,16 @@
+import { MoreOutlined } from '@ant-design/icons';
 import PageHeader from '@components/dashboard/pageHeader';
 import { useGetSellerSalesQuery } from '@store/actions/sales';
 import { formatDate } from '@utils/functions/formatDate';
 import { Sale } from '@utils/types/product';
-import { Table, Tag, Typography } from 'antd';
+import { Button, Popover, Table, Tag, Typography } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import Head from 'next/head';
 
 const AnalyticsPage = () => {
-  const { Title, Text } = Typography;
+  const { Text } = Typography;
   const { data, isLoading } = useGetSellerSalesQuery();
+  const saleStatuses = ['completed', 'declined', 'accepted'];
   const columns: ColumnsType<Sale> = [
     {
       title: 'Product',
@@ -56,6 +58,46 @@ const AnalyticsPage = () => {
         );
       },
     },
+    {
+      title: 'Actions',
+      key: 'action',
+      render: (record) => (
+        <Popover
+          title="Actions"
+          content={
+            <div className="flex flex-col gap-4">
+              {saleStatuses.map((status) => {
+                if (status !== record?.status) {
+                  return (
+                    <Button
+                      // disabled={record.id === user?.id}
+                      // loading={loadRole && role === record.role}
+                      // onClick={async () => {
+                      //   const res = await changeUserRole({
+                      //     role: role,
+                      //     userId: record.id,
+                      //   });
+                      //   if ('data' in res) {
+                      //     notification.success({
+                      //       message: res?.data?.message,
+                      //     });
+                      //   }
+                      // }}
+                      key={status}
+                      type="primary"
+                    >
+                      Change To {status}
+                    </Button>
+                  );
+                }
+              })}
+            </div>
+          }
+        >
+          <Button icon={<MoreOutlined />} />
+        </Popover>
+      ),
+    },
   ];
   return (
     <div className="p-page">
@@ -67,7 +109,7 @@ const AnalyticsPage = () => {
         className="my-6"
         loading={isLoading}
         columns={columns}
-        dataSource={data?.data}
+        dataSource={data?.data.items}
         scroll={{
           x: 'max-content',
         }}

@@ -17,10 +17,7 @@ const MyDocument = () => {
         <meta name="description" content="Get all your nearby products" />
 
         {/* Favicon */}
-        <link
-          rel="shortcut icon"
-          href="https://res.cloudinary.com/dr4reow8e/image/upload/e_background_removal/f_png/v1700070727/1700069859823_qsszxr.jpg"
-        />
+        <link rel="shortcut icon" href="favicon.ico" />
 
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://izimart.com/" />
@@ -31,7 +28,7 @@ const MyDocument = () => {
         />
         <meta
           property="og:image"
-          content="https://res.cloudinary.com/dr4reow8e/image/upload/e_background_removal/f_png/v1700070727/1700069859823_qsszxr.jpg"
+          content="favicon.ico"
         />
 
         <meta name="twitter:card" content="Izimart" />
@@ -43,10 +40,8 @@ const MyDocument = () => {
         />
         <meta
           name="twitter:image"
-          content="https://res.cloudinary.com/dr4reow8e/image/upload/e_background_removal/f_png/v1700070727/1700069859823_qsszxr.jpg"
+          content="favicon.ico"
         />
-
-        {/* Additional meta tags or stylesheets as needed */}
       </Head>
       <body>
         <Main />
@@ -61,11 +56,12 @@ MyDocument.getInitialProps = async (ctx: DocumentContext) => {
   const originalRenderPage = ctx.renderPage;
   ctx.renderPage = () =>
     originalRenderPage({
-      enhanceApp: (App) => (props) => (
-        <StyleProvider cache={cache}>
-          <App {...props} />
-        </StyleProvider>
-      ),
+      enhanceApp: (App) => (props) =>
+        (
+          <StyleProvider cache={cache}>
+            <App {...props} />
+          </StyleProvider>
+        ),
     });
 
   const initialProps = await Document.getInitialProps(ctx);
