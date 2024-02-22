@@ -17,7 +17,7 @@ const Home = () => {
   const location = { lat: lat || 0, lng: lng || 0 };
   const { user } = useSelector((state: RootState) => state.userReducer);
   const { data, isLoading } = useGetProductsQuery(location, {
-    skip: user?.role== 'seller',
+    skip: user?.role == 'seller',
   });
   return (
     <div className="h-fit bg-white mb-10">

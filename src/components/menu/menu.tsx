@@ -80,7 +80,7 @@ const Header: React.FC = () => {
   const { data, isLoading } = useGetCartQuery(undefined, { skip: !user });
   const { close, isOpen, toggle } = useDisclose();
   return (
-    <div className="bg-white w-full">
+    <div className="fixed right-0 left-0 top-0">
       <div className="w-full h-10 bg-primary flex justify-around items-center">
         <div className="text-white">
           Call us :
@@ -90,11 +90,11 @@ const Header: React.FC = () => {
         </div>
         <Select
           showSearch
-          defaultValue={{ label: 'Rwandan Franc', value: 'RWF' }}
-          className="bg-primary w-64"
+          defaultValue={{ label: 'RWF', value: 'RWF' }}
+          className="bg-primary md:w-20 w-20"
           options={currencies.map((currency) => {
             return {
-              label: currency.name,
+              label: currency.code,
               value: currency.code,
             };
           })}
@@ -107,11 +107,11 @@ const Header: React.FC = () => {
         onCancel={handleCancel}
       >
         <Input.Search
-          className="h-14 mt-6"
+          className="mt-6 h-72 w-full"
           placeholder="what are you looking for?"
         />
       </Modal>
-      <div className="flex items-center h-[inherit] justify-between bg-white">
+      <div className="flex items-center h-16 justify-between bg-white">
         <Link
           href="/"
           className="mt-1 w-1/4 flex flex-col items-center justify-center"
@@ -144,7 +144,7 @@ const Header: React.FC = () => {
           </div>
         </Drawer>
 
-        <div className="flex justify-center items-center md:gap-6 gap-4 w-1/4">
+        <div className="flex justify-center items-center md:gap-6 gap-4 w-1/2">
           {/* <Link href="/profile"> */}
           <SearchOutlined
             onClick={showModal}
