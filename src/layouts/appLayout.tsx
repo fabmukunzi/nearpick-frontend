@@ -15,7 +15,7 @@ const AppLayout: React.FC<LayoutProps> = ({ children }) => {
         <Header className="z-[1]">
           <HeaderComponent />
         </Header>
-        <Content className="min-h-[50%] bg-white">{children}</Content>
+        <Content className="min-h-[50%] mt-10 bg-white">{children}</Content>
         <Footer className="bg-white">
           <div className="mx-auto w-full max-w-screen-xl">
             <div className="grid grid-cols-2 gap-8 px-4 md:grid-cols-4">
@@ -97,7 +97,7 @@ const AppLayout: React.FC<LayoutProps> = ({ children }) => {
               </div>
             </div>
             <div className="py-6 bg-primary text-center">
-              <Text className="text-center font-semibold">
+              <Text className="text-center font-semibold text-white">
                 &copy; {new Date().getFullYear()}. Roline Services Ltd.
               </Text>
             </div>

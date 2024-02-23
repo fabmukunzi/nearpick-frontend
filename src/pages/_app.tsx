@@ -10,24 +10,31 @@ import { Provider } from 'react-redux';
 import { store } from '../store';
 import { useRouter } from 'next/router';
 import DashboardLayout from '@layout/dashboardLayout';
+import { createContext, useState } from 'react';
 
 const roboto = Poppins({
   weight: '400',
   subsets: ['devanagari'],
 });
-
+export const AppContext = createContext({
+  currency: 'RWF',
+  setCurrency: (currency: string) => {},
+});
 export default function App({ Component, pageProps }: AppProps) {
   const { route } = useRouter();
+  const [currency, setCurrency] = useState('RWF');
   const Layout =
     route?.split('/')[1] === 'dashboard' ? DashboardLayout : AppLayout;
   return (
     <ConfigProvider theme={antdTheme}>
       <main className={roboto.className}>
-        <Provider store={store}>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </Provider>
+        <AppContext.Provider value={{ currency, setCurrency }}>
+          <Provider store={store}>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </Provider>
+        </AppContext.Provider>
       </main>
     </ConfigProvider>
   );

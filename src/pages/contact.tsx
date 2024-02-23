@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, Card, Typography } from 'antd';
+import { Form, Input, Button, Card, Typography, notification } from 'antd';
 import {
   FacebookOutlined,
   InstagramOutlined,
@@ -31,6 +31,8 @@ const ContactUs = () => {
         },
         'Bx8_7S9UE47JRnKef'
       );
+      notification.success({ message: 'Message sent successfully' });
+      form.resetFields();
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);

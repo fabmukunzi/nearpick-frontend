@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useContext, useState } from 'react';
 import {
   Avatar,
   Badge,
@@ -25,6 +25,7 @@ import { useGetCartQuery } from '@store/actions/cart';
 import useDisclose from '@utils/hooks/useDisclose';
 import { useProfileQuery } from '@store/actions/auth';
 import { currencies } from '@utils/currency';
+import { AppContext } from '@pages/_app';
 
 const items = [
   {
@@ -79,6 +80,7 @@ const Header: React.FC = () => {
   const currentTab = useRouter().route;
   const { data, isLoading } = useGetCartQuery(undefined, { skip: !user });
   const { close, isOpen, toggle } = useDisclose();
+  const { currency, setCurrency } = useContext(AppContext);
   return (
     <div className="fixed right-0 left-0 top-0">
       <div className="w-full h-10 bg-primary flex justify-around items-center">
@@ -90,8 +92,11 @@ const Header: React.FC = () => {
         </div>
         <Select
           showSearch
-          defaultValue={{ label: 'RWF', value: 'RWF' }}
+          defaultValue="RWF"
           className="bg-primary md:w-20 w-20"
+          onChange={(value: string) => {
+            setCurrency(value);
+          }}
           options={currencies.map((currency) => {
             return {
               label: currency.code,
@@ -111,10 +116,10 @@ const Header: React.FC = () => {
           placeholder="what are you looking for?"
         />
       </Modal>
-      <div className="flex items-center h-16 justify-between bg-white">
+      <div className="flex h-16 justify-around items-center bg-white">
         <Link
           href="/"
-          className="mt-1 w-1/4 flex flex-col items-center justify-center"
+          className="mt-1 flex flex-col items-center justify-center"
         >
           <Image
             preview={false}
@@ -129,7 +134,7 @@ const Header: React.FC = () => {
             src="https://res.cloudinary.com/dr4reow8e/image/upload/v1703227669/izimart-logo-removebg-preview_qcjnzw.png"
           />
         </Link>
-        <div className="md:flex hidden md:gap-10 gap-3">
+        <div className="md:flex hidden md:gap-8 gap-3">
           {items.map((item) => (
             <Fragment key={item.key}>{item?.label}</Fragment>
           ))}
@@ -144,7 +149,7 @@ const Header: React.FC = () => {
           </div>
         </Drawer>
 
-        <div className="flex justify-center items-center md:gap-6 gap-4 w-1/2">
+        <div className="flex justify-center items-center md:gap-6 gap-4">
           {/* <Link href="/profile"> */}
           <SearchOutlined
             onClick={showModal}

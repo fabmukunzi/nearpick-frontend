@@ -7,20 +7,34 @@ import { closePaymentModal, useFlutterwave } from 'flutterwave-react-v3';
 import { FLUTTERWAVE_PUBLIC_KEY } from '@utils/constants';
 import { UserSchema } from '@utils/types/auth';
 import { useCreateOrderMutation } from '@store/actions/order';
+import useCurrencyConverter from '@utils/hooks/useCurrencyConverter';
 
 interface Props {
   isOpen: boolean;
   close: () => void;
   amount: number;
   user?: UserSchema;
+  currency: string;
+  toggle: () => void;
 }
 
-const Checkout: FC<Props> = ({ isOpen, close, amount, user }) => {
+const Checkout: FC<Props> = ({
+  isOpen,
+  close,
+  amount,
+  user,
+  currency,
+  toggle,
+}) => {
   const { Title, Text } = Typography;
   const [form] = useForm();
   const [createOrder, { isLoading: loadOrder }] = useCreateOrderMutation();
   const [value, setValue] = useState<string>('selfpick');
   const [toPay, setToPay] = useState<number | null>(null);
+  const { convertedPrice } = useCurrencyConverter({
+    price: toPay || amount,
+    currency,
+  });
   const [district, setDistrict] = useState(null);
   const [sector, setSector] = useState(null);
   const onChange = (e: RadioChangeEvent) => {
@@ -31,8 +45,8 @@ const Checkout: FC<Props> = ({ isOpen, close, amount, user }) => {
   const config = {
     public_key: FLUTTERWAVE_PUBLIC_KEY || '',
     tx_ref: Date.now().toString(),
-    amount: toPay !== null ? toPay : amount || 0,
-    currency: 'RWF',
+    amount: convertedPrice,
+    currency: currency,
     payment_options: 'card',
     customer: {
       email: user?.email || '',
@@ -57,6 +71,7 @@ const Checkout: FC<Props> = ({ isOpen, close, amount, user }) => {
         }
       },
       onClose: () => {
+        toggle();
         console.log('You close me ooo');
       },
     });
@@ -98,7 +113,7 @@ const Checkout: FC<Props> = ({ isOpen, close, amount, user }) => {
     >
       <div>
         <Title level={4} className="font-semibold">
-          Amount to pay {toPay !== null ? toPay : amount} RWF
+          Amount to pay {convertedPrice} {currency}
         </Title>
         <Text className="text-lg">Select a delivery method</Text>
         <br />
@@ -188,7 +203,7 @@ const Checkout: FC<Props> = ({ isOpen, close, amount, user }) => {
           htmlType="submit"
           block
         >
-          Pay {toPay !== null ? toPay : amount} RWF with Flutterwave
+          Pay {convertedPrice} {currency} with Flutterwave
         </Button>
       </Form>
     </Modal>

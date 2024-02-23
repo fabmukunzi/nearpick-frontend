@@ -1,5 +1,5 @@
 import { useJsApiLoader } from '@react-google-maps/api';
-import React from 'react';
+import React, { useContext } from 'react';
 import { DirectionsRenderer, GoogleMap, Marker } from '@react-google-maps/api';
 import { useGetSingleProductQuery } from '@store/actions/products';
 import { useRouter } from 'next/router';
@@ -26,12 +26,16 @@ import {
 import { useAddToCartMutation } from '@store/actions/cart';
 import { useWindowResize } from '@utils/hooks/useWindowResize';
 import Head from 'next/head';
+import { AppContext } from '@pages/_app';
+import useCurrencyConverter from '@utils/hooks/useCurrencyConverter';
+import formatNumber from '@utils/functions/formatNumber';
 
 const SingleProduct = () => {
   const { width } = useWindowResize();
   const { Title, Text } = Typography;
   const { lat, lng } = useCurrentLocation();
   const [addToCart, { isLoading: loadCart }] = useAddToCartMutation();
+  const { currency, setCurrency } = useContext(AppContext);
   const center1 = React.useMemo(
     () => ({ lat: lat || 0, lng: lng || 0 }),
     [lat, lng]
@@ -65,6 +69,10 @@ const SingleProduct = () => {
       });
     }
   };
+  const { convertedPrice, isLoading: loadCurrency } = useCurrencyConverter({
+    price: data?.product.price || 0,
+    currency,
+  });
   return (
     isLoaded && (
       <div className="min-h-screen px-page">
@@ -105,7 +113,7 @@ const SingleProduct = () => {
                   {data?.product.name}
                 </Title>
                 <Title className="font-semibold text-2xl">
-                  RWF {data?.product.price}
+                {currency} {formatNumber(convertedPrice)}
                 </Title>
                 <Text className="font-semibold text-lg mr-4">
                   <ShopOutlined className="text-primary text-xl mr-3" />

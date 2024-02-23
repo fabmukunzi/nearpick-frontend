@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
   Card,
   Descriptions,
@@ -25,6 +25,8 @@ import useGoogleMapsDirections from '@utils/hooks/googleMapsDirection';
 import useCurrentLocation from '@utils/hooks/useCurrentLocation';
 import { useAddToCartMutation } from '@store/actions/cart';
 import formatNumber from '@utils/functions/formatNumber';
+import { AppContext } from '@pages/_app';
+import useCurrencyConverter from '@utils/hooks/useCurrencyConverter';
 
 type CardProps = {
   product: Product;
@@ -38,6 +40,11 @@ const ProductCard: React.FC<CardProps> = ({ product, loading, actions }) => {
   const [location, setLocation] = useState<string | null>(null);
   const [addToCart, { isLoading }] = useAddToCartMutation();
   const { lat, lng, error: locationError } = useCurrentLocation();
+  const { currency, setCurrency } = useContext(AppContext);
+  const { convertedPrice, isLoading: loadcurrency } = useCurrencyConverter({
+    price: product.price,
+    currency,
+  });
   const currentLocation = {
     lat: lat || 0,
     lng: lng || 0,
@@ -138,7 +145,7 @@ const ProductCard: React.FC<CardProps> = ({ product, loading, actions }) => {
       {!actions && (
         <div className="flex justify-between items-center mt-6">
           <Title key="price" className="font-bold text-base">
-            RWF {formatNumber(product.price)}
+            {currency} {formatNumber(convertedPrice)}
           </Title>
           {isLoading ? (
             <Spin />
