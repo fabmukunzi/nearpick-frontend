@@ -13,12 +13,18 @@ import {
   Image,
   Avatar,
   notification,
+  Popover,
+  Popconfirm,
 } from 'antd';
 import { EditOutlined, UploadOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@store/index';
-import { useProfileQuery, useUpdateProfileMutation } from '@store/actions/auth';
-import { updateUser } from '@store/reducers/users';
+import {
+  useDeleteUserMutation,
+  useProfileQuery,
+  useUpdateProfileMutation,
+} from '@store/actions/auth';
+import { logout, setToken, updateUser } from '@store/reducers/users';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { useWindowResize } from '@utils/hooks/useWindowResize';
@@ -26,6 +32,7 @@ import { useWindowResize } from '@utils/hooks/useWindowResize';
 const UserInfoComponent = () => {
   const { data, isLoading } = useProfileQuery();
   const [updateProfile, { isLoading: loadUpdate }] = useUpdateProfileMutation();
+  const [deleteUser, { isLoading: loadDelete }] = useDeleteUserMutation();
   const user = data?.user;
   const dispatch = useDispatch();
   const [form] = Form.useForm();
@@ -57,6 +64,7 @@ const UserInfoComponent = () => {
 
   return (
     <Card
+      size="small"
       className="border-none min-h-[100%]"
       headStyle={{ borderBottom: 'none' }}
       loading={isLoading}
@@ -69,22 +77,48 @@ const UserInfoComponent = () => {
       }
     >
       <div className="flex gap-3 items-center mb-6 -mt-10">
-        <Avatar
-          src={
-            <Image
-              alt="avatar"
-              className="h-24 object-cover"
-              src={user?.avatar}
-            />
-          }
-          alt="image"
-          size={100}
-          shape="square"
-        />
-        <div className="flex flex-col gap-3">
-          <Tag color="blue" className="w-fit">
+        <div className="flex flex-col gap-1">
+          <Avatar
+            // src={
+            //   <Image
+            //     alt="avatar"
+            //     className="h-24 object-cover"
+            //     src={user?.avatar}
+            //   />
+            // }
+            alt="image"
+            size={100}
+            shape="square"
+          />
+          <Tag color="blue" className="w-full text-center">
             {user?.role}
           </Tag>
+        </div>
+        <div className="flex flex-col gap-3">
+          <Popconfirm
+            title="Are you sure you want to delete this account!"
+            description="This action can not be undone!"
+            onConfirm={async () => {
+              const res = await deleteUser({ userId: user?.id || '' });
+              if ('data' in res) {
+                if (
+                  res.data.message === 'Account has been deleted successfully'
+                ) {
+                  dispatch(logout(undefined));
+                  location.href = '/';
+                }
+              }
+            }}
+          >
+            <Button
+              type="primary"
+              danger
+              className="w-fit"
+              loading={loadDelete}
+            >
+              Delete Account
+            </Button>
+          </Popconfirm>
           <Upload
             beforeUpload={() => false}
             onChange={handleAvatarChange}
@@ -92,6 +126,7 @@ const UserInfoComponent = () => {
             accept=".jpg, .png, .webp, .jpeg, .gif"
           >
             <Button
+              type="primary"
               icon={<UploadOutlined />}
               disabled={!isEditMode}
               className="bg-primary"
@@ -108,9 +143,11 @@ const UserInfoComponent = () => {
         initialValues={user}
       >
         <div className="md:flex gap-4 w-full">
-          <Form.Item name="email" label="Email">
-            <Input disabled />
-          </Form.Item>
+          <Popover content="We don't alllow our users to change their emails.">
+            <Form.Item name="email" label="Email">
+              <Input disabled />
+            </Form.Item>
+          </Popover>
           <Form.Item
             label="Phone Number"
             name="phone"
@@ -144,18 +181,21 @@ const UserInfoComponent = () => {
         </div>
         <div className="md:w-[50%] flex gap-3">
           <Button
-            className="bg-primary"
             htmlType="submit"
+            type="primary"
             loading={loadUpdate}
+            disabled={!isEditMode}
             block
           >
             Save
           </Button>
           <Button
-            className="bg-primary"
+            type="primary"
             onClick={() => setEditMode(false)}
             htmlType="reset"
+            disabled={!isEditMode}
             block
+            danger
           >
             Cancel
           </Button>

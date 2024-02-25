@@ -81,6 +81,11 @@ const Header: React.FC = () => {
   const { data, isLoading } = useGetCartQuery(undefined, { skip: !user });
   const { close, isOpen, toggle } = useDisclose();
   const { currency, setCurrency } = useContext(AppContext);
+  const languages = [
+    { locale: 'en', name: 'English' },
+    { locale: 'fr', name: 'French' },
+    { locale: 'kin', name: 'Kinyarwanda' },
+  ];
   return (
     <div className="fixed right-0 left-0 top-0">
       <div className="w-full h-10 bg-primary flex justify-around items-center">
@@ -90,20 +95,35 @@ const Header: React.FC = () => {
             +250780403244
           </Link>
         </div>
-        <Select
-          showSearch
-          defaultValue="RWF"
-          className="bg-primary md:w-20 w-20"
-          onChange={(value: string) => {
-            setCurrency(value);
-          }}
-          options={currencies.map((currency) => {
-            return {
-              label: currency.code,
-              value: currency.code,
-            };
-          })}
-        />
+        <div className="flex gap-3">
+          <Select
+            showSearch
+            defaultValue="RWF"
+            className="bg-primary md:w-20 w-20"
+            onChange={(value: string) => {
+              setCurrency(value);
+            }}
+            options={currencies.map((currency) => {
+              return {
+                label: currency.code,
+                value: currency.code,
+              };
+            })}
+          />
+          <Select
+            defaultValue="en"
+            className="bg-primary md:w-28 w-28"
+            // onChange={(value: string) => {
+            //   setCurrency(value);
+            // }}
+            options={languages.map((currency) => {
+              return {
+                label: currency.name,
+                value: currency.locale,
+              };
+            })}
+          />
+        </div>
       </div>
       <Modal
         open={isModalOpen}

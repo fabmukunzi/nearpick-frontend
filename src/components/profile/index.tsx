@@ -26,7 +26,7 @@ const ProfileComponent = () => {
           ))}
         </div>
       </Card>
-      <Card className="md:w-3/5 border-primary min-h-[100%]">
+      <Card className="md:w-3/5 border-primary min-h-[100%]" size="small">
         {<activeTab.component />}
       </Card>
     </div>
