@@ -81,7 +81,7 @@ const UserInfoComponent = () => {
           <Avatar
             src={
               <Image
-                alt="avatar"
+                alt="Profile Picture"
                 className="h-24 object-cover"
                 src={user?.avatar}
               />
