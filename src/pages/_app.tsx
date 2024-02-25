@@ -3,7 +3,7 @@ import 'react-phone-number-input/style.css';
 import type { AppProps } from 'next/app';
 import { ConfigProvider, theme } from 'antd';
 import antdTheme from '@utils/config/antdConfig';
-
+import '../i18n';
 import { Poppins } from 'next/font/google';
 import AppLayout from '../layouts/appLayout';
 import { Provider } from 'react-redux';
