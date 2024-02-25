@@ -79,13 +79,13 @@ const UserInfoComponent = () => {
       <div className="flex gap-3 items-center mb-6 -mt-10">
         <div className="flex flex-col gap-1">
           <Avatar
-            // src={
-            //   <Image
-            //     alt="avatar"
-            //     className="h-24 object-cover"
-            //     src={user?.avatar}
-            //   />
-            // }
+            src={
+              <Image
+                alt="avatar"
+                className="h-24 object-cover"
+                src={user?.avatar}
+              />
+            }
             alt="image"
             size={100}
             shape="square"

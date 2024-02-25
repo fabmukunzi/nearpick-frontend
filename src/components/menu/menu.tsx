@@ -26,46 +26,47 @@ import useDisclose from '@utils/hooks/useDisclose';
 import { useProfileQuery } from '@store/actions/auth';
 import { currencies } from '@utils/currency';
 import { AppContext } from '@pages/_app';
-
-const items = [
-  {
-    label: (
-      <Link href="/" className="text-base">
-        Home
-      </Link>
-    ),
-    key: 'home',
-  },
-  {
-    label: (
-      <Link href="/products" className="text-base">
-        Products
-      </Link>
-    ),
-    key: 'products',
-  },
-  {
-    label: (
-      <Link href="/shops" className="text-base">
-        Shops
-      </Link>
-    ),
-    key: 'shops',
-  },
-  {
-    label: (
-      <Link href="/contact" className="text-base">
-        Contact us
-      </Link>
-    ),
-    key: 'login',
-  },
-];
+import { useTranslation } from 'react-i18next';
 
 const Header: React.FC = () => {
   const user = useSelector((state: RootState) => state.userReducer.user);
   // const { data: userProfile, isLoading: loadingProfile } = useProfileQuery();
   // const user = userProfile?.user;
+  const { t, i18n } = useTranslation();
+  const items = [
+    {
+      label: (
+        <Link href="/" className="text-base">
+          {t('home')}
+        </Link>
+      ),
+      key: 'home',
+    },
+    {
+      label: (
+        <Link href="/products" className="text-base">
+          {t('products')}
+        </Link>
+      ),
+      key: 'products',
+    },
+    {
+      label: (
+        <Link href="/shops" className="text-base">
+          {t('shops')}
+        </Link>
+      ),
+      key: 'shops',
+    },
+    {
+      label: (
+        <Link href="/contact" className="text-base">
+          {t('contact')}
+        </Link>
+      ),
+      key: 'login',
+    },
+  ];
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
@@ -113,9 +114,9 @@ const Header: React.FC = () => {
           <Select
             defaultValue="en"
             className="bg-primary md:w-28 w-28"
-            // onChange={(value: string) => {
-            //   setCurrency(value);
-            // }}
+            onChange={(value: string) => {
+              i18n.changeLanguage(value);
+            }}
             options={languages.map((currency) => {
               return {
                 label: currency.name,
