@@ -120,6 +120,7 @@ const UserInfoComponent = () => {
             </Button>
           </Popconfirm>
           <Upload
+            showUploadList={avatarFile ? true : false}
             beforeUpload={() => false}
             onChange={handleAvatarChange}
             className="truncate"

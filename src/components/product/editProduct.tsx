@@ -39,10 +39,11 @@ const EditProduct: FC<Props> = ({ isOpen, close, product }) => {
     useUpdateProductMutation();
   const handleUpdateProduct = async (values: any) => {
     const formData = new FormData();
-    const defaultImageUrls = fileList.map((defaultImage) => defaultImage.url).filter((image) => image)
+    const defaultImageUrls = fileList
+      .map((defaultImage) => defaultImage.url)
+      .filter((image) => image);
     formData.append('oldImages', JSON.stringify(defaultImageUrls));
     Object.keys(values).forEach((key) => {
-      console.log(values);
       if (key === 'images') {
         values.images.fileList?.forEach((image: UploadFile, index: number) => {
           if (image.originFileObj) {
@@ -173,6 +174,7 @@ const EditProduct: FC<Props> = ({ isOpen, close, product }) => {
           rules={[{ required: true, message: 'Product image is required' }]}
         >
           <Upload
+            beforeUpload={() => false}
             listType="picture-card"
             fileList={fileList}
             onChange={handleChange}

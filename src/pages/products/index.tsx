@@ -28,13 +28,16 @@ const ProductsPage = () => {
         <Spin className="flex justify-center my-32" />
       ) : (
         <motion.div className="grid pro:grid-cols-5 grid-cols-1 justify-center">
-          {data?.data.products.map((product: Product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              loading={isLoading}
-            />
-          ))}
+          {data?.data.products
+            .slice()
+            .reverse()
+            .map((product: Product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                loading={isLoading}
+              />
+            ))}
         </motion.div>
       )}
     </div>

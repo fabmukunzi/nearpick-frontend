@@ -71,7 +71,7 @@ const Home = () => {
             Popular Products
           </Title>
           <motion.div className="flex flex-wrap md:gap-2 w-full mx-auto">
-            {data?.data.products.map((product) => (
+            {data?.data?.products.slice().reverse().map((product) => (
               <ProductCard
                 key={product.id}
                 product={product}

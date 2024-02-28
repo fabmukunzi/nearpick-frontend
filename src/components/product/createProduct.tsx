@@ -32,7 +32,6 @@ const CreateProduct: FC<Props> = ({ isOpen, close }) => {
     const formData = new FormData();
 
     Object.keys(values).forEach((key) => {
-      console.log(values);
       if (key === 'images') {
         values.images.fileList.forEach((image: UploadFile, index: number) => {
           if (image.originFileObj) {
@@ -148,6 +147,7 @@ const CreateProduct: FC<Props> = ({ isOpen, close }) => {
           rules={[{ required: true, message: 'Product image is required' }]}
         >
           <Upload
+            beforeUpload={() => false}
             listType="picture-card"
             fileList={fileList}
             onChange={handleChange}
