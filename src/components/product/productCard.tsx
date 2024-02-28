@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { Fragment, useContext, useEffect, useState } from 'react';
 import {
   Card,
   Descriptions,
@@ -96,19 +96,16 @@ const ProductCard: React.FC<CardProps> = ({ product, loading, actions }) => {
       actions={actions || []}
       className="h-fit w-[90%] md:w-[15.22rem] mx-auto md:mx-1 p-0 mt-10"
       size="small"
-      loading={loading}
-    >
-      <motion.div
-        whileHover={{ scale: 1.03 }}
-        onClick={() => push(`/products/${product.id}`)}
-      >
+      loading={loading || !distance}
+      cover={
         <Image
           src={product?.images[1]}
           alt="product image"
-          className="object-cover w-[30rem] h-52 -top-10 rounded-md overflow-hidden"
+          className="object-cover w-[80rem] h-52"
           preview={false}
         />
-      </motion.div>
+      }
+    >
       <Meta
         className="font-semibold"
         description={
@@ -116,36 +113,41 @@ const ProductCard: React.FC<CardProps> = ({ product, loading, actions }) => {
             <Link href={`/products/${product.id}`}>
               <Title className="font-bold text-base">{product.name}</Title>
             </Link>
-            {distance && (
-              <div className="flex justify-between">
-                <Text className="font-semibold text-sm">
-                  <NodeIndexOutlined className="text-primary text-base mr-3" />
-                  {distance}
-                </Text>
-                <Text className="font-semibold text-sm">
-                  <CarOutlined className="text-primary text-base mr-3" />
-                  {duration}
-                </Text>
+            <div className="my-2 flex justify-between">
+              <div>
+                <ShopOutlined className="text-base text-primary mr-3" />
+                <Link href={`shops/${product.Store.id}`}>
+                  {product.Store?.name}
+                </Link>
               </div>
-            )}
-            <div className="my-2">
-              <ShopOutlined className="text-base text-primary mr-3" />
-              {product.Store?.name}
+              {product.Categories[0]?.name}
             </div>
-            {product.Categories[0]?.name}
             {distance && (
-              <div className="flex">
-                <EnvironmentOutlined className="text-primary text-base mr-3" />
-                <Tag style={{ fontSize: '12.5px' }}>{location}</Tag>
-              </div>
+              <Fragment>
+                <div className="flex justify-between">
+                  <Text className="font-semibold text-sm">
+                    <NodeIndexOutlined className="text-primary text-base mr-3" />
+                    {distance}
+                  </Text>
+                  <Text className="font-semibold text-sm">
+                    <CarOutlined className="text-primary text-base mr-3" />
+                    {duration}
+                  </Text>
+                </div>
+                <div className="flex my-3">
+                  <EnvironmentOutlined className="text-primary text-base mr-3" />
+                  <Tag style={{ fontSize: '12.5px' }}>{location}</Tag>
+                </div>
+              </Fragment>
             )}
           </>
         }
       />
       {!actions && (
-        <div className="flex justify-between items-center mt-6">
-          <Title key="price" className="font-bold text-base">
-            {currency} {formatNumber(convertedPrice)}
+        <div className="flex justify-between items-center">
+          <Title key="price" className="font-semibold text-base">
+            {currency} {product.price}
+            {/* {formatNumber(convertedPrice)} */}
           </Title>
           {isLoading ? (
             <Spin />

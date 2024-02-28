@@ -68,7 +68,7 @@ const CartItem = ({
     }
   };
   return (
-    <Card className="w-full" loading={loadUpdate}>
+    <Card type="inner" className="w-full" loading={loadUpdate}>
       <div className="justify-between flex gap-1">
         <Avatar
           src={product.images[0]}
@@ -152,7 +152,7 @@ const Cart = () => {
     currency,
   });
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen p-page">
       <Head>
         <title>Izimart | Cart</title>
       </Head>
@@ -168,6 +168,15 @@ const Cart = () => {
         loading={isLoading || loadRemove || loadClear}
         title="Cart Items"
         headStyle={{ fontWeight: 'bold', fontSize: '20px' }}
+        extra={
+          <Button
+            loading={loadClear}
+            onClick={() => clearCart()}
+            type="primary"
+          >
+            Clear Cart
+          </Button>
+        }
       >
         {data?.products.length === 0 && (
           <div className="flex justify-center flex-col items-center">

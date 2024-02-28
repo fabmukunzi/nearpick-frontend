@@ -65,7 +65,7 @@ const ShopCard: FC<CardProps> = ({ shop, loading, actions }) => {
     >
       <motion.div
         whileHover={{ scale: 1.03 }}
-        onClick={() => push(`/stores/${shop.id}`)}
+        onClick={() => push(`/shops/${shop.id}`)}
       >
         <Image
           src={shop?.Owner.avatar}
