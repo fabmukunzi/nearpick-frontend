@@ -32,11 +32,15 @@ const Header: React.FC = () => {
   const user = useSelector((state: RootState) => state.userReducer.user);
   // const { data: userProfile, isLoading: loadingProfile } = useProfileQuery();
   // const user = userProfile?.user;
+  const [activeItem, setActiveItem] = useState<string>('home');
   const { t, i18n } = useTranslation();
   const items = [
     {
       label: (
-        <Link href="/" className="text-base">
+        <Link
+          href="/"
+          className={`text-base ${activeItem === 'home' ? 'text-primary' : ''}`}
+        >
           {t('home')}
         </Link>
       ),
@@ -44,7 +48,12 @@ const Header: React.FC = () => {
     },
     {
       label: (
-        <Link href="/products" className="text-base">
+        <Link
+          href="/products"
+          className={`text-base ${
+            activeItem === 'products' ? 'text-primary' : ''
+          }`}
+        >
           {t('products')}
         </Link>
       ),
@@ -52,7 +61,12 @@ const Header: React.FC = () => {
     },
     {
       label: (
-        <Link href="/shops" className="text-base">
+        <Link
+          href="/shops"
+          className={`text-base ${
+            activeItem === 'shops' ? 'text-primary' : ''
+          }`}
+        >
           {t('shops')}
         </Link>
       ),
@@ -60,11 +74,16 @@ const Header: React.FC = () => {
     },
     {
       label: (
-        <Link href="/contact" className="text-base">
+        <Link
+          href="/contact"
+          className={`text-base ${
+            activeItem === 'contact' ? 'text-primary' : ''
+          }`}
+        >
           {t('contact')}
         </Link>
       ),
-      key: 'login',
+      key: 'contact',
     },
   ];
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -157,7 +176,9 @@ const Header: React.FC = () => {
         </Link>
         <div className="md:flex hidden md:gap-8 gap-3">
           {items.map((item) => (
-            <Fragment key={item.key}>{item?.label}</Fragment>
+            <p onClick={() => setActiveItem(item.key)} key={item.key}>
+              {item?.label}
+            </p>
           ))}
         </div>
         <Drawer className="block md:hidden" open={isOpen} onClose={close}>
