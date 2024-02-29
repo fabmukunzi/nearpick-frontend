@@ -2,6 +2,7 @@ import React from 'react';
 import { Layout, Space, Typography } from 'antd';
 import HeaderComponent from '@components/menu/menu';
 import Link from 'next/link';
+import { useTranslation } from 'react-i18next';
 
 const { Header, Footer, Content } = Layout;
 type LayoutProps = {
@@ -9,6 +10,7 @@ type LayoutProps = {
 };
 const AppLayout: React.FC<LayoutProps> = ({ children }) => {
   const { Text } = Typography;
+  const { t, i18n } = useTranslation();
   return (
     <Space className="bg-white w-[100%]" direction="vertical" size={[0, 48]}>
       <Layout>
@@ -21,29 +23,29 @@ const AppLayout: React.FC<LayoutProps> = ({ children }) => {
             <div className="grid grid-cols-2 gap-8 px-4 md:grid-cols-4">
               <div>
                 <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase">
-                  Company
+                  {t('company')}
                 </h2>
                 <ul className="font-medium">
                   <li className="mb-4">
                     <a href="#" className=" hover:underline">
-                      About
+                      {t('about')}
                     </a>
                   </li>
                   <li className="mb-4">
                     <a href="#" className="hover:underline">
-                      Brand Center
+                      {t('brandCenter')}
                     </a>
                   </li>
                   <li className="mb-4">
                     <a href="#" className="hover:underline">
-                      Blog
+                      {t('blog')}
                     </a>
                   </li>
                 </ul>
               </div>
               <div>
                 <h2 className="mb-6 text-sm font-semibold uppercase">
-                  Help center
+                  {t('helpCenter')}
                 </h2>
                 <ul className="text-gray-500 font-medium">
                   <li className="mb-4">
@@ -57,30 +59,30 @@ const AppLayout: React.FC<LayoutProps> = ({ children }) => {
                     </a>
                   </li>
                   <li className="mb-4">
-                    <Link href="/contact">Contact Us</Link>
+                    <Link href="/contact">{t('contact')}</Link>
                   </li>
                 </ul>
               </div>
               <div>
                 <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase">
-                  Legal
+                  {t('legal')}
                 </h2>
                 <ul className="text-gray-500 font-medium">
                   <li className="mb-4">
                     <a href="#" className="hover:underline">
-                      Privacy Policy
+                      {t('privacyPolicy')}
                     </a>
                   </li>
                   <li className="mb-4">
                     <a href="#" className="hover:underline">
-                      Terms &amp; Conditions
+                      {t('terms')}
                     </a>
                   </li>
                 </ul>
               </div>
               <div>
                 <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase">
-                  Download
+                  {t('download')}
                 </h2>
                 <ul className="text-gray-500 dark:text-gray-400 font-medium">
                   <li className="mb-4">

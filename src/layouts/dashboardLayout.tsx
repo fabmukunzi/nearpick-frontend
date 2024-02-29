@@ -13,6 +13,7 @@ import { useRouter } from 'next/router';
 import { logout } from '@store/reducers/users';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@store/index';
+import Link from 'next/link';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -88,11 +89,12 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
       >
+        <Link href="/">
         <Avatar
           className="flex mx-auto mb-10"
           size={collapsed ? 50 : 80}
           src="https://res.cloudinary.com/dr4reow8e/image/upload/e_background_removal/f_png/v1700070727/1700069859823_qsszxr.jpg"
-        />
+        /></Link>
         <Menu
           onClick={handleItemClick}
           className="bg-slate-100"

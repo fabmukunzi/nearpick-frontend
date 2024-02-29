@@ -4,21 +4,18 @@ import slide3 from '@assets/slide3.jpg';
 const homeSlides = [
   {
     image: slide1,
-    content: 'Discover amazing products',
-    subtitle:
-      'Discover our latest collection and elevate your style with high-quality products.',
+    content: 'shop1',
+    subtitle: 'desc1',
   },
   {
     image: slide2,
-    content: 'Shop with confidence',
-    subtitle:
-      'Transform your everyday routine with our premium range of lifestyle essentials.',
+    content: 'shop2',
+    subtitle: 'desc2',
   },
   {
     image: slide3,
-    content: 'Enjoy a seamless shopping experience',
-    subtitle:
-      'Explore a world of possibilities with our top-notch selection of innovative items.',
+    content: 'shop3',
+    subtitle: 'desc3',
   },
 ];
 export { homeSlides };

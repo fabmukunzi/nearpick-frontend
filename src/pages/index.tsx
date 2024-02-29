@@ -9,10 +9,12 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { useSelector } from 'react-redux';
 import { RootState } from '@store/index';
+import { useTranslation } from 'react-i18next';
 
 const Home = () => {
   const { Title } = Typography;
   const { push } = useRouter();
+  const { t, i18n } = useTranslation();
   const { lat, lng } = useCurrentLocation();
   const location = { lat: lat || 0, lng: lng || 0 };
   const { user } = useSelector((state: RootState) => state.userReducer);
@@ -22,7 +24,7 @@ const Home = () => {
   return (
     <div className="h-fit bg-white mb-10">
       <Head>
-        <title>Izimart | Home</title>
+        <title>Izimart | {t('home')}</title>
       </Head>
       <div className="mx-auto rounded-xl">
         <Carousel autoplay>
@@ -40,13 +42,13 @@ const Home = () => {
                     level={2}
                     className="md:text-3xl text-xl font-bold mb-2 text-white"
                   >
-                    {slide.content}
+                    {t(slide.content)}
                   </Title>
                   <Title
                     level={5}
                     className="md:text-lg text-sm mb-4 text-white font-medium mx-4 md:mx-auto"
                   >
-                    {slide.subtitle}
+                    {t(slide.subtitle)}
                   </Title>
                   <Link href="/">
                     <Button
@@ -54,7 +56,7 @@ const Home = () => {
                       className="px-5 h-10 bg-primary"
                       onClick={() => push('/products')}
                     >
-                      Explore Now
+                      {t('explore')}
                     </Button>
                   </Link>
                 </div>
@@ -68,10 +70,10 @@ const Home = () => {
       ) : (
         <>
           <Title level={3} className="font-bold md:my-10 my-2 text-center">
-            Popular Products
+            {t('popularProducts')}
           </Title>
-          <motion.div className="flex flex-wrap md:gap-2 w-full mx-auto">
-            {data?.data?.products.slice().reverse().map((product) => (
+          <motion.div className="flex flex-wrap md:justify-center md:gap-2 w-full">
+            {data?.data?.products.map((product) => (
               <ProductCard
                 key={product.id}
                 product={product}

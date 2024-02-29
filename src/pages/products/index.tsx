@@ -27,17 +27,14 @@ const ProductsPage = () => {
       {isLoading ? (
         <Spin className="flex justify-center my-32" />
       ) : (
-        <motion.div className="grid pro:grid-cols-5 grid-cols-1 justify-center">
-          {data?.data.products
-            .slice()
-            .reverse()
-            .map((product: Product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                loading={isLoading}
-              />
-            ))}
+        <motion.div className="flex flex-wrap justify-center md:gap-2 w-[85%] md:w-full">
+          {data?.data.products.map((product: Product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              loading={isLoading}
+            />
+          ))}
         </motion.div>
       )}
     </div>

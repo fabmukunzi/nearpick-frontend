@@ -1,7 +1,7 @@
 export const convertCurrency = async (amount: number, currency: string) => {
   try {
     const response = await fetch(
-      'https://v6.exchangerate-api.com/v6/29c1ed99742a050b7d1c9831/latest/RWF'
+      'https://v6.exchangerate-api.com/v6/771426272f02745aea592da4/latest/RWF'
     );
     const data = await response.json();
     console.log(data);

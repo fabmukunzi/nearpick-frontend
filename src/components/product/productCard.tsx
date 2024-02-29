@@ -146,8 +146,7 @@ const ProductCard: React.FC<CardProps> = ({ product, loading, actions }) => {
       {!actions && (
         <div className="flex justify-between items-center">
           <Title key="price" className="font-semibold text-base">
-            {currency} {product.price}
-            {/* {formatNumber(convertedPrice)} */}
+            {currency} {formatNumber(convertedPrice)}
           </Title>
           {isLoading ? (
             <Spin />
