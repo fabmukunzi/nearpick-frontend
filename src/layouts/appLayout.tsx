@@ -37,9 +37,9 @@ const AppLayout: React.FC<LayoutProps> = ({ children }) => {
                     </a>
                   </li>
                   <li className="mb-4">
-                    <a href="#" className="hover:underline">
+                    <Link href="/blog" className="hover:underline">
                       {t('blog')}
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </div>

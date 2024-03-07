@@ -47,7 +47,7 @@ const Checkout: FC<Props> = ({
     tx_ref: Date.now().toString(),
     amount: convertedPrice,
     currency: currency,
-    payment_options: 'card',
+    payment_options: 'card,mobilemoney,ussd',
     customer: {
       email: user?.email || '',
       phone_number: user?.phoneNumber || '',

@@ -96,7 +96,9 @@ const ProductCard: React.FC<CardProps> = ({ product, loading, actions }) => {
       actions={actions || []}
       className="h-fit w-[90%] md:w-[15.22rem] mx-auto md:mx-1 p-0 mt-10"
       size="small"
-      loading={loading || !distance}
+      loading={loading 
+        // || !distance
+      }
       cover={
         <Image
           src={product?.images[1]}
