@@ -1,6 +1,5 @@
 import { useGetProductsQuery } from '../../store/actions/products';
 import { Spin, Typography } from 'antd';
-import { motion } from 'framer-motion';
 import ProductCard from '@components/product/productCard';
 import useCurrentLocation from '@utils/hooks/useCurrentLocation';
 import { Product } from '@utils/types/product';
@@ -27,7 +26,7 @@ const ProductsPage = () => {
       {isLoading ? (
         <Spin className="flex justify-center my-32" />
       ) : (
-        <motion.div className="flex flex-wrap justify-center md:gap-2 w-[85%] md:w-full">
+        <div className="flex flex-wrap justify-center md:gap-2 w-[85%] md:w-full">
           {data?.data.products.map((product: Product) => (
             <ProductCard
               key={product.id}
@@ -35,7 +34,7 @@ const ProductsPage = () => {
               loading={isLoading}
             />
           ))}
-        </motion.div>
+        </div>
       )}
     </div>
   );

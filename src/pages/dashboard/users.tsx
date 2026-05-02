@@ -9,6 +9,7 @@ import {
 import { RootState } from '@store/index';
 import { formatDate } from '@utils/functions/formatDate';
 import { UserSchema } from '@utils/types/auth';
+import { iconPointerProps } from '@utils/iconPointerProps';
 import {
   Button,
   Popconfirm,
@@ -63,11 +64,10 @@ const UsersPage = () => {
       render: (role) => {
         return (
           <Tag
-            color={`${
-              role === 'admin'
+            color={`${role === 'admin'
                 ? 'blue'
                 : `${role === 'seller' ? 'green' : 'yellow'}`
-            }`}
+              }`}
             key={role}
           >
             {role}
@@ -185,7 +185,7 @@ const UsersPage = () => {
               </div>
             }
           >
-            <Button icon={<MoreOutlined />} />
+            <Button icon={<MoreOutlined {...iconPointerProps} />} />
           </Popover>
         </Space>
       ),

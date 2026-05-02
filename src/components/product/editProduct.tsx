@@ -7,6 +7,7 @@ import {
 } from '@store/actions/products';
 import { useGetUserStoresQuery } from '@store/actions/shops';
 import { Product } from '@utils/types/product';
+import { iconPointerProps } from '@utils/iconPointerProps';
 import {
   Avatar,
   Button,
@@ -70,7 +71,7 @@ const EditProduct: FC<Props> = ({ isOpen, close, product }) => {
 
   const uploadButton = (
     <div>
-      <PlusOutlined />
+      <PlusOutlined {...iconPointerProps} />
       <div style={{ marginTop: 8 }}>Upload</div>
     </div>
   );

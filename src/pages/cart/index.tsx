@@ -20,6 +20,7 @@ import { useCreateOrderMutation } from '@store/actions/order';
 import { RootState } from '@store/index';
 import { FLUTTERWAVE_PUBLIC_KEY } from '@utils/constants';
 import formatNumber from '@utils/functions/formatNumber';
+import { iconPointerProps } from '@utils/iconPointerProps';
 import useCurrencyConverter from '@utils/hooks/useCurrencyConverter';
 import useDisclose from '@utils/hooks/useDisclose';
 import { Product } from '@utils/types/product';
@@ -82,7 +83,10 @@ const CartItem = ({
               {product.name}
             </Title>
             <Text className="mt-1 text-xs text-gray-700">
-              <ShopOutlined className="text-base text-primary mr-2" />
+              <ShopOutlined
+                {...iconPointerProps}
+                className="text-base text-primary mr-2"
+              />
               {product?.Store?.name}
             </Text>
           </div>
@@ -96,6 +100,7 @@ const CartItem = ({
                 trigger="hover"
               >
                 <CloseCircleOutlined
+                  {...iconPointerProps}
                   className="text-xl text-red-500"
                   onClick={() => handleRemoveItem(product.id)}
                 />
@@ -116,7 +121,7 @@ const CartItem = ({
                   htmlType="submit"
                   type="primary"
                   className="bg-primary"
-                  icon={<CheckSquareOutlined />}
+                  icon={<CheckSquareOutlined {...iconPointerProps} />}
                   onClick={() => handleAddToCart(product.id)}
                 >
                   Confirm
@@ -180,7 +185,10 @@ const Cart = () => {
       >
         {data?.products.length === 0 && (
           <div className="flex justify-center flex-col items-center">
-            <ShoppingCartOutlined className="text-9xl text-primary" />
+            <ShoppingCartOutlined
+              {...iconPointerProps}
+              className="text-9xl text-primary"
+            />
             <Title>Your cart is empty</Title>
             <Button
               onClick={() => push('/')}

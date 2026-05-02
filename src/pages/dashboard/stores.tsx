@@ -10,6 +10,7 @@ import CreateShop from '@components/shops/createShop';
 import { useDeleteShopMutation, useGetShopsQuery } from '@store/actions/shops';
 import useCurrentLocation from '@utils/hooks/useCurrentLocation';
 import useDisclose from '@utils/hooks/useDisclose';
+import { iconPointerProps } from '@utils/iconPointerProps';
 import { Button, Card, Result, Typography } from 'antd';
 import Head from 'next/head';
 
@@ -29,7 +30,7 @@ const ShopsPage = () => {
         title="Stores"
         action={toggle}
         actionLabel="Create store"
-        icon={<PlusOutlined className="inline" />}
+        icon={<PlusOutlined {...iconPointerProps} className="inline" />}
       />
       <CreateShop close={close} isOpen={isOpen} />
       <div className="flex flex-wrap md:gap-2 w-full mx-auto">
@@ -40,13 +41,15 @@ const ShopsPage = () => {
               shop={store}
               loading={isLoading}
               actions={[
-                <EditOutlined className="text-xl" key="edit" />,
+                <EditOutlined {...iconPointerProps} className="text-xl" key="edit" />,
                 <Button
                   key="delete"
                   loading={deleteLoad}
                   className="bg-red-600 hover:bg-red-500 border-none hover:border-none"
                   onClick={() => deleteShop({ id: store.id })}
-                  icon={<DeleteFilled className="text-xl text-white" />}
+                  icon={
+                    <DeleteFilled {...iconPointerProps} className="text-xl text-white" />
+                  }
                 ></Button>,
               ]}
             />
@@ -54,7 +57,7 @@ const ShopsPage = () => {
         ) : (
           <Result
             className="mx-auto"
-            icon={<ShopOutlined className="text-primary" />}
+            icon={<ShopOutlined {...iconPointerProps} className="text-primary" />}
             title="You have not yet created any shop!"
             extra={
               <Button onClick={toggle} type="primary">

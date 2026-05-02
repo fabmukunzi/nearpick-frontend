@@ -1,6 +1,5 @@
 import { useGetProductsQuery } from '../store/actions/products';
 import { Button, Carousel, Image, Spin, Typography } from 'antd';
-import { motion } from 'framer-motion';
 import ProductCard from '@components/product/productCard';
 import useCurrentLocation from '@utils/hooks/useCurrentLocation';
 import { homeSlides } from '@utils/images';
@@ -72,7 +71,7 @@ const Home = () => {
           <Title level={3} className="font-bold md:my-10 my-2 text-center">
             {t('popularProducts')}
           </Title>
-          <motion.div className="flex flex-wrap md:justify-center md:gap-2 w-full">
+          <div className="flex flex-wrap md:justify-center md:gap-2 w-full">
             {data?.data?.products.map((product) => (
               <ProductCard
                 key={product.id}
@@ -80,7 +79,7 @@ const Home = () => {
                 loading={isLoading}
               />
             ))}
-          </motion.div>
+          </div>
         </>
       )}
     </div>

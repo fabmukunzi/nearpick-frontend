@@ -24,10 +24,10 @@ import {
   useGetSingleShopQuery,
 } from '@store/actions/shops';
 import ProductCard from '@components/product/productCard';
-import { motion } from 'framer-motion';
 import { Product } from '@utils/types/product';
 import { Store } from '@utils/types/store';
 import Head from 'next/head';
+import { iconPointerProps } from '@utils/iconPointerProps';
 
 const containerStyle = {
   width: '100%',
@@ -65,7 +65,7 @@ const SingleProduct = () => {
           <title>Izimart | Shops</title>
         </Head>
         {isProducts ? (
-          <motion.div className="grid md:grid-cols-5 grid-cols-1 justify-center">
+          <div className="grid md:grid-cols-5 grid-cols-1 justify-center">
             {shopProdcuts?.products.rows.map((product: Product) => {
               let newProduct: Product = {
                 ...product,
@@ -79,7 +79,7 @@ const SingleProduct = () => {
                 />
               );
             })}
-          </motion.div>
+          </div>
         ) : (
           <div className="min-h-screen px-page">
             {isLoading || loadProducts ? (
@@ -92,7 +92,7 @@ const SingleProduct = () => {
                   </Title>
                   <Button
                     className="text-white bg-primary my-4"
-                    icon={<ExportOutlined />}
+                    icon={<ExportOutlined {...iconPointerProps} />}
                     onClick={() => setIsProducts(true)}
                   >
                     View Products
@@ -100,11 +100,17 @@ const SingleProduct = () => {
                 </div>
                 <div className="mt-6 flex gap-4">
                   <Text className="font-semibold text-lg">
-                    <EnvironmentOutlined className="text-primary text-xl mr-3" />
+                    <EnvironmentOutlined
+                      {...iconPointerProps}
+                      className="text-primary text-xl mr-3"
+                    />
                     {distance}
                   </Text>
                   <Text className="font-semibold text-lg">
-                    <ClockCircleOutlined className="text-primary text-lg mr-3" />
+                    <ClockCircleOutlined
+                      {...iconPointerProps}
+                      className="text-primary text-lg mr-3"
+                    />
                     {duration}
                   </Text>
                 </div>

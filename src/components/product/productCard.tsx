@@ -27,6 +27,7 @@ import { useAddToCartMutation } from '@store/actions/cart';
 import formatNumber from '@utils/functions/formatNumber';
 import { AppContext } from '@pages/_app';
 import useCurrencyConverter from '@utils/hooks/useCurrencyConverter';
+import { iconPointerProps } from '@utils/iconPointerProps';
 
 type CardProps = {
   product: Product;
@@ -96,7 +97,7 @@ const ProductCard: React.FC<CardProps> = ({ product, loading, actions }) => {
       actions={actions || []}
       className="h-fit w-[90%] md:w-[15.22rem] mx-auto md:mx-1 p-0 mt-10"
       size="small"
-      loading={loading 
+      loading={loading
         // || !distance
       }
       cover={
@@ -117,7 +118,10 @@ const ProductCard: React.FC<CardProps> = ({ product, loading, actions }) => {
             </Link>
             <div className="my-2 flex justify-between">
               <div>
-                <ShopOutlined className="text-base text-primary mr-3" />
+                <ShopOutlined
+                  {...iconPointerProps}
+                  className="text-base text-primary mr-3"
+                />
                 <Link href={`shops/${product.Store.id}`}>
                   {product.Store?.name}
                 </Link>
@@ -128,16 +132,25 @@ const ProductCard: React.FC<CardProps> = ({ product, loading, actions }) => {
               <Fragment>
                 <div className="flex justify-between">
                   <Text className="font-semibold text-sm">
-                    <NodeIndexOutlined className="text-primary text-base mr-3" />
+                    <NodeIndexOutlined
+                      {...iconPointerProps}
+                      className="text-primary text-base mr-3"
+                    />
                     {distance}
                   </Text>
                   <Text className="font-semibold text-sm">
-                    <CarOutlined className="text-primary text-base mr-3" />
+                    <CarOutlined
+                      {...iconPointerProps}
+                      className="text-primary text-base mr-3"
+                    />
                     {duration}
                   </Text>
                 </div>
                 <div className="flex my-3">
-                  <EnvironmentOutlined className="text-primary text-base mr-3" />
+                  <EnvironmentOutlined
+                    {...iconPointerProps}
+                    className="text-primary text-base mr-3"
+                  />
                   <Tag style={{ fontSize: '12.5px' }}>{location}</Tag>
                 </div>
               </Fragment>
@@ -154,6 +167,7 @@ const ProductCard: React.FC<CardProps> = ({ product, loading, actions }) => {
             <Spin />
           ) : (
             <ShoppingFilled
+              {...iconPointerProps}
               onClick={handleAddToCart}
               className="text-xl hover:text-primary transition border p-1.5 rounded-full cursor-pointer"
             />

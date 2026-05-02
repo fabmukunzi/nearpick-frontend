@@ -27,6 +27,7 @@ import { useProfileQuery } from '@store/actions/auth';
 import { currencies } from '@utils/currency';
 import { AppContext } from '@pages/_app';
 import { useTranslation } from 'react-i18next';
+import { iconPointerProps } from '@utils/iconPointerProps';
 
 const Header: React.FC = () => {
   const user = useSelector((state: RootState) => state.userReducer.user);
@@ -50,9 +51,8 @@ const Header: React.FC = () => {
       label: (
         <Link
           href="/products"
-          className={`text-base ${
-            activeItem === 'products' ? 'text-primary' : ''
-          }`}
+          className={`text-base ${activeItem === 'products' ? 'text-primary' : ''
+            }`}
         >
           {t('products')}
         </Link>
@@ -63,9 +63,8 @@ const Header: React.FC = () => {
       label: (
         <Link
           href="/shops"
-          className={`text-base ${
-            activeItem === 'shops' ? 'text-primary' : ''
-          }`}
+          className={`text-base ${activeItem === 'shops' ? 'text-primary' : ''
+            }`}
         >
           {t('shops')}
         </Link>
@@ -76,9 +75,8 @@ const Header: React.FC = () => {
       label: (
         <Link
           href="/contact"
-          className={`text-base ${
-            activeItem === 'contact' ? 'text-primary' : ''
-          }`}
+          className={`text-base ${activeItem === 'contact' ? 'text-primary' : ''
+            }`}
         >
           {t('contact')}
         </Link>
@@ -194,6 +192,7 @@ const Header: React.FC = () => {
         <div className="flex justify-center items-center md:gap-6 gap-4">
           {/* <Link href="/profile"> */}
           <SearchOutlined
+            {...iconPointerProps}
             onClick={showModal}
             className="text-lg cursor-pointer"
           />
@@ -208,16 +207,15 @@ const Header: React.FC = () => {
             </Link>
           ) : (
             <Link href="/auth/login">
-              <UserOutlined className="text-lg" />
+              <UserOutlined {...iconPointerProps} className="text-lg" />
             </Link>
           )}
           <Link
             href="/cart"
-            className={`${
-              currentTab === 'cart'
+            className={`${currentTab === 'cart'
                 ? 'bg-primary hover:text-white'
                 : 'bg-white text-primary border-primary'
-            }`}
+              }`}
           >
             <Badge
               count={data?.products.length || 0}
@@ -226,15 +224,19 @@ const Header: React.FC = () => {
               color="#00b012"
               style={{ backgroundColor: '#64B937' }}
             >
-              <ShoppingFilled className="text-xl" />
+              <ShoppingFilled {...iconPointerProps} className="text-xl" />
             </Badge>
           </Link>
           {user?.role == 'admin' && (
             <Link href="/dashboard/products">
-              <DashboardOutlined className="text-lg" />
+              <DashboardOutlined {...iconPointerProps} className="text-lg" />
             </Link>
           )}
-          <MenuOutlined className="block md:hidden" onClick={toggle} />
+          <MenuOutlined
+            {...iconPointerProps}
+            className="block md:hidden"
+            onClick={toggle}
+          />
         </div>
       </div>
     </div>

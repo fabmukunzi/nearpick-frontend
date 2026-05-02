@@ -9,11 +9,13 @@ import OTPInput from 'react-otp-input';
 import { theme as antdTheme } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@store/index';
+import { iconPointerProps } from '@utils/iconPointerProps';
 
 type FieldType = {
   email?: string;
   authCode?: string;
 };
+
 const Verify = () => {
   const { Title, Text } = Typography;
   const [verifyCode, { isLoading }] = useVerifyCodeMutation();
@@ -43,7 +45,9 @@ const Verify = () => {
   };
   return (
     <Card className="rounded-none overflow-hidden md:shadow-2xl md:shadow-[#bfbfbf] md:w-[40%] w-[98%]">
-      <MailOutlined className="text-8xl text-primary flex justify-center" />
+      <div className="flex justify-center">
+        <MailOutlined {...iconPointerProps} className="text-8xl text-primary" />
+      </div>
       <Title className="text-center font-bold text-2xl ">
         Check Your Email
       </Title>

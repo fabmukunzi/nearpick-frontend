@@ -15,6 +15,7 @@ import {
 import { RootState } from '@store/index';
 import useCurrentLocation from '@utils/hooks/useCurrentLocation';
 import useDisclose from '@utils/hooks/useDisclose';
+import { iconPointerProps } from '@utils/iconPointerProps';
 import { Product } from '@utils/types/product';
 import { Button, Card, Result, Typography } from 'antd';
 import Head from 'next/head';
@@ -48,7 +49,7 @@ const ProductsPage = () => {
         title="Products"
         action={toggle}
         actionLabel="Create a product"
-        icon={<PlusOutlined className="inline" />}
+        icon={<PlusOutlined {...iconPointerProps} className="inline" />}
       />
       <CreateProduct close={close} isOpen={isOpen} />
       {pr && <EditProduct close={closeEdit} isOpen={isEditOpen} product={pr} />}
@@ -63,7 +64,7 @@ const ProductsPage = () => {
                 actions={[
                   <Button
                     key="edit"
-                    icon={<EditOutlined className="text-xl" />}
+                    icon={<EditOutlined {...iconPointerProps} className="text-xl" />}
                     className="bg-primary hover:bg-primary border-none hover:border-none"
                     onClick={() => {
                       setPr(product);
@@ -75,7 +76,9 @@ const ProductsPage = () => {
                     loading={deleteLoad}
                     className="bg-red-600 hover:bg-red-500 border-none hover:border-none"
                     onClick={() => deleteProduct({ id: product.id })}
-                    icon={<DeleteFilled className="text-xl text-white" />}
+                    icon={
+                      <DeleteFilled {...iconPointerProps} className="text-xl text-white" />
+                    }
                   />,
                 ]}
               />
@@ -84,7 +87,7 @@ const ProductsPage = () => {
         ) : (
           <Result
             className="mx-auto"
-            icon={<ShoppingOutlined className="text-primary" />}
+            icon={<ShoppingOutlined {...iconPointerProps} className="text-primary" />}
             title="You have not yet created any product!"
             extra={
               <Button onClick={toggle} type="primary">

@@ -28,6 +28,7 @@ import { logout, setToken, updateUser } from '@store/reducers/users';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { useWindowResize } from '@utils/hooks/useWindowResize';
+import { iconPointerProps } from '@utils/iconPointerProps';
 
 const UserInfoComponent = () => {
   const { data, isLoading } = useProfileQuery();
@@ -72,7 +73,7 @@ const UserInfoComponent = () => {
         <Button
           className="bg-primary"
           onClick={() => setEditMode(true)}
-          icon={<EditOutlined />}
+          icon={<EditOutlined {...iconPointerProps} />}
         />
       }
     >
@@ -128,7 +129,7 @@ const UserInfoComponent = () => {
           >
             <Button
               type="primary"
-              icon={<UploadOutlined />}
+              icon={<UploadOutlined {...iconPointerProps} />}
               disabled={!isEditMode}
               className="bg-primary"
             >

@@ -14,6 +14,7 @@ import { logout } from '@store/reducers/users';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@store/index';
 import Link from 'next/link';
+import { iconPointerProps } from '@utils/iconPointerProps';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -35,16 +36,44 @@ function getItem(
 
 const sellerItems: MenuItem[] = [
   // getItem('Analytics', '1', <AppstoreOutlined className="text-xl mx-1" />),
-  getItem('Products', '2', <ShoppingOutlined className="text-xl mx-1" />),
-  getItem('Stores', '3', <ShopOutlined className="text-xl mx-1" />),
-  getItem('Sales', '5', <ShoppingCartOutlined className="text-xl mx-1" />),
+  getItem(
+    'Products',
+    '2',
+    <ShoppingOutlined {...iconPointerProps} className="text-xl mx-1" />
+  ),
+  getItem(
+    'Stores',
+    '3',
+    <ShopOutlined {...iconPointerProps} className="text-xl mx-1" />
+  ),
+  getItem(
+    'Sales',
+    '5',
+    <ShoppingCartOutlined {...iconPointerProps} className="text-xl mx-1" />
+  ),
 ];
 const adminItems: MenuItem[] = [
   // getItem('Analytics', '1', <AppstoreOutlined className="text-xl mx-1" />),
-  getItem('Products', '2', <ShoppingOutlined className="text-xl mx-1" />),
-  getItem('Stores', '3', <ShopOutlined className="text-xl mx-1" />),
-  getItem('Sales', '5', <ShoppingCartOutlined className="text-xl mx-1" />),
-  getItem('Users', '4', <UserOutlined className="text-xl mx-1" />),
+  getItem(
+    'Products',
+    '2',
+    <ShoppingOutlined {...iconPointerProps} className="text-xl mx-1" />
+  ),
+  getItem(
+    'Stores',
+    '3',
+    <ShopOutlined {...iconPointerProps} className="text-xl mx-1" />
+  ),
+  getItem(
+    'Sales',
+    '5',
+    <ShoppingCartOutlined {...iconPointerProps} className="text-xl mx-1" />
+  ),
+  getItem(
+    'Users',
+    '4',
+    <UserOutlined {...iconPointerProps} className="text-xl mx-1" />
+  ),
 ];
 const routes = [
   // { path: 'analytics', key: '1' },
@@ -90,11 +119,11 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
         onCollapse={(value) => setCollapsed(value)}
       >
         <Link href="/">
-        <Avatar
-          className="flex mx-auto mb-10"
-          size={collapsed ? 50 : 80}
-          src="https://res.cloudinary.com/dr4reow8e/image/upload/e_background_removal/f_png/v1700070727/1700069859823_qsszxr.jpg"
-        /></Link>
+          <Avatar
+            className="flex mx-auto mb-10"
+            size={collapsed ? 50 : 80}
+            src="https://res.cloudinary.com/dr4reow8e/image/upload/e_background_removal/f_png/v1700070727/1700069859823_qsszxr.jpg"
+          /></Link>
         <Menu
           onClick={handleItemClick}
           className="bg-slate-100"
@@ -116,7 +145,7 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
               dispatch(logout());
               push('/');
             }}
-            icon={<LogoutOutlined />}
+            icon={<LogoutOutlined {...iconPointerProps} />}
             className="bg-primary"
           >
             Logout

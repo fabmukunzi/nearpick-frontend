@@ -1,5 +1,6 @@
 import { useWindowResize } from '@utils/hooks/useWindowResize';
 import { profileLinks } from '@utils/profileItems';
+import { iconPointerProps } from '@utils/iconPointerProps';
 import { Button, Card, Typography } from 'antd';
 import { useState } from 'react';
 
@@ -13,13 +14,12 @@ const ProfileComponent = () => {
           {profileLinks.map((item, index) => (
             <Button
               key={index}
-              icon={<item.icon />}
+              icon={<item.icon {...iconPointerProps} />}
               onClick={() => setActiveTab(item)}
-              className={`border w-28 md:w-32 transition-all text-base ${
-                item.label === activeTab.label
+              className={`border w-28 md:w-32 transition-all text-base ${item.label === activeTab.label
                   ? 'bg-primary hover:text-white'
                   : 'bg-white text-primary border-primary'
-              }`}
+                }`}
             >
               {width >= 768 && item.label}
             </Button>

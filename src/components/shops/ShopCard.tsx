@@ -13,10 +13,10 @@ import {
   ShopOutlined,
 } from '@ant-design/icons';
 import { Store } from '../../utils/types/store';
-import { useRouter } from 'next/router';
 import useCurrentLocation from '@utils/hooks/useCurrentLocation';
 import useGoogleMapsDirections from '@utils/hooks/googleMapsDirection';
 import Link from 'next/link';
+import { iconPointerProps } from '@utils/iconPointerProps';
 
 type CardProps = {
   shop: Store;
@@ -53,7 +53,6 @@ const ShopCard: FC<CardProps> = ({ shop, loading, actions }) => {
     fetchLocation();
   }, [shop]);
   const { Title, Text } = Typography;
-  const { push } = useRouter();
   return (
     <Card
       key={shop.id}
@@ -63,17 +62,16 @@ const ShopCard: FC<CardProps> = ({ shop, loading, actions }) => {
       loading={loading}
       actions={actions || []}
     >
-      <motion.div
-        whileHover={{ scale: 1.03 }}
-        onClick={() => push(`/shops/${shop.id}`)}
-      >
-        <Image
-          src={shop?.Owner.avatar}
-          alt="shop image"
-          className="object-cover w-72 h-52 -top-10 rounded-md overflow-hidden"
-          preview={false}
-        />
-      </motion.div>
+      <Link href={`/shops/${shop.id}`} className="block">
+        <motion.div whileHover={{ scale: 1.03 }}>
+          <Image
+            src={shop?.Owner.avatar}
+            alt="shop image"
+            className="object-cover w-72 h-52 -top-10 rounded-md overflow-hidden"
+            preview={false}
+          />
+        </motion.div>
+      </Link>
       <Meta
         className="font-semibold"
         description={
@@ -84,11 +82,17 @@ const ShopCard: FC<CardProps> = ({ shop, loading, actions }) => {
             {distance && (
               <div className="flex justify-between my-4">
                 <Text className="font-semibold text-sm">
-                  <NodeIndexOutlined className="text-primary text-base mr-3" />
+                  <NodeIndexOutlined
+                    {...iconPointerProps}
+                    className="text-primary text-base mr-3"
+                  />
                   {distance}
                 </Text>
                 <Text className="font-semibold text-sm">
-                  <CarOutlined className="text-primary text-base mr-3" />
+                  <CarOutlined
+                    {...iconPointerProps}
+                    className="text-primary text-base mr-3"
+                  />
                   {duration}
                 </Text>
               </div>
@@ -99,7 +103,10 @@ const ShopCard: FC<CardProps> = ({ shop, loading, actions }) => {
             </div> */}
             {distance && (
               <div className="flex">
-                <EnvironmentOutlined className="text-primary text-base mr-3" />
+                <EnvironmentOutlined
+                  {...iconPointerProps}
+                  className="text-primary text-base mr-3"
+                />
                 <Tag style={{ fontSize: '12.5px' }}>{location}</Tag>
               </div>
             )}

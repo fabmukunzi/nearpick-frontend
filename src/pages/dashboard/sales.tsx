@@ -3,6 +3,7 @@ import PageHeader from '@components/dashboard/pageHeader';
 import { useGetSellerSalesQuery } from '@store/actions/sales';
 import { formatDate } from '@utils/functions/formatDate';
 import { Sale } from '@utils/types/product';
+import { iconPointerProps } from '@utils/iconPointerProps';
 import { Button, Popover, Table, Tag, Typography } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import Head from 'next/head';
@@ -44,13 +45,12 @@ const AnalyticsPage = () => {
       render: (status) => {
         return (
           <Tag
-            color={`${
-              status === 'pending'
+            color={`${status === 'pending'
                 ? 'yellow'
                 : status === 'completed'
-                ? 'green'
-                : 'red'
-            }`}
+                  ? 'green'
+                  : 'red'
+              }`}
             key={status}
           >
             {status}
@@ -94,7 +94,7 @@ const AnalyticsPage = () => {
             </div>
           }
         >
-          <Button icon={<MoreOutlined />} />
+          <Button icon={<MoreOutlined {...iconPointerProps} />} />
         </Popover>
       ),
     },

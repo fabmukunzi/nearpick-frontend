@@ -1,5 +1,4 @@
 import { Card, Pagination, Spin, Typography } from 'antd';
-import { motion } from 'framer-motion';
 import { ProductUrlParams } from '@utils/types/product';
 import { useEffect, useState } from 'react';
 import { useGetShopsQuery } from '@store/actions/shops';
@@ -23,7 +22,7 @@ const ShopsPage = () => {
       {isLoading ? (
         <Spin className="flex justify-center my-32" />
       ) : (
-        <motion.div className="flex flex-wrap md:gap-2 w-full mx-auto">
+        <div className="flex flex-wrap md:gap-2 w-full mx-auto">
           {data?.stores.stores.map((store) => (
             <ShopCard key={store.id} shop={store} loading={isLoading} />
           ))}
@@ -34,7 +33,7 @@ const ShopsPage = () => {
               total={data?.stores.totalPages}
             />
           )}
-        </motion.div>
+        </div>
       )}
     </div>
   );

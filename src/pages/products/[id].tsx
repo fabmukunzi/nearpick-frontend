@@ -29,6 +29,7 @@ import Head from 'next/head';
 import { AppContext } from '@pages/_app';
 import useCurrencyConverter from '@utils/hooks/useCurrencyConverter';
 import formatNumber from '@utils/functions/formatNumber';
+import { iconPointerProps } from '@utils/iconPointerProps';
 
 const SingleProduct = () => {
   const { width } = useWindowResize();
@@ -91,8 +92,8 @@ const SingleProduct = () => {
                 <Carousel
                   arrows
                   autoplay
-                  prevArrow={<RightCircleOutlined />}
-                  nextArrow={<LeftCircleOutlined />}
+                  prevArrow={<RightCircleOutlined {...iconPointerProps} />}
+                  nextArrow={<LeftCircleOutlined {...iconPointerProps} />}
                   dots={{ className: 'bg-[#DCDCDC] text-primary p-2' }}
                 >
                   {data?.product.images.map((image, i) => (
@@ -113,10 +114,13 @@ const SingleProduct = () => {
                   {data?.product.name}
                 </Title>
                 <Title className="font-semibold text-2xl">
-                {currency} {formatNumber(convertedPrice)}
+                  {currency} {formatNumber(convertedPrice)}
                 </Title>
                 <Text className="font-semibold text-lg mr-4">
-                  <ShopOutlined className="text-primary text-xl mr-3" />
+                  <ShopOutlined
+                    {...iconPointerProps}
+                    className="text-primary text-xl mr-3"
+                  />
                   {data?.product.Store.name}
                 </Text>
                 {data?.product.Categories.map((category) => (
@@ -126,17 +130,23 @@ const SingleProduct = () => {
                 ))}
                 <div className="mt-6 flex gap-4">
                   <Text className="font-semibold text-base">
-                    <EnvironmentOutlined className="text-primary text-xl mr-3" />
+                    <EnvironmentOutlined
+                      {...iconPointerProps}
+                      className="text-primary text-xl mr-3"
+                    />
                     {distance}
                   </Text>
                   <Text className="font-semibold text-base">
-                    <ClockCircleOutlined className="text-primary text-lg mr-3" />
+                    <ClockCircleOutlined
+                      {...iconPointerProps}
+                      className="text-primary text-lg mr-3"
+                    />
                     {duration}
                   </Text>
                 </div>
                 <Button
                   className="text-white bg-primary my-4"
-                  icon={<ShoppingFilled />}
+                  icon={<ShoppingFilled {...iconPointerProps} />}
                   onClick={handleAddToCart}
                   loading={loadCart}
                 >

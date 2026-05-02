@@ -12,6 +12,7 @@ import { useWindowResize } from '@utils/hooks/useWindowResize';
 import Head from 'next/head';
 import Link from 'next/link';
 import emailjs from '@emailjs/browser';
+import { iconPointerProps } from '@utils/iconPointerProps';
 const { TextArea } = Input;
 
 const ContactUs = () => {
@@ -57,7 +58,7 @@ const ContactUs = () => {
           </Title>
           <div className="flex flex-col mt-10 gap-10 justify-start">
             <div className="flex gap-3">
-              <MailOutlined className="text-3xl -mt-6" />
+              <MailOutlined {...iconPointerProps} className="text-3xl -mt-6" />
               <div className="">
                 <Title level={5} className="font-bold my-0">
                   Chat with us
@@ -68,7 +69,10 @@ const ContactUs = () => {
               </div>
             </div>
             <div className="flex gap-4 justify-start">
-              <PhoneOutlined className="text-3xl -mt-6 rotate-[225]" />
+              <PhoneOutlined
+                {...iconPointerProps}
+                className="text-3xl -mt-6 rotate-[225]"
+              />
               <div>
                 <Title level={5} className="font-bold my-0">
                   Phone
@@ -84,13 +88,13 @@ const ContactUs = () => {
               </Title>
               <div className="flex gap-4">
                 <Link href="#">
-                  <InstagramOutlined className="text-2xl" />
+                  <InstagramOutlined {...iconPointerProps} className="text-2xl" />
                 </Link>
                 <Link href="#">
-                  <FacebookOutlined className="text-2xl" />
+                  <FacebookOutlined {...iconPointerProps} className="text-2xl" />
                 </Link>
                 <Link href="#">
-                  <TwitterOutlined className="text-2xl" />
+                  <TwitterOutlined {...iconPointerProps} className="text-2xl" />
                 </Link>
               </div>
             </div>

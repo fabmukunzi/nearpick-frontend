@@ -2,6 +2,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { useGetCategoriesQuery } from '@store/actions/categories';
 import { useCreateProductMutation } from '@store/actions/products';
 import { useGetUserStoresQuery } from '@store/actions/shops';
+import { iconPointerProps } from '@utils/iconPointerProps';
 import {
   Button,
   DatePicker,
@@ -55,7 +56,7 @@ const CreateProduct: FC<Props> = ({ isOpen, close }) => {
 
   const uploadButton = (
     <div>
-      <PlusOutlined />
+      <PlusOutlined {...iconPointerProps} />
       <div style={{ marginTop: 8 }}>Upload</div>
     </div>
   );
@@ -99,8 +100,8 @@ const CreateProduct: FC<Props> = ({ isOpen, close }) => {
           <Form.Item
             label="Expiration Date"
             name="expiryDate"
-            // rules={[{ required: true, message: 'Quantity is required' }]}
-            // initialValue={1}
+          // rules={[{ required: true, message: 'Quantity is required' }]}
+          // initialValue={1}
           >
             <DatePicker size="large" className="w-32" />
           </Form.Item>
